@@ -1,0 +1,6 @@
+*/bin
+*/obj/Debug
+packages
+.vs
+*.csproj.user
+RuntimeLog.txt

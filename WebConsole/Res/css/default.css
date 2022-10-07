@@ -1,0 +1,82 @@
+﻿#header {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+}
+
+    #header img.logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 30px;
+    }
+
+    #header a.title {
+        display: inline-block;
+        font-weight: bold;
+        font-size: 26px;
+        text-decoration: none;
+        line-height: 30px;
+        margin-left: 35px;
+    }
+
+img.logo_right {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    height: 50px;
+}
+
+.region-top .f-panel-body {
+    height: 50px !important;
+}
+
+.f-toolbar {
+    padding: 0 !important;
+}
+
+.f-toolbar-body {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.f-panel .region-top,
+.region-top .f-toolbar {
+    background-color: #005999 !important;
+}
+
+.region-top .f-toolbar {
+    border-color: #014A7E !important;
+}
+
+.region-top span,
+.region-top .f-toolbar-text,
+.region-top a {
+    color: #fff;
+}
+
+.region-top .f-toolbar-separator {
+    border-color: #aaa;
+}
+
+.region-top .f-btn-default-toolbar-small {
+    background-color: transparent;
+    background-image: none;
+    border-width: 0;
+}
+
+.region-top .f-btn-default-toolbar-small-over,
+.region-top .f-btn-default-toolbar-small-menu-active {
+    background-color: #3386c2;
+}
+
+.highlight {
+    font-weight: bold;
+    color: Red;
+}
+
+.fa {
+    line-height: 21px !important;
+}

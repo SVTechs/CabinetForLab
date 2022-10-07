@@ -1,0 +1,34 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="WebConsole.Master.Main" %>
+
+<!DOCTYPE html>
+
+<html style="height: 100%;">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <link rel="stylesheet" href="../Res/css/global.css">
+
+    <asp:ContentPlaceHolder ID="HeadHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="height: 100%;">
+    <form runat="server">
+        <asp:ContentPlaceHolder ID="ContentHolder" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+
+    <script src="<%=RelPath%>Res/js/site-config.js"></script>
+
+    <script src="<%=RelPath%>Res/js/functions.js?v=0.05"></script>
+    <script src="<%=RelPath%>Res/js/net-invoke.js"></script>
+    <script src="<%=RelPath%>Res/js/plugins/hashmap.js"></script>
+
+    <script type="text/javascript">
+        app_path = '<%=AppPath%>';
+    </script>
+
+    <asp:ContentPlaceHolder ID="ScriptHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

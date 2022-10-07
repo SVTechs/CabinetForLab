@@ -1,0 +1,12 @@
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\FaceOfflineSample.exe.config
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\FaceOfflineSample.exe
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\FaceOfflineSample.pdb
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\NLog.dll
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\NLog.xml
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\OpenCvSharp.pdb
+D:\Projects\sjzwk\代码\FaceOfflineSample\obj\x64\Release\FaceOfflineSample.csproj.CoreCompileInputs.cache
+D:\Projects\sjzwk\代码\FaceOfflineSample\obj\x64\Release\FaceOfflineSample.csproj.CopyComplete
+D:\Projects\sjzwk\代码\FaceOfflineSample\obj\x64\Release\FaceOfflineSample.exe
+D:\Projects\sjzwk\代码\FaceOfflineSample\obj\x64\Release\FaceOfflineSample.pdb
+D:\Projects\sjzwk\代码\FaceOfflineSample\obj\x64\Release\FaceOfflineSample.csprojAssemblyReference.cache
+D:\Projects\sjzwk\代码\FaceOfflineSample\bin\x64\OpenCvSharp.dll
