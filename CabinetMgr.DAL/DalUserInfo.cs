@@ -61,5 +61,10 @@ namespace CabinetMgr.DAL
         {
             return ExecQuery(queryCmd, paraList, out exception);
         }
+
+        public static UserInfo GetUserInfoByUserName(string userName, out Exception exception)
+        {
+            return GetItemInfo("UserName", userName, out exception);
+        }
     }
 }

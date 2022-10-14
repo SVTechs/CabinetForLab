@@ -27,3 +27,4 @@ D:\Projects\CabinetForLab\FaceOfflineSample\obj\x86\Debug\FaceOfflineSample.cspr
 D:\Projects\CabinetForLab\FaceOfflineSample\obj\x86\Debug\FaceOfflineSample.csproj.CopyComplete
 D:\Projects\CabinetForLab\FaceOfflineSample\obj\x86\Debug\FaceOfflineSample.exe
 D:\Projects\CabinetForLab\FaceOfflineSample\obj\x86\Debug\FaceOfflineSample.pdb
+D:\Projects\CabinetForLab\FaceOfflineSample\obj\x86\Debug\FaceOfflineSample.csproj.AssemblyReference.cache

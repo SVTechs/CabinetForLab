@@ -72,7 +72,7 @@ namespace CabinetMgr.RtVars
 
         public static Size ScreenSize;
 
-        public static FormMain fm;
+        //public static FormMain fm;
 
         //public static bool CollectFace = false;
 

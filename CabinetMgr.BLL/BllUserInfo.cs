@@ -52,5 +52,10 @@ namespace CabinetMgr.BLL
         {
             return DalUserInfo.ExecSqlQuery(queryCmd, paraList, out exception);
         }
+
+        public static UserInfo GetUserInfoByUserName(string userName, out Exception exception)
+        {
+            return DalUserInfo.GetUserInfoByUserName(userName, out exception);
+        }
     }
 }

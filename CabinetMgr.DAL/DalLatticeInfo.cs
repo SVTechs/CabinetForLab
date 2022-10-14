@@ -21,7 +21,7 @@ namespace CabinetMgr.DAL
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
             //Criterion Processing
-            List<Order> requestedOrder = DbOrder.ToOrderList(orderList);
+            List<Order> requestedOrder = new List<Order>() { new Order("LabName", true), new Order("Location", true), new Order("CabinetNum", true), new Order("CabinetLatticeNum", true) };
             return SearchItem(criterionList, requestedOrder, dataStart, dataCount, out exception);
         }
 

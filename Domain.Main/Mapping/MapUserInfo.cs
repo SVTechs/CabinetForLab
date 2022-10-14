@@ -20,7 +20,7 @@ namespace Domain.Main.Mapping
             Map(x => x.Sex).Column("Sex");
             Map(x => x.Age).Column("Age");
             Map(x => x.Tel).Column("Tel");
-            Map(x => x.Adress).Column("Adress");
+            Map(x => x.Address).Column("Address");
             Map(x => x.UserState).Column("UserState");
             Map(x => x.Createtime).Column("Createtime");
             Map(x => x.CreateUser).Column("CreateUser");

@@ -17,6 +17,7 @@ namespace Domain.Main.Mapping
             Map(x => x.CabinetNum).Column("CabinetNum");
             Map(x => x.CabinetLatticeNum).Column("CabinetLatticeNum");
             Map(x => x.Location).Column("Location");
+            Map(x => x.LabName).Column("LabName");
             Map(x => x.Channel).Column("Channel");
             Map(x => x.BoardId).Column("BoardId");
         }

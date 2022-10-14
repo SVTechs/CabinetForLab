@@ -13,9 +13,9 @@ namespace CabinetMgr.BLL
 {
     public class BllLatticePermissionSettings
     {
-        public static IList<LatticePermissionSettings> SearchLatticePermissionSettings(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<LatticePermissionSettings> SearchLatticePermissionSettings(string ownerId, string ownerType, int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
-            return DalLatticePermissionSettings.SearchLatticePermissionSettings(dataStart, dataCount, orderList, out exception);
+            return DalLatticePermissionSettings.SearchLatticePermissionSettings(ownerId, ownerType, dataStart, dataCount, orderList, out exception);
         }
 
         public static int GetLatticePermissionSettingsCount(out Exception exception)
@@ -56,6 +56,11 @@ namespace CabinetMgr.BLL
         public static long[] GetLatticePermissionList(string userId, string[] roleAry, out Exception exception)
         {
             return DalLatticePermissionSettings.GetLatticePermissionList(userId, roleAry, out exception);
+        }
+
+        public static int BatchSaveLatticePermissionSettings(string ownerId, string ownerType, IList<LatticePermissionSettings> list, out Exception exception)
+        {
+            return DalLatticePermissionSettings.BatchSaveLatticePermissionSettings(ownerId, ownerType, list, out exception);
         }
     }
 }

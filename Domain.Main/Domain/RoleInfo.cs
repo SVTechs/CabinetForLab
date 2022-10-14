@@ -21,6 +21,8 @@ namespace Domain.Main.Domain
 
         public virtual string RoleDesp { get; set; }
 
+        public virtual int IsEnabled { get; set; }
+
         public virtual DateTime LastChanged { get; set; }
 
         //(非数据库对象)下级菜单列表

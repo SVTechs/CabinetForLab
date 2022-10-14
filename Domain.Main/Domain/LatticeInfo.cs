@@ -16,6 +16,8 @@ namespace Domain.Main.Domain
 
         public virtual int Location { get; set; }
 
+        public virtual string LabName { get; set; }
+
         public virtual string Channel { get; set; }
 
         public virtual string BoardId { get; set; }

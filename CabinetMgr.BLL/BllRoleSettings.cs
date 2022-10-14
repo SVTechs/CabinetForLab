@@ -13,9 +13,9 @@ namespace CabinetMgr.BLL
 {
     public class BllRoleSettings
     {
-        public static IList<RoleSettings> SearchRoleSettings(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<RoleSettings> SearchRoleSettings(string userId, int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
-            return DalRoleSettings.SearchRoleSettings(dataStart, dataCount, orderList, out exception);
+            return DalRoleSettings.SearchRoleSettings(userId,  dataStart, dataCount, orderList, out exception);
         }
 
         public static int GetRoleSettingsCount(out Exception exception)
@@ -66,6 +66,11 @@ namespace CabinetMgr.BLL
         public static IList<RoleSettings> GetUserRoleSettings(string userId, out Exception exception)
         {
             return DalRoleSettings.GetUserRoleSettings(userId, out exception);
+        }
+
+        public static int BatchSaveRoleSettings(string userId, IList<RoleSettings> list, out Exception exception)
+        {
+            return DalRoleSettings.BatchSaveRoleSettings(userId, list, out exception);
         }
     }
 }

@@ -18,10 +18,11 @@ namespace CabinetMgr.DAL
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static IList<RoleSettings> SearchRoleSettings(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<RoleSettings> SearchRoleSettings(string userId, int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
             //Criterion Processing
+            criterionList.Add(Restrictions.Eq("UserId", userId));
             List<Order> requestedOrder = DbOrder.ToOrderList(orderList);
             return SearchItem(criterionList, requestedOrder, dataStart, dataCount, out exception);
         }
@@ -104,6 +105,21 @@ namespace CabinetMgr.DAL
                 exception = ex;
             }
             return null;
+        }
+
+        public static int BatchSaveRoleSettings(string userId, IList<RoleSettings> list, out Exception exception)
+        {
+            List<TaskInfo> taskList = new List<TaskInfo>();
+            IList<RoleSettings> currentList = SearchRoleSettings(userId, 0, -1, null, out exception);
+            foreach (RoleSettings roleSettings in currentList)
+            {
+                taskList.Add(new TaskInfo(OperationType.Delete, roleSettings));
+            }
+            foreach (RoleSettings info in list)
+            {
+                taskList.Add(new TaskInfo(OperationType.Add, info));
+            }
+            return ExecBatchTask(taskList, out exception);
         }
     }
 }

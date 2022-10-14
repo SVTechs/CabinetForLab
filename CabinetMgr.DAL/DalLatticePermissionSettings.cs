@@ -17,10 +17,12 @@ namespace CabinetMgr.DAL
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static IList<LatticePermissionSettings> SearchLatticePermissionSettings(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<LatticePermissionSettings> SearchLatticePermissionSettings(string ownerId, string ownerType, int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
             //Criterion Processing
+            criterionList.Add(Restrictions.Eq("OwnerType", ownerType));
+            criterionList.Add(Restrictions.Eq("OwnerId", ownerId));
             List<Order> requestedOrder = DbOrder.ToOrderList(orderList);
             return SearchItem(criterionList, requestedOrder, dataStart, dataCount, out exception);
         }
@@ -76,6 +78,21 @@ namespace CabinetMgr.DAL
             IList<LatticePermissionSettings> userList = SearchItem(userCriterionList, null, 0, -1, out exception);
             return roleList.Concat(userList).Select(x => x.LatticeId).Distinct().ToArray();
 
+        }
+
+        public static int BatchSaveLatticePermissionSettings(string ownerId, string ownerType, IList<LatticePermissionSettings> list, out Exception exception)
+        {
+            List<TaskInfo> taskList = new List<TaskInfo>();
+            IList<LatticePermissionSettings> currentList = SearchLatticePermissionSettings(ownerId, ownerType, 0, -1, null, out exception);
+            foreach(LatticePermissionSettings latticePermission in currentList)
+            {
+                taskList.Add(new TaskInfo(OperationType.Delete, latticePermission));
+            }
+            foreach(LatticePermissionSettings info in list)
+            {
+                taskList.Add(new TaskInfo(OperationType.Add, info));
+            }
+            return ExecBatchTask(taskList, out exception);
         }
     }
 }

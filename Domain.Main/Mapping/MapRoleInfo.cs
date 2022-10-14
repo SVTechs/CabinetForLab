@@ -19,6 +19,7 @@ namespace Domain.Main.Mapping
             Map(x => x.TreeParent).Column("TreeParent");
             Map(x => x.RoleOrder).Column("RoleOrder");
             Map(x => x.RoleDesp).Column("RoleDesp");
+            Map(x => x.IsEnabled).Column("IsEnabled");
             Map(x => x.LastChanged).Column("LastChanged");
         }
     }

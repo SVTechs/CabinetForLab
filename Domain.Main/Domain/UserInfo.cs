@@ -22,7 +22,7 @@ namespace Domain.Main.Domain
 
         public virtual string Tel { get; set; }
 
-        public virtual string Adress { get; set; }
+        public virtual string Address { get; set; }
 
         public virtual int UserState { get; set; }
 
@@ -43,5 +43,11 @@ namespace Domain.Main.Domain
         public virtual string FingerFeature { get; set; }
 
         public virtual object BDFaceFeature { get; set; }
+
+        public virtual string UserStateResult { get => UserState == 1 ? "启用" : "禁用"; }
+
+        public virtual bool HasImage { get => !string.IsNullOrEmpty(Image); }
+
+        public virtual bool HasFingerFeature { get => !string.IsNullOrEmpty(FingerFeature);  }
     }
 }
