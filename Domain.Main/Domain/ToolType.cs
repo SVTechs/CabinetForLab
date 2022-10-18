@@ -12,6 +12,8 @@ namespace Domain.Main.Domain
 
         public virtual string TypeName { get; set; }
 
+        public virtual int SortOrder { get; set; }
+
         public virtual DateTime CreateTime { get; set; }
     }
 }

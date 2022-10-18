@@ -125,16 +125,16 @@ namespace CabinetMgr
             // 
             // uiTreeViewRole
             // 
-            this.uiTreeViewRole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uiTreeViewRole.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.uiTreeViewRole.FillColor = System.Drawing.Color.White;
             this.uiTreeViewRole.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTreeViewRole.Location = new System.Drawing.Point(0, 0);
+            this.uiTreeViewRole.Location = new System.Drawing.Point(0, 672);
             this.uiTreeViewRole.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTreeViewRole.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiTreeViewRole.Name = "uiTreeViewRole";
             this.uiTreeViewRole.ShowLines = true;
             this.uiTreeViewRole.ShowText = false;
-            this.uiTreeViewRole.Size = new System.Drawing.Size(1018, 1472);
+            this.uiTreeViewRole.Size = new System.Drawing.Size(1018, 800);
             this.uiTreeViewRole.Style = Sunny.UI.UIStyle.Custom;
             this.uiTreeViewRole.TabIndex = 0;
             this.uiTreeViewRole.Text = "uiTreeViewRole";

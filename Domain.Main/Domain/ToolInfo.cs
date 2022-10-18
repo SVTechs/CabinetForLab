@@ -14,6 +14,8 @@ namespace Domain.Main.Domain
 
         public virtual string ToolName { get; set; }
 
+        public virtual string LatticePosition { get; set; }
+
         public virtual string ToolCode { get; set; }
 
         public virtual string ToolSpec { get; set; }
@@ -33,6 +35,8 @@ namespace Domain.Main.Domain
         public virtual string Comment { get; set; }
 
         public virtual string Operator { get; set; }
+
+        public virtual string OperatorName { get; set; }
 
         public virtual DateTime OperateTime { get; set; }
 

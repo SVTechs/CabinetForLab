@@ -21,5 +21,7 @@ namespace Domain.Main.Domain
         public virtual string Channel { get; set; }
 
         public virtual string BoardId { get; set; }
+
+        public virtual string LatticePosition { get => $"{CabinetNum}-{CabinetLatticeNum}"; }
     }
 }

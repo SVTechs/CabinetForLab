@@ -21,6 +21,7 @@ namespace Domain.Main.Mapping
             Map(x => x.RoleDesp).Column("RoleDesp");
             Map(x => x.IsEnabled).Column("IsEnabled");
             Map(x => x.LastChanged).Column("LastChanged");
+            Map(x => x.IsProtected).Column("IsProtected");
         }
     }
 }

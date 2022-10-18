@@ -79,6 +79,7 @@ namespace CabinetMgr
             {
                 UIMessageBox.ShowError($"保存失败，原因:{exception.Message}", true, true);
             }
+            Hide();
         }
 
         private void uiButtonCancel_Click(object sender, EventArgs e)

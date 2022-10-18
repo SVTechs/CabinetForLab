@@ -117,7 +117,7 @@ namespace CabinetMgr
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormLatticePermissionManage";
-            this.Text = "FormRoleManage";
+            this.Text = "储物格设置";
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 1018, 1585);
             this.Load += new System.EventHandler(this.FormLatticePermissionManage_Load);
             this.panelTop.ResumeLayout(false);

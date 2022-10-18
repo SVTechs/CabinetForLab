@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using CabinetMgr.BLL;
 using CabinetMgr.Config;
 using CabinetMgr.RtVars;
 using Hardware.DeviceInterface;
@@ -25,7 +26,7 @@ namespace CabinetMgr
         public FormDeviceLoader()
         {
             InitializeComponent();
-            //CabinetSrvCallback.OnInitDone = OnCabinetInitDone;
+            CabinetServerCallback.OnInitDone += OnCabinetInitDone;
         }
 
         private void FormDeviceLoader_Load(object sender, EventArgs e)
@@ -41,44 +42,15 @@ namespace CabinetMgr
 
             Screen screen = Screen.PrimaryScreen;
             AppRt.ScreenSize = screen.Bounds.Size;
+            InitLogForm();
             InitCamera();
+            InitSockerServer();
+        }
 
-            //初始化数据同步
-            //if (AppConfig.LocalMode == 0)
-            //{
-            //    if (!string.IsNullOrEmpty(AppConfig.CabinetPort))
-            //    {
-            //        int index = cStatusGrid.Rows.Add();
-            //        cStatusGrid.Rows[index].Cells[0].Value = "初始化工具柜连接模块";
-            //        cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            //        CabinetSrv.InitDevice(AppConfig.CabinetPort, AppConfig.SensorMapping, AppConfig.ModuleDoorCount);
-            //    }
-
-            //    cStatusGrid.Refresh(); //强制重绘，要不在样机上看不到初始化过程
-
-            //    //Thread.Sleep(1000); //下次调试看效果
-            //}
-            //else
-            //{
-            //    string sensorMapping = AppConfig.SensorMapping;
-            //    string[] doorCount = AppConfig.ModuleDoorCount.Split('|');
-            //    int moduleCount = 2;
-            //    List<CabinetModule> moduleList = new List<CabinetModule>();
-            //    for (int i = 0; i < moduleCount; i++)
-            //    {
-            //        CabinetModule cm = new CabinetModule() { ModuleAddr = i, DoorList = new List<CabinetDoorStatus>() };
-            //        moduleList.Add(cm);
-
-            //        for (int j = 0; j < int.Parse(doorCount[i]); j++)
-            //        {
-            //            cm.DoorList.Add(new CabinetDoorStatus() { DoorClosed = true, DoorAddr = j, ModuleAddr = i });
-            //        }
-            //    }
-                
-            //    CabinetSrv.ModuleList = moduleList;
-            //    CabinetSrv.AddModuleAddress(sensorMapping);
-            //    CabinetSrv._initDone = true;
-            //}
+        private void InitLogForm()
+        {
+            FormLog formLog = new FormLog();
+            AppRt.FormLog = formLog;
         }
 
         private void InitCamera()
@@ -96,6 +68,14 @@ namespace CabinetMgr
             }
             AppRt.VideoCaptureDevice = cap;
             UpdateStatus("初始化摄像头", "初始化成功", 1);
+        }
+
+        private void InitSockerServer()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP, AppConfig.CanPort);
         }
 
         private void InitGrid()
@@ -166,7 +146,7 @@ namespace CabinetMgr
                 {
                     state = 1;
                 }
-                UpdateStatus("初始化工具柜控制模块", result, state);
+                UpdateStatus("初始化Scoket监听", result, state);
                 if (!_isPassed)
                 {
                     using (FormMessageBox messageBox = new FormMessageBox("初始化过程出现错误，是否继续?", "提示", 1, 5000))
@@ -179,7 +159,28 @@ namespace CabinetMgr
                         }
                     }
                 }
+                if(AppConfig.InitDB == 1)
+                {
+                    IList<string> doorList = new List<string>();
+                    foreach(DoorInfo di in CabinetServer.GetDoorList())
+                    {
+                        doorList.Add(di.Id + "|" + di.Nch);
+                    }
+                    int initDBResult = BllLatticeInfo.InitLattice(doorList, AppConfig.LabName, AppConfig.Location, out Exception ex);
+                    if(initDBResult <= 0)
+                    {
+                        using (FormMessageBox messageBox = new FormMessageBox($"初始化Lattice信息失败,原因:\n{ex.Message}", "提示", 1, 5000))
+                        {
+                            messageBox.ShowDialog();
+                            Application.Exit();
+                            return;
+                        }
+                    }
+                }
+                AppRt.IsInit = false;
+                Thread.Sleep(2000);
                 Close();
+                CabinetServerCallback.OnInitDone -= OnCabinetInitDone;
             }
             catch (Exception ex)
             {

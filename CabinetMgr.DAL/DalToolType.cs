@@ -80,5 +80,12 @@ namespace CabinetMgr.DAL
         {
             return ExecQuery(queryCmd, paraList, out exception);
         }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
+            return DeleteItem(criterionList, out exception);
+        }
     }
 }

@@ -66,5 +66,17 @@ namespace CabinetMgr.DAL
         {
             return GetItemInfo("UserName", userName, out exception);
         }
+
+        public static UserInfo GetUserInfoByTemplate(long templateId, out Exception exception)
+        {
+            return GetItemInfo("TemplateId", templateId, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Not(Restrictions.Eq("IsProtected", 1)));
+            return DeleteItem(criterionList, out exception);
+        }
     }
 }

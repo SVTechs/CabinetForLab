@@ -99,6 +99,7 @@ namespace CabinetMgr
             {
                 UIMessageBox.ShowError($"保存失败，原因:{exception.Message}", true, true);
             }
+            Hide();
         }
 
         private void AddChildRoleSettings(TreeNode tn, List<RoleSettings> list)

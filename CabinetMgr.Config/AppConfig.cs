@@ -10,7 +10,7 @@ namespace CabinetMgr.Config
     public class AppConfig
     {
         /// <summary>
-        /// 程序名称，用于软件更新
+        /// 程序名称
         /// </summary>
         public static string AppName
         {
@@ -23,7 +23,7 @@ namespace CabinetMgr.Config
         }
 
         /// <summary>
-        /// 程序单位，用于软件更新
+        /// 程序单位
         /// </summary>
         public static string AppUnit
         {
@@ -34,7 +34,6 @@ namespace CabinetMgr.Config
                 IniHelper.Write("AppConfig", "AppUnit", value.ToString(), Env.ConfigPath);
             }
         }
-
 
 
         /// <summary>
@@ -63,19 +62,6 @@ namespace CabinetMgr.Config
             }
         }
 
-        /// <summary>
-        /// 本地演示模式开关
-        /// </summary>
-        public static int LocalMode
-        {
-            get => _localMode;
-            set
-            {
-                _localMode = value;
-                IniHelper.Write("AppConfig", "LocalMode", value.ToString(), Env.ConfigPath);
-            }
-        }
-
         public static int RecvLog
         {
             get => _recvLog;
@@ -86,72 +72,41 @@ namespace CabinetMgr.Config
             }
         }
 
-        /// <summary>
-        /// 工具柜COM号
-        /// </summary>
-        public static string CabinetPort
+        public static int InitDB
         {
-            get => _cabinetPort;
+            get => _initDB;
             set
             {
-                _cabinetPort = value;
-                IniHelper.Write("AppConfig", "CabinetPort", value.ToString(), Env.ConfigPath);
+                _initDB = value;
+                IniHelper.Write("AppConfig", "InitDB", value.ToString(), Env.ConfigPath);
             }
         }
 
         /// <summary>
-        /// 下班时间(下班后未归还设备将显示异常)
+        /// 实验室名
         /// </summary>
-        public static string OffDutyTime
+        public static string LabName
         {
-            get => _offDutyTime;
+            get => _labName;
             set
             {
-                _offDutyTime = value;
-                IniHelper.Write("AppConfig", "OffDutyTime", value.ToString(), Env.ConfigPath);
+                _labName = value;
+                IniHelper.Write("AppConfig", "LabName", value.ToString(), Env.ConfigPath);
             }
         }
 
         /// <summary>
-        /// 工具柜名(用于数据同步等，请保证各个工具柜此项不同)
+        /// 位置编号
         /// </summary>
-        public static string CabinetName
+        public static int Location
         {
-            get => _cabinetName;
+            get => _location;
             set
             {
-                _cabinetName = value;
-                IniHelper.Write("AppConfig", "CabinetName", value.ToString(), Env.ConfigPath);
+                _location = value;
+                IniHelper.Write("AppConfig", "Location", value.ToString(), Env.ConfigPath);
             }
         }
-
-        /// <summary>
-        /// 工具柜编号(用于数据同步等，请保证各个工具柜此项不同)
-        /// </summary>
-        public static string CabinetNo
-        {
-            get => _cabinetNo;
-            set
-            {
-                _cabinetNo = value;
-                IniHelper.Write("AppConfig", "CabinetNo", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        /// <summary>
-        /// 同步功能WebService地址
-        /// </summary>
-        public static string SyncServiceUrl
-        {
-            get => _syncServiceUrl;
-            set
-            {
-                _syncServiceUrl = value;
-                IniHelper.Write("AppConfig", "SyncServiceUrl", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-
 
         /// <summary>
         /// 指纹仪COM端口号
@@ -166,186 +121,63 @@ namespace CabinetMgr.Config
             }
         }
 
-        /// <summary>
-        /// 电脑无操作，门未关，有用户登录的报警时间(超过这时间就报警)，单位s
-        /// </summary>
-        public static int AlarmTime
+        public static string ServerIP
         {
-            get => _alarmTime;
+            get => _serverIP;
             set
             {
-                _alarmTime = value;
-                IniHelper.Write("AppConfig", "AlarmTime", value.ToString(), Env.ConfigPath);
+                _serverIP = value;
+                IniHelper.Write("AppConfig", "ServerIP", value.ToString(), Env.ConfigPath);
             }
         }
 
-        /// <summary>
-        /// 电脑无操作，门未关，有用户登录的报警记录时间(超过这时间就记录在数据库中)，单位s
-        /// </summary>
-        //public static int AlarmRecordTime
-        //{
-        //    get => _alarmRecordTime;
-        //    set
-        //    {
-        //        _alarmRecordTime = value;
-        //        IniHelper.Write("AppConfig", "AlarmRecordTime", value.ToString(), Env.ConfigPath);
-        //    }
-        //}
-
-        /// <summary>
-        /// 用户自动退出时间，关门且无操作，超过这个时间，用户自动退出，单位s
-        /// </summary>
-        public static int UserQuitTime
+        public static int ServerPort
         {
-            get => _userQuitTime;
+            get => _serverPort;
             set
             {
-                _userQuitTime = value;
-                IniHelper.Write("AppConfig", "UserQuitTime", value.ToString(), Env.ConfigPath);
+                _serverPort = value;
+                IniHelper.Write("AppConfig", "ServerPort", value.ToString(), Env.ConfigPath);
             }
         }
 
-        public static string SensorMapping
+
+        public static string CanIP
         {
-            get => _sensorMapping;
+            get => _canIP;
             set
             {
-                _sensorMapping = value;
-                IniHelper.Write("AppConfig", "SensorMapping", value.ToString(), Env.ConfigPath);
+                _canIP = value;
+                IniHelper.Write("AppConfig", "CanIP", value.ToString(), Env.ConfigPath);
             }
         }
 
-        public static string ModuleDoorCount
+        public static int CanPort
         {
-            get => _moduleDoorCount;
+            get => _canPort;
             set
             {
-                _moduleDoorCount = value;
-                IniHelper.Write("AppConfig", "ModuleDoorCount", value.ToString(), Env.ConfigPath);
+                _canPort = value;
+                IniHelper.Write("AppConfig", "CanPort", value.ToString(), Env.ConfigPath);
             }
         }
 
-        public static int AlarmEnable
-        {
-            get => _alarmEnable;
-            set
-            {
-                _alarmEnable = value;
-                IniHelper.Write("AppConfig", "AlarmEnable", value.ToString(), Env.ConfigPath);
-            }
-        }
 
-        public static int LowAmountEnable
-        {
-            get => _lowAmountEnable;
-            set
-            {
-                _lowAmountEnable = value;
-                IniHelper.Write("AppConfig", "LowAmountEnable", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static int StockAmountChangeable
-        {
-            get => _stockAmountChangeable;
-            set
-            {
-                _stockAmountChangeable = value;
-                IniHelper.Write("AppConfig", "StockAmountChangeable", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static int DefaultStockAmount
-        {
-            get => _defaultStockAmount;
-            set
-            {
-                _defaultStockAmount = value;
-                IniHelper.Write("AppConfig", "DefaultStockAmount", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static int UsingMode
-        {
-            get => _usingMode;
-            set
-            {
-                _usingMode = value;
-                IniHelper.Write("AppConfig", "UsingMode", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static string JxUrl
-        {
-            get => _jxUrl;
-            set
-            {
-                _jxUrl = value;
-                IniHelper.Write("AppConfig", "JxUrl", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static string ZbUrl
-        {
-            get => _zbUrl;
-            set
-            {
-                _zbUrl = value;
-                IniHelper.Write("AppConfig", "ZbUrl", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static string CabinetId
-        {
-            get => _cabinetId;
-            set
-            {
-                _cabinetId = value;
-                IniHelper.Write("AppConfig", "CabinetId", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        public static string LocoAddress
-        {
-            get => _locoAddress;
-            set
-            {
-                _locoAddress = value;
-                IniHelper.Write("AppConfig", "LocoAddress", value.ToString(), Env.ConfigPath);
-            }
-        }
-
-        private static string _appName = "智能微库";
-        private static string _appUnit = "新联铁";
+        private static string _appName = "智能储物柜";
+        private static string _appUnit = "";
 
         private static int _disableWatcher;
-
         private static int _debugMode;
-        private static int _localMode;
         private static int _recvLog = 1;
-        private static string _cabinetPort = "1";
-        private static string _offDutyTime = "16:00";
+        private static int _initDB = 0;
 
-        private static string _cabinetName = "";
-        private static string _cabinetNo = "";
-        private static string _syncServiceUrl = "";//"http://10.128.177.61:8080/CabinetService/SyncService.asmx";
+        private static string _labName = "";
+        private static int _location = 0;
         private static int _fpPort = 1;
-
-        private static int _alarmTime = 60;
-        //private static int _alarmRecordTime = 120;
-        private static int _userQuitTime = 60;
-        private static string _sensorMapping = "";
-        private static string _moduleDoorCount = "";
-
-        private static int _alarmEnable = 1;
-        private static int _lowAmountEnable = 1;
-        private static int _stockAmountChangeable = 0;
-        private static int _defaultStockAmount = 1;
-        private static int _usingMode = 0;
-        private static string _jxUrl = "";
-        private static string _zbUrl = "";
-        private static string _cabinetId = "";
-        private static string _locoAddress = "";
+        private static string _serverIP = "192.168.1.10";
+        private static int _serverPort = 1502;
+        private static string _canIP = "192.168.1.100";
+        private static int _canPort = 8000;
 
 
     }

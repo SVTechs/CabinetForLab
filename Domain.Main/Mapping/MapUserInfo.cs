@@ -14,6 +14,7 @@ namespace Domain.Main.Mapping
         {
             Table("UserInfo");
             Id(x => x.ID).GeneratedBy.Assigned().Column("ID");
+            Map(x => x.TemplateId).CustomSqlType("INT IDENTITY(1,1)").Not.Nullable().ReadOnly().Generated.Insert(); ;
             Map(x => x.UserName).Column("UserName");
             Map(x => x.Password).Column("Password");
             Map(x => x.FullName).Column("FullName");
@@ -30,6 +31,7 @@ namespace Domain.Main.Mapping
             Map(x => x.Image).Column("Image");
             Map(x => x.FaceFeature).Column("FaceFeature");
             Map(x => x.FingerFeature).Column("FingerFeature");
+            Map(x => x.IsProtected).Column("IsProtected");
         }
     }
 }

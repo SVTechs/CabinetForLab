@@ -15,6 +15,7 @@ namespace Domain.Main.Mapping
             Table("ToolType");
             Id(x => x.Id).GeneratedBy.Identity().Column("Id");
             Map(x => x.TypeName).Column("TypeName");
+            Map(x => x.SortOrder).Column("SortOrder");
             Map(x => x.CreateTime).Column("CreateTime");
         }
     }

@@ -62,5 +62,10 @@ namespace CabinetMgr.BLL
         {
             return DalRoleInfo.ExecSqlQuery(queryCmd, paraList, out exception);
         }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            return DalRoleInfo.DeleteAll(out exception);
+        }
     }
 }

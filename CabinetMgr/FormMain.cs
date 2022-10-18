@@ -38,9 +38,7 @@ namespace CabinetMgr
         private Form _indexForm;
         private Form _recordForm;
         private Form _toolManageForm;
-        private Form _toolQueryForm;
         private Form _userManageForm;
-
 
         SoundPlayer simpleSound = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("Alarm"));
         SoundPlayer loginSound = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
@@ -57,13 +55,7 @@ namespace CabinetMgr
         {
             InitializeComponent();
             FpCallBack.OnUserRecognised = OnUserRecognised;
-            //CabinetSrvCallback.DoorClosed += DoorClosed;
-            //CabinetSrvCallback.WeightChanged += WeightChanged;
-            //CabinetSrvCallback.OnCardReceived += CardReceived;
-            //AppRt.fm = this;
-            //CabinetSrvCallback.OnBoardDio32StatusReceived += Dio32StatusReceived;
-            //CabinetSrvCallback.OnListReceived += ListReceived;
-            //CabinetSrvCallback.OnBoardWeightReceived += WeightReceived;
+            CabinetServerCallback.JsonStrParsed += JsonStrParsed;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -78,8 +70,6 @@ namespace CabinetMgr
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
 
-            InitCabinetInfo();
-
             //加载窗口       
             InitForm();
 
@@ -92,72 +82,80 @@ namespace CabinetMgr
 
             InitFaceData();
             InitFaceCricThread();
-
-            AppRt.IsInit = false;
         }
 
-        private void InitCabinetInfo()
+        private void JsonStrParsed(string parseStr)
         {
-
+            AppRt.FormLog.AddLine(parseStr);
         }
 
         /// <summary>
         /// 用户登录
         /// </summary>
         /// 1.指纹 2.人脸  3.工卡
-        public void OnUserRecognised(string userName, int method)
+        public void OnUserRecognised(long templateId, int method)
         {
-
-            UserInfo loginUser = BllUserInfo.GetUserInfoByUserName(userName, out _);
-            if (loginUser != null)
+            try
             {
-                AppRt.CurUser = loginUser;
-                IList<LatticeInfo> latticeList = AppRt.LatticeList;//.FindAll(delegate (CaPageMenus m) { return string.IsNullOrWhiteSpace(m.TreeParent) && m.MenuCode.Trim() == AppConfig.CabinetNo.Trim(); });
-                //if (latticeList.Count == 0)
-                //{
-                //    AppRt.CurUser = null;
-                //    ShowWindow(_indexForm);
-                //    string str = string.Format("尊敬的用户您好，如需登录“{0}”，请您联系管理员赋予访问权限！", AppConfig.CabinetName);
-                //    using (FormMessageBox messageBox = new FormMessageBox(str, "提示", 0, 2000))
-                //    {
-                //        messageBox.ShowDialog(this);
-                //    }
-                //    return;
-                //}
-                //loginSound.PlaySync();
-                ////显示当前用户
-                DisplayUser((AppRt.CurUser.FullName ?? "") + "(单击退出)");
-                //ShowWindow(_toolReportForm);
-                userLoginManualEvent.Reset();
+                UserInfo loginUser = BllUserInfo.GetUserInfoByTemplate(templateId, out var e);
+                if (loginUser != null)
+                {
+                    IList<RoleSettings> roleSettings = BllRoleSettings.GetUserRoleSettings(loginUser.ID, out e);
+                    string[] roleAry = roleSettings.Select(x => x.RoleId).ToArray();
+                    IList<RoleInfo> RoleList = new List<RoleInfo>();
+                    foreach (RoleSettings rs in roleSettings)
+                    {
+                        RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out e);
+                        RoleList.Add(ri);
+                    }
+                    long[] latticePermissionList = BllLatticePermissionSettings.GetLatticePermissionList(loginUser.ID, roleAry, out e);
+                    IList<LatticeInfo> LatticeList = BllLatticeInfo.GetLatticeInfoList(latticePermissionList, out e);
 
-                //AppRt.IsNeedAlarm = true;
-                //AppRt.gUserLoginTime = DateTime.Now;
-                //AppRt.IsAlarmed = false;
+                    AppRt.CurUser = loginUser;
+                    AppRt.RoleList = RoleList;
+                    AppRt.RoleSettings = roleSettings;
+                    AppRt.LatticeList = LatticeList;
 
-                //IList<RoleInfo> roleList = AppRt.RoleList;
-                //if (roleList == null)
-                //{
-                //    IList<RoleSettings> rsList = BllRoleSettings.GetUserRoleSettings(loginUser.ID);
-                //    IList<RoleInfo> RoleList = new List<RoleInfo>();
-                //    foreach (RoleSettings rs in rsList)
-                //    {
-                //        RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out Exception ex);
-                //        RoleList.Add(ri);
-                //    }
-                //    AppRt.RoleList = RoleList;
-                //    roleList = RoleList;
-                //}
-                //foreach (RoleInfo ri in roleList)
-                //{
-                //    if (ri.RoleName.Contains("管理员"))
-                //    {
-                //        SetPbVisible(true, pbSetting);
-                //        break;
-                //    }
-                //}
-                //SetPbVisible(true, pbAuthority);
-                userLoginManualEvent.Set();
+                    if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin) != null) SetPbVisible(true, pictureBoxSystem);
+
+                    DisplayUser((AppRt.CurUser.FullName ?? "") + "(单击退出)");
+                    //ShowWindow(_toolReportForm);
+                    //userLoginManualEvent.Reset();
+
+                    //AppRt.IsNeedAlarm = true;
+                    //AppRt.gUserLoginTime = DateTime.Now;
+                    //AppRt.IsAlarmed = false;
+
+                    //IList<RoleInfo> roleList = AppRt.RoleList;
+                    //if (roleList == null)
+                    //{
+                    //    IList<RoleSettings> rsList = BllRoleSettings.GetUserRoleSettings(loginUser.ID);
+                    //    IList<RoleInfo> RoleList = new List<RoleInfo>();
+                    //    foreach (RoleSettings rs in rsList)
+                    //    {
+                    //        RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out Exception ex);
+                    //        RoleList.Add(ri);
+                    //    }
+                    //    AppRt.RoleList = RoleList;
+                    //    roleList = RoleList;
+                    //}
+                    //foreach (RoleInfo ri in roleList)
+                    //{
+                    //    if (ri.RoleName.Contains("管理员"))
+                    //    {
+                    //        SetPbVisible(true, pbSetting);
+                    //        break;
+                    //    }
+                    //}
+                    //SetPbVisible(true, pbAuthority);
+                    //userLoginManualEvent.Set();
+                }
             }
+            catch(Exception ex)
+            {
+
+            }
+
         }
 
         #region Face
@@ -173,6 +171,7 @@ namespace CabinetMgr
         private void InitFaceData()
         {
             IList<UserInfo> listUserInfo = BllUserInfo.SearchUserInfo(0, -1, null, out _);
+            if (listUserInfo == null || listUserInfo.Count == 0) return;
             imagesFeatureList.Clear();
             for (int i = 0; i < listUserInfo.Count; i++)
             {
@@ -295,7 +294,7 @@ namespace CabinetMgr
                                 //SetPbBG(picBFace, (Bitmap)Base64StringToImage(ui.Images));
                                 //SetPbVisible(picBFace, true);
                                 //timer1.Enabled = false;
-                                FpCallBack.OnUserRecognised?.Invoke(ui.UserName, 2);
+                                FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 2);
                             }
                         }
 
@@ -318,63 +317,49 @@ namespace CabinetMgr
             }
         }
 
-        //private void GetCameraPic()
-        //{
-        //    VideoCapture cap = AppRt.VideoCaptureDevice;
-        //    Mat image = new Mat();
-        //    while (true)
-        //    {
-        //        //if (Visible == false || tp != pbFace) continue;
-        //        if (cap == null) continue;
-        //        cap.Read(image);
-        //        if (!image.Empty())
-        //        {
-        //            stream = image.ToMemoryStream();
-        //            Bitmap b = new Bitmap((Image)new Bitmap(stream));
-        //            //SetPbBG(picBCamera, b);
-        //            Cv2.WaitKey(1);
-
-        //        }
-        //        else
-        //        {
-
-        //        }
-        //    }
-        //}
-
-
         #endregion
 
-        #region Buttons
+        #region ShowForms
 
         private void uiButtonIndex_Click(object sender, EventArgs e)
         {
             ShowWindow(_indexForm);
         }
 
-        private void uiButtonToolQuery_Click(object sender, EventArgs e)
-        {
-            ShowWindow(_toolQueryForm);
-        }
-
         private void uiButtonUserManage_Click(object sender, EventArgs e)
         {
+            if (AppRt.CurUser == null)
+            {
+                UIMessageBox.Show("请先进行登录");
+                return;
+            }
             ShowWindow(_userManageForm);
         }
 
         private void uiButtonToolManage_Click(object sender, EventArgs e)
         {
+            if(AppRt.CurUser == null)
+            {
+                UIMessageBox.Show("请先进行登录");
+                return;
+            }
             ShowWindow(_toolManageForm);
         }
 
         private void uiButtonRecord_Click(object sender, EventArgs e)
         {
+            if (AppRt.CurUser == null)
+            {
+                UIMessageBox.Show("请先进行登录");
+                return;
+            }
             ShowWindow(_recordForm);
         }
 
         #endregion
 
-        
+        #region pbClick
+
 
         private void pbKeyboard_Click(object sender, EventArgs e)
         {
@@ -391,29 +376,15 @@ namespace CabinetMgr
             }
         }
 
+        private void pictureBoxSystem_Click(object sender, EventArgs e)
+        {
+            FormSystem formSystem = FormSystem.Instance();
+            formSystem.ShowDialog();
+        }
+
+        #endregion
 
         #region ControlDelegate
-
-        private delegate void SetPbBGDelegate(PictureBox pictureBox, Bitmap pic);
-        public void SetPbBG(PictureBox pictureBox, Bitmap pic)
-        {
-            try
-            {
-                if (pictureBox.InvokeRequired)
-                {
-                    SetPbBGDelegate d = SetPbBG;
-                    pictureBox.Invoke(d, pictureBox, pic);
-                }
-                else
-                {
-                    pictureBox.BackgroundImage = pic;
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-        }
 
         private delegate void SetPbVisibleDelegate(bool visible, PictureBox pb);
         public void SetPbVisible(bool visible, PictureBox pb)
@@ -465,7 +436,6 @@ namespace CabinetMgr
         }
 
         public delegate void RefreshFormDelegate();
-
         public void RefreshForm()
         {
             ShowWindow(_curForm);
@@ -494,8 +464,187 @@ namespace CabinetMgr
 
         #endregion
 
+        public void ShowWindow(Form targetForm)
+        {
+            if (_curForm == targetForm)
+            {
+                return;
+            }
+            //AppRt.CollectFace = false;
+            foreach (var form in panelWindow.Controls)
+            {
+                var curForm = form as Form;
+                if (curForm != null)
+                {
+                    FormVisible(false, curForm);
+                    //curForm.Hide();
+                }
+            }
+            if (targetForm.Tag != null)
+            {
+                int selectedBtn = int.Parse(targetForm.Tag.ToString());
+                foreach (var btn in panelTop.Controls)
+                {
+                    if (btn is UIButton curBtn)
+                    {
+                        if (int.TryParse(curBtn.Tag.ToString(), out var btnTag))
+                        {
+                            if (btnTag != selectedBtn) curBtn.Selected = false;
+                            else curBtn.Selected = true;
+                            //if (btnTag != selectedBtn) curBtn.BackgroundImage = _btnSelected[btnTag];
+                            //else curBtn.BackgroundImage = _btnNormal[btnTag];
+                        }
+                    }
+                }
+            }
+            _curForm = targetForm;
+            FormVisible(true, targetForm);
+        }
+
+        private void InitForm()
+        {
+            try
+            {
+
+                _indexForm = new FormIndex();
+                AddToPanel(_indexForm);
+
+                _recordForm = new FormRecord();
+                AddToPanel(_recordForm);
+
+                _toolManageForm = new FormToolManage();
+                AddToPanel(_toolManageForm);
+
+                _userManageForm = new FormUserManage();
+                AddToPanel(_userManageForm);
+
+                if(AppConfig.DebugMode == 1)
+                {
+                    AppRt.FormLog.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+
+        private void AddToPanel(Form targetForm)
+        {
+            targetForm.TopLevel = false;
+            targetForm.Width = panelWindow.Width;
+            targetForm.Height = panelWindow.Height;
+            panelWindow.Controls.Add(targetForm);
+        }
+
+        
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+
+            this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+            this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+
+            //panelTop.Width = Width;
+            //panelWindow.Width = Width;
+            //panelWindow.Height = Height - 350;
+            //lbUserName.Left = Width - 200;
+            //pbAvatar.Left = lbUserName.Left - pbAvatar.Width - 12;
+        }
+
+        private void panelWindow_SizeChanged(object sender, EventArgs e)
+        {
+            if (_curForm != null)
+            {
+                _curForm.Width = panelWindow.Width;
+                _curForm.Height = panelWindow.Height;
+            }
+        }
 
 
+        private void tmUhfInit_Tick(object sender, EventArgs e)
+        {
+            //lbInitTime.Text = "启动中,剩余:" + Env.UhfDelay + "秒";
+            //Env.UhfDelay--;
+            //if (Env.UhfDelay <= 0)
+            //{
+            //    AppRt.IsInit = false;
+            //    tmUhfInit.Enabled = false;
+            //    lbInitTime.Text = "";
+            //}
+        }
+
+        private void uiLabelUser_Click(object sender, EventArgs e)
+        {
+            PerformManualLogin();
+        }
+
+        private void FormMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Shift && e.Alt && e.KeyCode == Keys.A)
+            {
+                OnUserRecognised(2, 2);
+                return;
+            }
+            //if (e.Shift && e.Alt && e.KeyCode == Keys.F2)
+            //{
+            //    OnUserRecognised(1878, 100);
+            //    return;
+            //}
+            if (e.Shift && e.Alt && e.KeyCode == Keys.R)
+            {
+                BllBorrowRecord.DeleteAll(out Exception ex);
+                BllReturnRecord.DeleteAll(out ex);
+                BllRoleInfo.DeleteAll(out ex);
+                BllLatticeInfo.DeleteAll(out ex);
+                BllLatticePermissionSettings.DeleteAll(out ex);
+                BllToolInfo.DeleteAll(out ex);
+                BllToolType.DeleteAll(out ex);
+                BllUserInfo.DeleteAll(out ex);
+                //清除登录状态
+                PerformManualLogin();
+
+                //窗口刷新
+                ShowWindow(_indexForm);
+                MessageBox.Show("重置完成");
+                return;
+            }
+            //if (e.Shift && e.Alt && e.KeyCode == Keys.F12)
+            //{
+            //    FormDeviceDebug dbForm = new FormDeviceDebug();
+            //    dbForm.Show();
+            //    return;
+            //}
+            //if (e.Shift && e.Alt && e.KeyCode == Keys.N)
+            //{
+            //    FormUserInfoCollect dbForm = new FormUserInfoCollect();
+            //    dbForm.Show();
+            //    return;
+            //}
+            if (e.Shift && e.Alt && e.KeyCode == Keys.L)
+            {
+                FormLog formLog = AppRt.FormLog;
+                formLog.Show();
+                return;
+            }
+        }
+
+        private void PerformManualLogin()
+        {
+            if (AppRt.CurUser == null) return;
+            AppRt.ResetUserInfo();
+            DisplayUser("");
+            SetPbVisible(false, pictureBoxSystem);
+            ShowWindow(_indexForm);
+        }
+
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CabinetServer.Stop();
+            AppRt.VideoCaptureDevice.Dispose();
+            GC.Collect();
+            Environment.Exit(0); //现场时关闭此窗体后，程序没有完全退出，加了这个，去现场时再调试下,已经调试了
+        }
 
 
         ////若不关门，则一直会报警(目前代码不是这种处理)
@@ -604,296 +753,5 @@ namespace CabinetMgr
         //        Logger.Error(ex);
         //    }
         //}
-
-        public void ShowWindow(Form targetForm)
-        {
-            if (_curForm == targetForm)
-            {
-                return;
-            }
-            //AppRt.CollectFace = false;
-            foreach (var form in panelWindow.Controls)
-            {
-                var curForm = form as Form;
-                if (curForm != null)
-                {
-                    FormVisible(false, curForm);
-                    //curForm.Hide();
-                }
-            }
-            if (targetForm.Tag != null)
-            {
-                int selectedBtn = int.Parse(targetForm.Tag.ToString());
-                foreach (var btn in panelTop.Controls)
-                {
-                    if (btn is UIButton curBtn)
-                    {
-                        if (int.TryParse(curBtn.Tag.ToString(), out var btnTag))
-                        {
-                            if (btnTag != selectedBtn) curBtn.Selected = false;
-                            else curBtn.Selected = true;
-                            //if (btnTag != selectedBtn) curBtn.BackgroundImage = _btnSelected[btnTag];
-                            //else curBtn.BackgroundImage = _btnNormal[btnTag];
-                        }
-                    }
-                }
-            }
-            _curForm = targetForm;
-            FormVisible(true, targetForm);
-        }
-
-        private void InitForm()
-        {
-            try
-            {
-
-                _indexForm = new FormIndex();
-                AddToPanel(_indexForm);
-
-                _recordForm = new FormRecord();
-                AddToPanel(_recordForm);
-
-                _toolManageForm = new FormToolManage();
-                AddToPanel(_toolManageForm);
-
-                _toolQueryForm = new FormToolQuery();
-                AddToPanel(_toolQueryForm);
-
-                _userManageForm = new FormUserManage();
-                AddToPanel(_userManageForm);
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-        }
-
-        private void AddToPanel(Form targetForm)
-        {
-            targetForm.TopLevel = false;
-            targetForm.Width = panelWindow.Width;
-            targetForm.Height = panelWindow.Height;
-            panelWindow.Controls.Add(targetForm);
-        }
-
-        
-
-        private void FormMain_Resize(object sender, EventArgs e)
-        {
-
-            this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
-            this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
-
-            //panelTop.Width = Width;
-            //panelWindow.Width = Width;
-            //panelWindow.Height = Height - 350;
-            //lbUserName.Left = Width - 200;
-            //pbAvatar.Left = lbUserName.Left - pbAvatar.Width - 12;
-        }
-
-        private void panelWindow_SizeChanged(object sender, EventArgs e)
-        {
-            if (_curForm != null)
-            {
-                _curForm.Width = panelWindow.Width;
-                _curForm.Height = panelWindow.Height;
-            }
-        }
-
-
-        private void tmUhfInit_Tick(object sender, EventArgs e)
-        {
-            //lbInitTime.Text = "启动中,剩余:" + Env.UhfDelay + "秒";
-            //Env.UhfDelay--;
-            //if (Env.UhfDelay <= 0)
-            //{
-            //    AppRt.IsInit = false;
-            //    tmUhfInit.Enabled = false;
-            //    lbInitTime.Text = "";
-            //}
-        }
-
-        private void uiLabelUser_Click(object sender, EventArgs e)
-        {
-            PerformManualLogin();
-        }
-
-        private void FormMain_KeyDown(object sender, KeyEventArgs e)
-        {
-            //if (e.Shift && e.Alt && e.KeyCode == Keys.F1)
-            //{
-            //    OnUserRecognised(2, 1);
-            //    return;
-            //}
-            ////if (e.Shift && e.Alt && e.KeyCode == Keys.F2)
-            ////{
-            ////    OnUserRecognised(1878, 100);
-            ////    return;
-            ////}
-            //if (e.Shift && e.Alt && e.KeyCode == Keys.R)
-            //{
-
-            //    //重置任务状态
-            //    //BllWorkUserInfo.ResetAllStatus();
-            //    //清除借还记录
-            //    BllBorrowRecord.DeleteAll();
-            //    BllDoorRecord.DeleteAll();
-            //    BllNotCloseDoorRecord.DeleteAll();
-            //    BllToolStock.DeleteAll();
-            //    //清除计量数据
-            //    //BllMeasurementData.DeleteAll();
-            //    //重置LED状态
-            //    //DeviceLayer.CabinetDevice.ResetToolLed();
-            //    //DeviceLayer.CabinetDevice.OpenLedRed(false);
-            //    //DeviceLayer.CabinetDevice.OpenLedYellow(false);
-            //    //重置工具校验
-            //    //BllToolCheckRecord.ResetRecord();
-            //    //清除登录状态
-            //    AppRt.CurUser = null;
-            //    lbUserName.Text = "当前用户: ";
-            //    //窗口刷新
-            //    ShowWindow(_curForm);
-            //    MessageBox.Show("重置完成");
-            //    return;
-            //}
-            //if (e.Shift && e.Alt && e.KeyCode == Keys.F12)
-            //{
-            //    FormDeviceDebug dbForm = new FormDeviceDebug();
-            //    dbForm.Show();
-            //    return;
-            //}
-            //if (e.Shift && e.Alt && e.KeyCode == Keys.N)
-            //{
-            //    FormUserInfoCollect dbForm = new FormUserInfoCollect();
-            //    dbForm.Show();
-            //    return;
-            //}
-            //if (e.Shift && e.Alt && e.KeyCode == Keys.L)
-            //{
-            //    FormDeviceLocalDebug dbForm = new FormDeviceLocalDebug();
-            //    dbForm.Show();
-            //    return;
-            //}
-        }
-
-        private void PerformManualLogin()
-        {
-            if (AppRt.CurUser == null) return;
-            //List<CabinetModule> list = CabinetSrv.GetModuleStatus();
-            //foreach (CabinetModule cm in list)
-            //{
-            //    List<CabinetDoorStatus> doorList = cm.DoorList;
-            //    if (doorList.Count(p => p.DoorClosed == false) > 0)
-            //    {
-            //        using (FormMessageBox messageBox = new FormMessageBox("请先关所有柜门再退出！", "提示", 0, 2000))
-            //        {
-            //            messageBox.ShowDialog(this);
-            //        }
-            //        return;
-            //    }
-            //}
-
-            DisplayUser("");
-            AppRt.CurUser = null;
-            AppRt.LatticeList = null;
-        }
-
-        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            AppRt.VideoCaptureDevice.Dispose();
-            GC.Collect();
-            Environment.Exit(0); //现场时关闭此窗体后，程序没有完全退出，加了这个，去现场时再调试下,已经调试了
-        }
-
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            //string queryName = tbSearch.Text.Trim();
-            //if (string.IsNullOrEmpty(queryName)) return;
-            //_toolReportForm.SetQueryString(queryName);
-            //_toolReportForm.LoadPageInfo();
-
-        }
-
-        #region PbButton
-
-        private void pbClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void pbAbout_Click(object sender, EventArgs e)
-        {
-            //ShowWindow(_aboutForm);
-        }
-
-        private void pbMin_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-
-        #endregion
-
-        private void pbAuthority_Click(object sender, EventArgs e)
-        {
-            //UserInfo ui = AppRt.CurUser;
-            //bool isAdmin = ui.UserName.ToLower() == "admin";// ui.UserName.ToLower() == "admin";
-            ////IList<RoleInfo> roleList = AppRt.RoleList;
-            ////foreach (RoleInfo ri in roleList)
-            ////{
-            ////    if (ri.RoleName.Contains("管理员"))
-            ////    {
-            ////        isAdmin = true;
-            ////        break;
-            ////    }
-            ////}
-            //if (isAdmin)
-            //{
-            //    ShowWindow(_userInfoCollect);
-            //}
-            //else
-            //{
-            //    (_userInfoChange as FormUserInfoChange).BindData(ui);
-            //    ShowWindow(_userInfoChange);
-            //}
-        }
-
-        private void pbSetting_Click(object sender, EventArgs e)
-        {
-            //ShowWindow(_systemPara);
-        }
-
-        private void tbSearch_TextChanged(object sender, EventArgs e)
-        {
-            //int length = tbSearch.Text.Trim().Length;
-            //if (length != 0) return;
-            //_toolReportForm.SetQueryString("");
-            //_toolReportForm.LoadPageInfo();
-        }
-
-        private void tbSearch_Enter(object sender, EventArgs e)
-        {
-            //WinKeyBoard.ShowInputPanel();
-            //Osk.ShowInputPanel();
-        }
-
-        private void tbSearch_Leave(object sender, EventArgs e)
-        {
-            //WinKeyBoard.HideInputPanel();
-        }
-
-        private void pbAvatar_MouseClick(object sender, MouseEventArgs e)
-        {
-            PerformManualLogin();
-        }
-
-        private void lbUserName_MouseClick(object sender, MouseEventArgs e)
-        {
-            PerformManualLogin();
-        }
-
-
     }
 }

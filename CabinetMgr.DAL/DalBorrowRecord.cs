@@ -17,11 +17,22 @@ namespace CabinetMgr.DAL
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static IList<BorrowRecord> SearchBorrowRecord(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<BorrowRecord> SearchBorrowRecord(DateTime startDate, DateTime endDate,  int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Ge("EventTime", startDate));
+            criterionList.Add(Restrictions.Le("EventTime", endDate));
             //Criterion Processing
-            List<Order> requestedOrder = DbOrder.ToOrderList(orderList);
+            List<Order> requestedOrder;
+            if(orderList == null)
+            {
+                requestedOrder = new List<Order>() { new Order("EventTime", false) };
+            }
+            else
+            {
+                requestedOrder = DbOrder.ToOrderList(orderList); ;
+            }
+            
             return SearchItem(criterionList, requestedOrder, dataStart, dataCount, out exception);
         }
 
@@ -92,6 +103,13 @@ namespace CabinetMgr.DAL
         public static DataSet ExecSqlQuery(string queryCmd, DbParameter[] paraList, out Exception exception)
         {
             return ExecQuery(queryCmd, paraList, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
+            return DeleteItem(criterionList, out exception);
         }
     }
 }

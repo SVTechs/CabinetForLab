@@ -15,6 +15,7 @@ namespace Domain.Main.Mapping
             Table("ToolInfo");
             Id(x => x.Id).GeneratedBy.Assigned().Column("Id");
             Map(x => x.LatticeId).Column("LatticeId");
+            Map(x => x.LatticePosition).Column("LatticePosition");
             Map(x => x.ToolName).Column("ToolName");
             Map(x => x.ToolCode).Column("ToolCode");
             Map(x => x.ToolSpec).Column("ToolSpec");
@@ -26,6 +27,7 @@ namespace Domain.Main.Mapping
             Map(x => x.ToolManager).Column("ToolManager");
             Map(x => x.Comment).Column("Comment");
             Map(x => x.Operator).Column("Operator");
+            Map(x => x.OperatorName).Column("OperatorName");
             Map(x => x.OperateTime).Column("OperateTime");
             Map(x => x.ToolStatus).Column("ToolStatus");
         }

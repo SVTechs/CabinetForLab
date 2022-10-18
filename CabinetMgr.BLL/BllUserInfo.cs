@@ -57,5 +57,15 @@ namespace CabinetMgr.BLL
         {
             return DalUserInfo.GetUserInfoByUserName(userName, out exception);
         }
+
+        public static UserInfo GetUserInfoByTemplate(long templateId, out Exception exception)
+        {
+            return DalUserInfo.GetUserInfoByTemplate(templateId, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            return DalUserInfo.DeleteAll(out exception);
+        }
     }
 }

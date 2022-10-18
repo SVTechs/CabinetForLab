@@ -17,9 +17,10 @@ namespace CabinetMgr.DAL
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static IList<ToolInfo> SearchToolInfo(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<ToolInfo> SearchToolInfo(string toolName, int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Like("ToolName", toolName, MatchMode.Anywhere));
             //Criterion Processing
             List<Order> requestedOrder = DbOrder.ToOrderList(orderList);
             return SearchItem(criterionList, requestedOrder, dataStart, dataCount, out exception);
@@ -60,6 +61,13 @@ namespace CabinetMgr.DAL
         public static DataSet ExecSqlQuery(string queryCmd, DbParameter[] paraList, out Exception exception)
         {
             return ExecQuery(queryCmd, paraList, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
+            return DeleteItem(criterionList, out exception);
         }
     }
 }

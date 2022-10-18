@@ -62,5 +62,10 @@ namespace CabinetMgr.BLL
         {
             return DalLatticePermissionSettings.BatchSaveLatticePermissionSettings(ownerId, ownerType, list, out exception);
         }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            return DalLatticePermissionSettings.DeleteAll(out exception);
+        }
     }
 }

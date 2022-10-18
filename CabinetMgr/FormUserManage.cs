@@ -1,4 +1,6 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.Common;
+using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Sunny.UI;
 using System;
@@ -30,6 +32,7 @@ namespace CabinetMgr
             IList<UserInfo> userList = BllUserInfo.SearchUserInfo(0, -1, null, out Exception ex);
             uiDataGridViewUser.DataSource = userList;
             uiDataGridViewUser.Columns["ID"].Visible = false;
+            uiDataGridViewUser.Columns["TemplateId"].Visible = false;
             uiDataGridViewUser.Columns["Password"].Visible = false;
             uiDataGridViewUser.Columns["Age"].Visible = false;
             uiDataGridViewUser.Columns["Tel"].Visible = false;
@@ -39,6 +42,7 @@ namespace CabinetMgr
             uiDataGridViewUser.Columns["FaceFeature"].Visible = false;
             uiDataGridViewUser.Columns["FingerFeature"].Visible = false;
             uiDataGridViewUser.Columns["BDFaceFeature"].Visible = false;
+            uiDataGridViewUser.Columns["IsProtected"].Visible = false;
 
             uiDataGridViewUser.Columns["UserName"].HeaderText = "工号";
             uiDataGridViewUser.Columns["FullName"].HeaderText = "姓名";
@@ -55,6 +59,11 @@ namespace CabinetMgr
 
         private void uiButtonAdd_Click(object sender, EventArgs e)
         {
+            if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin || x.RoleId == PresetRole.UserManager) == null)
+            {
+                UIMessageBox.Show("您的权限不足");
+                return;
+            }
             FormUserEdit formUserEdit = FormUserEdit.Instance();
             formUserEdit.ShowDialog();
             LoadUser();
@@ -65,6 +74,12 @@ namespace CabinetMgr
             if(uiDataGridViewUser.SelectedRows.Count == 0) UIMessageBox.ShowError("请选择要编辑的人员", true, true);
             var selectRow = uiDataGridViewUser.SelectedRows[0];
             UserInfo ui = selectRow.DataBoundItem as UserInfo;
+            if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin || x.RoleId == PresetRole.UserManager) == null &&
+                ui.TemplateId != AppRt.CurUser.TemplateId)
+            {
+                UIMessageBox.Show("您的权限不足");
+                return;
+            }
             FormUserEdit formUserEdit = FormUserEdit.Instance(ui.UserName);
             formUserEdit.ShowDialog();
             LoadUser();
@@ -72,6 +87,11 @@ namespace CabinetMgr
 
         private void uiButtonDel_Click(object sender, EventArgs e)
         {
+            if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin || x.RoleId == PresetRole.UserManager) == null)
+            {
+                UIMessageBox.Show("您的权限不足");
+                return;
+            }
             if (uiDataGridViewUser.SelectedRows.Count == 0) { UIMessageBox.ShowError("请选择要删除的人员", true, true); return; }
             if (!UIMessageBox.Show("是否确定删除?该操作不可撤销", "警告", buttons: UIMessageBoxButtons.OKCancel, showMask: true, topMost: true)) return;
             var selectRow = uiDataGridViewUser.SelectedRows[0];
@@ -88,6 +108,11 @@ namespace CabinetMgr
 
         private void uiButtonRole_Click(object sender, EventArgs e)
         {
+            if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin || x.RoleId == PresetRole.UserManager) == null)
+            {
+                UIMessageBox.Show("您的权限不足");
+                return;
+            }
             if (uiDataGridViewUser.SelectedRows.Count == 0) UIMessageBox.ShowError("请选择要编辑的人员", true, true);
             var selectRow = uiDataGridViewUser.SelectedRows[0];
             UserInfo ui = selectRow.DataBoundItem as UserInfo;
@@ -97,6 +122,11 @@ namespace CabinetMgr
 
         private void uiButtonLattice_Click(object sender, EventArgs e)
         {
+            if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin || x.RoleId == PresetRole.UserManager) == null)
+            {
+                UIMessageBox.Show("您的权限不足");
+                return;
+            }
             if (uiDataGridViewUser.SelectedRows.Count == 0) UIMessageBox.ShowError("请选择要编辑的人员", true, true);
             var selectRow = uiDataGridViewUser.SelectedRows[0];
             UserInfo ui = selectRow.DataBoundItem as UserInfo;

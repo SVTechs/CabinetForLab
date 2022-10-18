@@ -23,6 +23,8 @@ namespace Domain.Main.Domain
 
         public virtual int IsEnabled { get; set; }
 
+        public virtual int IsProtected { get; set; }
+
         public virtual DateTime LastChanged { get; set; }
 
         //(非数据库对象)下级菜单列表

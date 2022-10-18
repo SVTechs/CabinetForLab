@@ -36,14 +36,15 @@
             this.uiButtonRecord = new Sunny.UI.UIButton();
             this.uiButtonToolManage = new Sunny.UI.UIButton();
             this.uiButtonUserManage = new Sunny.UI.UIButton();
-            this.uiButtonToolQuery = new Sunny.UI.UIButton();
             this.uiButtonIndex = new Sunny.UI.UIButton();
             this.panelTitle = new System.Windows.Forms.Panel();
+            this.pictureBoxSystem = new System.Windows.Forms.PictureBox();
             this.pictureBoxQuit = new System.Windows.Forms.PictureBox();
             this.pictureBoxKeyBoard = new System.Windows.Forms.PictureBox();
             this.panelWindow = new System.Windows.Forms.Panel();
             this.panelTop.SuspendLayout();
             this.panelTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSystem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxQuit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxKeyBoard)).BeginInit();
             this.SuspendLayout();
@@ -61,7 +62,6 @@
             this.panelTop.Controls.Add(this.uiButtonRecord);
             this.panelTop.Controls.Add(this.uiButtonToolManage);
             this.panelTop.Controls.Add(this.uiButtonUserManage);
-            this.panelTop.Controls.Add(this.uiButtonToolQuery);
             this.panelTop.Controls.Add(this.uiButtonIndex);
             this.panelTop.Controls.Add(this.panelTitle);
             this.panelTop.Controls.Add(this.panelWindow);
@@ -76,7 +76,7 @@
             this.uiLabelUser.AutoSize = true;
             this.uiLabelUser.Font = new System.Drawing.Font("Microsoft YaHei", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabelUser.ForeColor = System.Drawing.Color.White;
-            this.uiLabelUser.Location = new System.Drawing.Point(831, 258);
+            this.uiLabelUser.Location = new System.Drawing.Point(800, 246);
             this.uiLabelUser.Name = "uiLabelUser";
             this.uiLabelUser.Size = new System.Drawing.Size(112, 27);
             this.uiLabelUser.Style = Sunny.UI.UIStyle.Custom;
@@ -90,7 +90,7 @@
             // 
             this.uiButtonRecord.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonRecord.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonRecord.Location = new System.Drawing.Point(901, 184);
+            this.uiButtonRecord.Location = new System.Drawing.Point(899, 184);
             this.uiButtonRecord.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonRecord.Name = "uiButtonRecord";
             this.uiButtonRecord.Radius = 59;
@@ -106,7 +106,7 @@
             // 
             this.uiButtonToolManage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonToolManage.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonToolManage.Location = new System.Drawing.Point(683, 184);
+            this.uiButtonToolManage.Location = new System.Drawing.Point(319, 184);
             this.uiButtonToolManage.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonToolManage.Name = "uiButtonToolManage";
             this.uiButtonToolManage.Radius = 59;
@@ -122,7 +122,7 @@
             // 
             this.uiButtonUserManage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonUserManage.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonUserManage.Location = new System.Drawing.Point(465, 184);
+            this.uiButtonUserManage.Location = new System.Drawing.Point(609, 184);
             this.uiButtonUserManage.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonUserManage.Name = "uiButtonUserManage";
             this.uiButtonUserManage.Radius = 59;
@@ -133,22 +133,6 @@
             this.uiButtonUserManage.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonUserManage.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButtonUserManage.Click += new System.EventHandler(this.uiButtonUserManage_Click);
-            // 
-            // uiButtonToolQuery
-            // 
-            this.uiButtonToolQuery.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButtonToolQuery.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonToolQuery.Location = new System.Drawing.Point(247, 184);
-            this.uiButtonToolQuery.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButtonToolQuery.Name = "uiButtonToolQuery";
-            this.uiButtonToolQuery.Radius = 59;
-            this.uiButtonToolQuery.Size = new System.Drawing.Size(152, 59);
-            this.uiButtonToolQuery.TabIndex = 12;
-            this.uiButtonToolQuery.Tag = "1";
-            this.uiButtonToolQuery.Text = "分类查询";
-            this.uiButtonToolQuery.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonToolQuery.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiButtonToolQuery.Click += new System.EventHandler(this.uiButtonToolQuery_Click);
             // 
             // uiButtonIndex
             // 
@@ -171,6 +155,7 @@
             // 
             this.panelTitle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panelTitle.BackgroundImage")));
             this.panelTitle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelTitle.Controls.Add(this.pictureBoxSystem);
             this.panelTitle.Controls.Add(this.pictureBoxQuit);
             this.panelTitle.Controls.Add(this.pictureBoxKeyBoard);
             this.panelTitle.Dock = System.Windows.Forms.DockStyle.Top;
@@ -179,9 +164,21 @@
             this.panelTitle.Size = new System.Drawing.Size(1080, 160);
             this.panelTitle.TabIndex = 10;
             // 
+            // pictureBoxSystem
+            // 
+            this.pictureBoxSystem.BackgroundImage = global::CabinetMgr.Properties.Resources.cog;
+            this.pictureBoxSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxSystem.Location = new System.Drawing.Point(12, 79);
+            this.pictureBoxSystem.Name = "pictureBoxSystem";
+            this.pictureBoxSystem.Size = new System.Drawing.Size(48, 48);
+            this.pictureBoxSystem.TabIndex = 2;
+            this.pictureBoxSystem.TabStop = false;
+            this.pictureBoxSystem.Visible = false;
+            this.pictureBoxSystem.Click += new System.EventHandler(this.pictureBoxSystem_Click);
+            // 
             // pictureBoxQuit
             // 
-            this.pictureBoxQuit.BackgroundImage = global::CabinetMgr.Properties.Resources.close;
+            this.pictureBoxQuit.BackgroundImage = global::CabinetMgr.Properties.Resources.times;
             this.pictureBoxQuit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBoxQuit.Location = new System.Drawing.Point(1020, 12);
             this.pictureBoxQuit.Name = "pictureBoxQuit";
@@ -229,6 +226,7 @@
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.panelTitle.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSystem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxQuit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxKeyBoard)).EndInit();
             this.ResumeLayout(false);
@@ -241,7 +239,6 @@
         private System.Windows.Forms.Panel panelWindow;
         private System.Windows.Forms.Timer tmUhfInit;
         private System.Windows.Forms.Panel panelTitle;
-        private Sunny.UI.UIButton uiButtonToolQuery;
         private Sunny.UI.UIButton uiButtonIndex;
         private Sunny.UI.UIButton uiButtonRecord;
         private Sunny.UI.UIButton uiButtonToolManage;
@@ -249,6 +246,7 @@
         private System.Windows.Forms.PictureBox pictureBoxKeyBoard;
         private Sunny.UI.UILabel uiLabelUser;
         private System.Windows.Forms.PictureBox pictureBoxQuit;
+        private System.Windows.Forms.PictureBox pictureBoxSystem;
     }
 }
 

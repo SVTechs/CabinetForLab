@@ -94,5 +94,42 @@ namespace CabinetMgr.DAL
             criterionList.Add(Restrictions.In("Id", latticeIdAry));
             return SearchItem(criterionList, null, 0, -1, out exception);
         }
+
+        public static int InitLattice(IList<string> doorList, string labName, int location, out Exception exception)
+        {
+            IList<TaskInfo> taskList = new List<TaskInfo>();
+            foreach(string doorInfo in doorList)
+            {
+                string id = doorInfo.Split('|')[0];
+                string nch = doorInfo.Split('|')[1];
+                LatticeInfo info = new LatticeInfo()
+                {
+                    CabinetNum = id,
+                    CabinetLatticeNum = nch,
+                    Location = location,
+                    LabName = labName,
+                    Channel = id,
+                    BoardId = nch
+                };
+                taskList.Add(new TaskInfo(OperationType.Add, info));
+            }
+            
+            return ExecBatchTask(taskList, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
+            return DeleteItem(criterionList, out exception);
+        }
+
+        public static IList<LatticeInfo> SearchLatticeInfo(long[] idAry, out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.In("Id", idAry));
+            //Criterion Processing
+            return SearchItem(criterionList, null, 0, -1, out exception);
+        }
     }
 }

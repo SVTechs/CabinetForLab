@@ -10,6 +10,8 @@ namespace Domain.Main.Domain
     {
         public virtual string ID { get; set; }
 
+        public virtual long TemplateId { get; set; }
+
         public virtual string UserName { get; set; }
 
         public virtual string Password { get; set; }
@@ -41,6 +43,8 @@ namespace Domain.Main.Domain
         public virtual byte[] FaceFeature { get; set; }
 
         public virtual string FingerFeature { get; set; }
+
+        public virtual int IsProtected { get; set; }
 
         public virtual object BDFaceFeature { get; set; }
 

@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Osk.cs" />
+    <Compile Include="Common\PresetRole.cs" />
     <Compile Include="Common\StrUtil.cs" />
     <Compile Include="Common\TreeManager.cs" />
     <Compile Include="FormDeviceLoader.cs">
@@ -76,6 +77,12 @@
     </Compile>
     <Compile Include="FormIndex.Designer.cs">
       <DependentUpon>FormIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
     </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -95,6 +102,12 @@
     <Compile Include="FormRecord.Designer.cs">
       <DependentUpon>FormRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormToolEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormToolEdit.Designer.cs">
+      <DependentUpon>FormToolEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRoleEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,17 +126,23 @@
     <Compile Include="FormRoleManage.Designer.cs">
       <DependentUpon>FormRoleManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSystem.Designer.cs">
+      <DependentUpon>FormSystem.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormToolManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormToolManage.Designer.cs">
       <DependentUpon>FormToolManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormToolQuery.cs">
+    <Compile Include="FormToolTypeEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormToolQuery.Designer.cs">
-      <DependentUpon>FormToolQuery.cs</DependentUpon>
+    <Compile Include="FormToolTypeEdit.Designer.cs">
+      <DependentUpon>FormToolTypeEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUserEdit.cs">
       <SubType>Form</SubType>
@@ -151,6 +170,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RtVars\AppRt.cs" />
+    <None Include="Res\img\times.png" />
+    <None Include="Res\img\lock.png" />
+    <None Include="Res\img\search.png" />
+    <None Include="Res\img\cog.png" />
     <None Include="Res\img\close.png" />
     <None Include="Res\img\user.png" />
     <None Include="Res\img\keyboard.png" />
@@ -175,6 +198,9 @@
     <EmbeddedResource Include="FormIndex.resx">
       <DependentUpon>FormIndex.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormRecord.resx">
       <DependentUpon>FormRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormToolEdit.resx">
+      <DependentUpon>FormToolEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRoleEdit.resx">
       <DependentUpon>FormRoleEdit.cs</DependentUpon>
@@ -193,11 +222,14 @@
     <EmbeddedResource Include="FormRoleManage.resx">
       <DependentUpon>FormRoleManage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormSystem.resx">
+      <DependentUpon>FormSystem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormToolManage.resx">
       <DependentUpon>FormToolManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormToolQuery.resx">
-      <DependentUpon>FormToolQuery.cs</DependentUpon>
+    <EmbeddedResource Include="FormToolTypeEdit.resx">
+      <DependentUpon>FormToolTypeEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUserEdit.resx">
       <DependentUpon>FormUserEdit.cs</DependentUpon>
@@ -208,13 +240,14 @@
     <EmbeddedResource Include="FormUserRoleManage.resx">
       <DependentUpon>FormUserRoleManage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>

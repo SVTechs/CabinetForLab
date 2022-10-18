@@ -67,5 +67,20 @@ namespace CabinetMgr.BLL
         {
             return DalLatticeInfo.GetLatticeInfoList(latticeIdAry, out exception);
         }
+
+        public static int InitLattice(IList<string> doorList, string labName, int location, out Exception exception)
+        {
+            return DalLatticeInfo.InitLattice(doorList, labName, location, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            return DalLatticeInfo.DeleteAll(out exception);
+        }
+
+        public static IList<LatticeInfo> SearchLatticeInfo(long[] idAry, out Exception exception)
+        {
+            return DalLatticeInfo.SearchLatticeInfo(idAry, out exception);
+        }
     }
 }

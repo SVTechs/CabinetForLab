@@ -13,9 +13,9 @@ namespace CabinetMgr.BLL
 {
     public class BllToolInfo
     {
-        public static IList<ToolInfo> SearchToolInfo(int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<ToolInfo> SearchToolInfo(string toolName, int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
-            return DalToolInfo.SearchToolInfo(dataStart, dataCount, orderList, out exception);
+            return DalToolInfo.SearchToolInfo(toolName, dataStart, dataCount, orderList, out exception);
         }
 
         public static int GetToolInfoCount(out Exception exception)
@@ -51,6 +51,11 @@ namespace CabinetMgr.BLL
         public static DataSet ExecSqlQuery(string queryCmd, DbParameter[] paraList, out Exception exception)
         {
             return DalToolInfo.ExecSqlQuery(queryCmd, paraList, out exception);
+        }
+
+        public static int DeleteAll(out Exception exception)
+        {
+            return DalToolInfo.DeleteAll(out exception);
         }
     }
 }
