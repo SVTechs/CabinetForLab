@@ -118,6 +118,7 @@ namespace CabinetMgr
 
                     if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin) != null) SetPbVisible(true, pictureBoxSystem);
 
+                    loginSound.Play();
                     DisplayUser((AppRt.CurUser.FullName ?? "") + "(单击退出)");
                     //ShowWindow(_toolReportForm);
                     //userLoginManualEvent.Reset();

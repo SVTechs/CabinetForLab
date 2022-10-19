@@ -170,6 +170,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RtVars\AppRt.cs" />
+    <None Include="Res\Sound\LoginSuccess.wav" />
     <None Include="Res\img\times.png" />
     <None Include="Res\img\lock.png" />
     <None Include="Res\img\search.png" />

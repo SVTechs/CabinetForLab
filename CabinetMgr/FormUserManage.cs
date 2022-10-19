@@ -130,7 +130,7 @@ namespace CabinetMgr
             if (uiDataGridViewUser.SelectedRows.Count == 0) UIMessageBox.ShowError("请选择要编辑的人员", true, true);
             var selectRow = uiDataGridViewUser.SelectedRows[0];
             UserInfo ui = selectRow.DataBoundItem as UserInfo;
-            FormLatticePermissionManage formLatticePermissionManage = FormLatticePermissionManage.Instance(ui.ID, "UserId");
+            FormLatticePermissionManage formLatticePermissionManage = FormLatticePermissionManage.Instance(ui.ID, "User");
             formLatticePermissionManage.ShowDialog();
         }
     }

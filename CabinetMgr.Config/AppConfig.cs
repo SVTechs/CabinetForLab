@@ -173,7 +173,7 @@ namespace CabinetMgr.Config
 
         private static string _labName = "";
         private static int _location = 0;
-        private static int _fpPort = 1;
+        private static int _fpPort = 3;
         private static string _serverIP = "192.168.1.10";
         private static int _serverPort = 1502;
         private static string _canIP = "192.168.1.100";
