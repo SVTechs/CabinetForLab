@@ -44,22 +44,17 @@ namespace CabinetMgr
             Screen screen = Screen.PrimaryScreen;
             AppRt.ScreenSize = screen.Bounds.Size;
             InitLogForm();
-            InitCamera();
-            InitFpDevice();
-            InitSockerServer();
+            //InitCamera();
+            //InitFpDevice();
+            //InitSockerServer();
         }
 
         private void InitLogForm()
         {
             FormLog formLog = new FormLog();
             AppRt.FormLog = formLog;
+            CabinetServerCallback.OnInitDone.Invoke("成功");
         }
-
-        //private void InitCamera()
-        //{
-        //    Thread t = new Thread(new ThreadStart(InitCameraFunc));
-        //    t.Start();
-        //}
 
         private void InitCamera()
         {
@@ -76,12 +71,6 @@ namespace CabinetMgr
             AppRt.VideoCaptureDevice = cap;
             UpdateStatus("初始化摄像头", "初始化成功", 1);
         }
-
-        //private void InitFpDevice()
-        //{
-        //    Thread t = new Thread(new ThreadStart(InitFpDeviceFunc));
-        //    t.Start();
-        //}
 
         private void InitFpDevice()
         {

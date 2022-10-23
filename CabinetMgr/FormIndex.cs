@@ -39,6 +39,23 @@ namespace CabinetMgr
         private void InitPageButton()
         {
             doorList = CabinetServer.GetDoorList();
+            if(doorList.Count == 0)
+            {
+                bool c = true;
+                for(int i = 0; i< 3; i++)
+                {
+                    for(int j = 0; j < 8; j++)
+                    {
+                        doorList.Add(new DoorInfo()
+                        {
+                            Id = i,
+                            Nch = j,
+                            IsClosed = c
+                        });
+                        c = !c;
+                    }
+                }
+            }
             pageCount = (int)Math.Ceiling((double)doorList.Count / 12);
             int buttonInterval = (int)Math.Floor((double)(panelPage.Width - 220) / (pageCount + 1));
             int buttonHeight = (int)Math.Floor((double)panelPage.Height / 2);

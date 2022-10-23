@@ -57,11 +57,11 @@ namespace CabinetMgr
         public FormMain()
         {
             InitializeComponent();
-            FpCallBack.OnUserRecognised = OnUserRecognised;
-            CabinetServerCallback.JsonStrParsed += JsonStrParsed;
-            CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
-            CabinetServerCallback.NewSessionConnected += NewSessionConnected;
-            CabinetServerCallback.SessionClosed += SessionClosed;
+            //FpCallBack.OnUserRecognised = OnUserRecognised;
+            //CabinetServerCallback.JsonStrParsed += JsonStrParsed;
+            //CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
+            //CabinetServerCallback.NewSessionConnected += NewSessionConnected;
+            //CabinetServerCallback.SessionClosed += SessionClosed;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -86,10 +86,10 @@ namespace CabinetMgr
 
             //InitAlarmThread();
 
-            InitFaceData();
-            InitFaceCricThread();
-            InitFpData();
-            InitFpCricThread();
+            //InitFaceData();
+            //InitFaceCricThread();
+            //InitFpData();
+            //InitFpCricThread();
         }
 
         private void JsonStrParsed(string parseStr)
@@ -483,7 +483,7 @@ namespace CabinetMgr
         {
             if (UIMessageBox.Show("真的要退出程序吗？", "", buttons: UIMessageBoxButtons.OKCancel, showMask: true, topMost: true))
             {
-                AppRt.VideoCaptureDevice.Dispose();
+                AppRt.VideoCaptureDevice?.Dispose();
                 GC.Collect();
                 Environment.Exit(0);
             }
