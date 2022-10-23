@@ -1,4 +1,5 @@
-﻿using CabinetMgr.DAL.NhUtils;
+﻿using CabinetMgr.Config;
+using CabinetMgr.DAL.NhUtils;
 using Domain.Main.Domain;
 using Domain.Main.Types;
 using NHibernate.Criterion;
@@ -53,7 +54,7 @@ namespace CabinetMgr.DAL
             return GetItemInfo(entityName, entityValue, out exception);
         }
 
-        public static int AddBorrowRecord(string toolId, string toolName, int toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
+        public static int AddBorrowRecord(string toolId, string toolName, string toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
         {
             BorrowRecord itemRecord = new BorrowRecord
             {
@@ -70,7 +71,7 @@ namespace CabinetMgr.DAL
             return SaveItem(itemRecord, out exception);
         }
 
-        public static int ModifyBorrowRecord(string id, string toolId, string toolName, int toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
+        public static int ModifyBorrowRecord(string id, string toolId, string toolName, string toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
         {
             BorrowRecord itemRecord = GetBorrowRecord(id, out exception);
             if (itemRecord == null) return 0;
@@ -111,5 +112,29 @@ namespace CabinetMgr.DAL
             criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
             return DeleteItem(criterionList, out exception);
         }
+
+        public static int AddBorrowRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
+        {
+            IList<TaskInfo> taskList = new List<TaskInfo>();
+
+            BorrowRecord itemRecord = new BorrowRecord
+            {
+                Id = Guid.NewGuid().ToString().ToUpper(),
+                ToolId = toolInfo.Id,
+                ToolName = toolInfo.ToolName,
+                ToolPosition = toolInfo.LatticePosition,
+                WorkerId = ui.ID,
+                WorkerName = ui.FullName,
+                EventTime = DateTime.Now,
+                Status = 0,
+                ReturnTime = Env.MinTime,
+            };
+            taskList.Add(new TaskInfo(OperationType.Add, itemRecord));
+            toolInfo.CurrentCount -= 1;
+            taskList.Add(new TaskInfo(OperationType.Update, toolInfo));
+            return ExecBatchTask(taskList, out exception);
+        }
+
+
     }
 }

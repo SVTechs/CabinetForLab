@@ -69,5 +69,13 @@ namespace CabinetMgr.DAL
             criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
             return DeleteItem(criterionList, out exception);
         }
+
+        public static ToolInfo GetToolInfo(long latticeId, string toolCode, out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Eq("LatticeId", latticeId));
+            criterionList.Add(Restrictions.Eq("ToolCode", toolCode));
+            return GetItemInfo(criterionList, out exception);
+        }
     }
 }

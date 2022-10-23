@@ -27,6 +27,8 @@ namespace CabinetMgr
         private static readonly Color searchedColor = Color.Green;
         private static readonly Color hoverColor = Color.Green;
         private static readonly Color normalColor = Color.FromArgb(80, 160, 255);
+        private static IList<LatticeInfo> latticeList;
+        private static IList<ToolInfo> toolInfoList;
         public FormIndex()
         {
             InitializeComponent();
@@ -53,7 +55,6 @@ namespace CabinetMgr
                 
                 panelPage.Controls.Add(button);
             }
-            LoadCurrentPage();
         }
 
         private void PageButton_Click(object sender, EventArgs e)
@@ -63,7 +64,7 @@ namespace CabinetMgr
             LoadCurrentPage();
         }
 
-        private void LoadCurrentPage()
+        public void LoadCurrentPage()
         {
             ResetPageButton();
             ResetDoorButton();
@@ -94,8 +95,13 @@ namespace CabinetMgr
             }
         }
 
-        
+        public void ReloadData()
+        {
+            latticeList = BllLatticeInfo.SearchLatticeInfo(0, -1, null, out _);
+            toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
+        }
 
+        
         private void DoorStatusChange(int id, int nch)
         {
             DoorInfo di = doorList.First(x => x.Id == id && x.Nch == nch);
@@ -115,7 +121,10 @@ namespace CabinetMgr
                 }
                 else
                 {
-                    button.Text = info.Id + "-" + info.Nch;
+                    ToolInfo toolInfo = null;
+                    LatticeInfo lattice = latticeList.FirstOrDefault(x => x.Channel == info.Id.ToString() && x.BoardId == info.Nch.ToString());
+                    if(lattice != null) toolInfo = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice.Id);
+                    button.Text = info.Id + "-" + info.Nch + (toolInfo != null ?"   " + toolInfo.CurrentCount + "/" + toolInfo.ToolCount + "\n" + toolInfo.ToolName : "");
                     button.FillColor = info.IsClosed ? defaultColor : openedColor;
                     button.Visible = true;
                     button.Tag = info.Id + "|" + info.Nch;
@@ -222,6 +231,12 @@ namespace CabinetMgr
             long[] idAry = toolList.Select(x => x.LatticeId).ToArray();
             IList<LatticeInfo> latticeList = BllLatticeInfo.SearchLatticeInfo(idAry, out ex);
             searchedLattice = latticeList;
+            LoadCurrentPage();
+        }
+
+        private void FormIndex_Shown(object sender, EventArgs e)
+        {
+            ReloadData();
             LoadCurrentPage();
         }
     }

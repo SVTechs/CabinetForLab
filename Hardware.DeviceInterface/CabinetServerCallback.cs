@@ -27,6 +27,7 @@ namespace Hardware.DeviceInterface
         public delegate void DoorStatusChangeDelegate(int id, int nch);
         public static DoorStatusChangeDelegate DoorStatusChange = null;
 
-
+        public delegate void BorrowReturnCmdDelegate(AppSession session, string cmd);
+        public static BorrowReturnCmdDelegate BorrowReturnCmd = null;
     }
 }

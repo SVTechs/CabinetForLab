@@ -26,6 +26,8 @@ namespace Domain.Main.Domain
 
         public virtual int ToolCount { get; set; }
 
+        public virtual int CurrentCount { get; set; }
+
         public virtual string HardwareId { get; set; }
 
         public virtual string CardId { get; set; }

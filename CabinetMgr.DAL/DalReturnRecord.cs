@@ -92,5 +92,27 @@ namespace CabinetMgr.DAL
             criterionList.Add(Restrictions.Not(Restrictions.Eq("Id", null)));
             return DeleteItem(criterionList, out exception);
         }
+
+        public static int AddReturnRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
+        {
+            IList<TaskInfo> taskList = new List<TaskInfo>();
+            BorrowRecord borrowRecord = DalBorrowRecord.GetBorrowRecord("ToolId", toolInfo.Id, out exception);
+            if (borrowRecord == null) return -1;
+            ReturnRecord itemRecord = new ReturnRecord
+            {
+                Id = Guid.NewGuid().ToString().ToUpper(),
+                BorrowRecord = borrowRecord.Id,
+                WorkerId = ui.ID,
+                WorkerName = ui.FullName,
+                EventTime = DateTime.Now
+            };
+            taskList.Add(new TaskInfo(OperationType.Add, itemRecord));
+            borrowRecord.ReturnTime = DateTime.Now;
+            borrowRecord.Status = 10;
+            taskList.Add(new TaskInfo(OperationType.Update, borrowRecord));
+            toolInfo.CurrentCount += 1;
+            taskList.Add(new TaskInfo(OperationType.Update, toolInfo));
+            return ExecBatchTask(taskList, out exception);
+        }
     }
 }

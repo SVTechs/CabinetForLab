@@ -233,6 +233,7 @@ namespace CabinetMgr
             this.Text = "FormRecord";
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 1010, 1577);
             this.Load += new System.EventHandler(this.FormRecord_Load);
+            this.Shown += new System.EventHandler(this.FormRecord_Shown);
             this.panelTop.ResumeLayout(false);
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiDataGridViewBorrowRecord)).EndInit();

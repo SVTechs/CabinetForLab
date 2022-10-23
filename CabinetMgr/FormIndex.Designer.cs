@@ -294,6 +294,7 @@ namespace CabinetMgr
             this.Text = "FormIndex";
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 1010, 1515);
             this.Load += new System.EventHandler(this.FormIndex_Load);
+            this.Shown += new System.EventHandler(this.FormIndex_Shown);
             this.panelTop.ResumeLayout(false);
             this.panelDoorContainer.ResumeLayout(false);
             this.ResumeLayout(false);

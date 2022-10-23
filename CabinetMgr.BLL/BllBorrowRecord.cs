@@ -33,12 +33,12 @@ namespace CabinetMgr.BLL
             return DalBorrowRecord.GetBorrowRecord(entityName, entityValue, out exception);
         }
 
-        public static int AddBorrowRecord(string toolId, string toolName, int toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
+        public static int AddBorrowRecord(string toolId, string toolName, string toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
         {
             return DalBorrowRecord.AddBorrowRecord(toolId, toolName, toolPosition, workerId, workerName, eventTime, status, returnTime, out exception);
         }
 
-        public static int ModifyBorrowRecord(string id, string toolId, string toolName, int toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
+        public static int ModifyBorrowRecord(string id, string toolId, string toolName, string toolPosition, string workerId, string workerName, DateTime eventTime, int status, DateTime returnTime, out Exception exception)
         {
             return DalBorrowRecord.ModifyBorrowRecord(id, toolId, toolName, toolPosition, workerId, workerName, eventTime, status, returnTime, out exception);
         }
@@ -66,6 +66,11 @@ namespace CabinetMgr.BLL
         public static int DeleteAll(out Exception exception)
         {
             return DalBorrowRecord.DeleteAll(out exception);
+        }
+
+        public static int AddBorrowRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
+        {
+            return DalBorrowRecord.AddBorrowRecord(toolInfo, ui, out exception);
         }
     }
 }

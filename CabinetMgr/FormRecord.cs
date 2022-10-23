@@ -25,13 +25,14 @@ namespace CabinetMgr
             DateTime currentDate = DateTime.Today;
             uiDatePickerStartDate.Value = new DateTime(currentDate.Year, currentDate.Month, 1);
             uiDatePickerStartDate.Text = uiDatePickerStartDate.Value.ToString("yyyy-MM-dd");
-            uiDatePickerEndDate.Value = currentDate;
+            uiDatePickerEndDate.Value = currentDate.AddDays(1);
             uiDatePickerEndDate.Text = uiDatePickerEndDate.Value.ToString("yyyy-MM-dd");
+
         }
 
         private void uiButtonQuery_Click(object sender, EventArgs e)
         {
-
+            LoadBorrowRecord();
         }
 
         private void uiButtonExport_Click(object sender, EventArgs e)
@@ -58,6 +59,11 @@ namespace CabinetMgr
             uiDataGridViewBorrowRecord.Columns["WorkerName"].HeaderText = "借取人";
             uiDataGridViewBorrowRecord.Columns["EventTime"].HeaderText = "借取时间";
             uiDataGridViewBorrowRecord.Columns["ReturnTime"].HeaderText = "归还时间";
+        }
+
+        private void FormRecord_Shown(object sender, EventArgs e)
+        {
+            LoadBorrowRecord();
         }
     }
 }

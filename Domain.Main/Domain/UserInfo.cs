@@ -42,7 +42,7 @@ namespace Domain.Main.Domain
 
         public virtual byte[] FaceFeature { get; set; }
 
-        public virtual string FingerFeature { get; set; }
+        public virtual byte[] FingerFeature { get; set; }
 
         public virtual int IsProtected { get; set; }
 
@@ -50,8 +50,8 @@ namespace Domain.Main.Domain
 
         public virtual string UserStateResult { get => UserState == 1 ? "启用" : "禁用"; }
 
-        public virtual bool HasImage { get => !string.IsNullOrEmpty(Image); }
+        public virtual bool HasImage { get => FaceFeature != null; }
 
-        public virtual bool HasFingerFeature { get => !string.IsNullOrEmpty(FingerFeature);  }
+        public virtual bool HasFingerFeature { get => FingerFeature != null; }
     }
 }

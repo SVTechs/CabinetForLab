@@ -81,7 +81,7 @@ namespace CabinetMgr
             List<RoleSettings> list = new List<RoleSettings>();
             foreach (TreeNode tn in root[0].Nodes)
             {
-                if (tn.Checked) 
+                if (tn.Checked)
                 {
                     RoleSettings info = new RoleSettings()
                     {
@@ -94,6 +94,7 @@ namespace CabinetMgr
                 };
                 if (tn.Nodes.Count > 0) AddChildRoleSettings(tn, list);
             }
+            if (list.Count == 0) {UIMessageBox.Show("请选择需要保存的角色"); return;}
             int result = BllRoleSettings.BatchSaveRoleSettings(userId, list, out Exception exception);
             if (result <= 0)
             {

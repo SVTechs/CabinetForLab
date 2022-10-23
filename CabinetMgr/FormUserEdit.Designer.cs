@@ -39,13 +39,13 @@ namespace CabinetMgr
             this.uiTextBoxFullName = new Sunny.UI.UITextBox();
             this.uiSwitchSex = new Sunny.UI.UISwitch();
             this.uiSwitchUserState = new Sunny.UI.UISwitch();
-            this.uiButtonFingerFeature = new Sunny.UI.UIButton();
-            this.uiButtonFaceFeature = new Sunny.UI.UIButton();
             this.uiButtonSave = new Sunny.UI.UIButton();
             this.uiButtonCancel = new Sunny.UI.UIButton();
             this.uiButtonDetect = new Sunny.UI.UIButton();
             this.uiButtonCap = new Sunny.UI.UIButton();
             this.pictureBoxFace = new System.Windows.Forms.PictureBox();
+            this.uiButtonCapFinger = new Sunny.UI.UIButton();
+            this.uiButtonSaveFinger = new Sunny.UI.UIButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFace)).BeginInit();
             this.SuspendLayout();
             // 
@@ -178,39 +178,11 @@ namespace CabinetMgr
             this.uiSwitchUserState.Text = "uiSwitch2";
             this.uiSwitchUserState.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
-            // uiButtonFingerFeature
-            // 
-            this.uiButtonFingerFeature.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButtonFingerFeature.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonFingerFeature.Location = new System.Drawing.Point(81, 485);
-            this.uiButtonFingerFeature.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButtonFingerFeature.Name = "uiButtonFingerFeature";
-            this.uiButtonFingerFeature.Size = new System.Drawing.Size(100, 35);
-            this.uiButtonFingerFeature.TabIndex = 9;
-            this.uiButtonFingerFeature.Text = "上传指纹";
-            this.uiButtonFingerFeature.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonFingerFeature.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiButtonFingerFeature.Click += new System.EventHandler(this.uiButtonFingerFeature_Click);
-            // 
-            // uiButtonFaceFeature
-            // 
-            this.uiButtonFaceFeature.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButtonFaceFeature.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonFaceFeature.Location = new System.Drawing.Point(255, 485);
-            this.uiButtonFaceFeature.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButtonFaceFeature.Name = "uiButtonFaceFeature";
-            this.uiButtonFaceFeature.Size = new System.Drawing.Size(100, 35);
-            this.uiButtonFaceFeature.TabIndex = 10;
-            this.uiButtonFaceFeature.Text = "上传面部";
-            this.uiButtonFaceFeature.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonFaceFeature.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiButtonFaceFeature.Click += new System.EventHandler(this.uiButtonFaceFeature_Click);
-            // 
             // uiButtonSave
             // 
             this.uiButtonSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonSave.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonSave.Location = new System.Drawing.Point(81, 548);
+            this.uiButtonSave.Location = new System.Drawing.Point(81, 562);
             this.uiButtonSave.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonSave.Name = "uiButtonSave";
             this.uiButtonSave.Size = new System.Drawing.Size(100, 35);
@@ -224,7 +196,7 @@ namespace CabinetMgr
             // 
             this.uiButtonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonCancel.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonCancel.Location = new System.Drawing.Point(255, 548);
+            this.uiButtonCancel.Location = new System.Drawing.Point(255, 562);
             this.uiButtonCancel.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonCancel.Name = "uiButtonCancel";
             this.uiButtonCancel.Size = new System.Drawing.Size(100, 35);
@@ -245,6 +217,7 @@ namespace CabinetMgr
             this.uiButtonDetect.TabIndex = 14;
             this.uiButtonDetect.Text = "识别面部";
             this.uiButtonDetect.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonDetect.Visible = false;
             this.uiButtonDetect.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButtonDetect.Click += new System.EventHandler(this.uiButtonDetect_Click);
             // 
@@ -273,17 +246,47 @@ namespace CabinetMgr
             this.pictureBoxFace.TabIndex = 13;
             this.pictureBoxFace.TabStop = false;
             // 
+            // uiButtonCapFinger
+            // 
+            this.uiButtonCapFinger.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.uiButtonCapFinger.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonCapFinger.Location = new System.Drawing.Point(81, 483);
+            this.uiButtonCapFinger.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButtonCapFinger.Name = "uiButtonCapFinger";
+            this.uiButtonCapFinger.Size = new System.Drawing.Size(100, 35);
+            this.uiButtonCapFinger.TabIndex = 16;
+            this.uiButtonCapFinger.Text = "采集指纹";
+            this.uiButtonCapFinger.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonCapFinger.Visible = false;
+            this.uiButtonCapFinger.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiButtonCapFinger.Click += new System.EventHandler(this.uiButtonCapFinger_Click);
+            // 
+            // uiButtonSaveFinger
+            // 
+            this.uiButtonSaveFinger.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.uiButtonSaveFinger.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonSaveFinger.Location = new System.Drawing.Point(255, 483);
+            this.uiButtonSaveFinger.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButtonSaveFinger.Name = "uiButtonSaveFinger";
+            this.uiButtonSaveFinger.Size = new System.Drawing.Size(100, 35);
+            this.uiButtonSaveFinger.TabIndex = 17;
+            this.uiButtonSaveFinger.Text = "保存指纹";
+            this.uiButtonSaveFinger.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonSaveFinger.Visible = false;
+            this.uiButtonSaveFinger.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiButtonSaveFinger.Click += new System.EventHandler(this.uiButtonSaveFinger_Click);
+            // 
             // FormUserEdit
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(940, 717);
+            this.Controls.Add(this.uiButtonSaveFinger);
+            this.Controls.Add(this.uiButtonCapFinger);
             this.Controls.Add(this.uiButtonCap);
             this.Controls.Add(this.uiButtonDetect);
             this.Controls.Add(this.pictureBoxFace);
             this.Controls.Add(this.uiButtonCancel);
             this.Controls.Add(this.uiButtonSave);
-            this.Controls.Add(this.uiButtonFaceFeature);
-            this.Controls.Add(this.uiButtonFingerFeature);
             this.Controls.Add(this.uiSwitchUserState);
             this.Controls.Add(this.uiSwitchSex);
             this.Controls.Add(this.uiTextBoxFullName);
@@ -318,12 +321,12 @@ namespace CabinetMgr
         private Sunny.UI.UITextBox uiTextBoxFullName;
         private Sunny.UI.UISwitch uiSwitchSex;
         private Sunny.UI.UISwitch uiSwitchUserState;
-        private Sunny.UI.UIButton uiButtonFingerFeature;
-        private Sunny.UI.UIButton uiButtonFaceFeature;
         private Sunny.UI.UIButton uiButtonSave;
         private Sunny.UI.UIButton uiButtonCancel;
         private System.Windows.Forms.PictureBox pictureBoxFace;
         private Sunny.UI.UIButton uiButtonDetect;
         private Sunny.UI.UIButton uiButtonCap;
+        private Sunny.UI.UIButton uiButtonCapFinger;
+        private Sunny.UI.UIButton uiButtonSaveFinger;
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using CabinetMgr.BLL;
 using CabinetMgr.Config;
 using CabinetMgr.RtVars;
+using Domain.Main.Domain;
 using Hardware.DeviceInterface;
 using NLog;
 using OpenCvSharp;
@@ -44,6 +45,7 @@ namespace CabinetMgr
             AppRt.ScreenSize = screen.Bounds.Size;
             InitLogForm();
             InitCamera();
+            InitFpDevice();
             InitSockerServer();
         }
 
@@ -53,9 +55,14 @@ namespace CabinetMgr
             AppRt.FormLog = formLog;
         }
 
+        //private void InitCamera()
+        //{
+        //    Thread t = new Thread(new ThreadStart(InitCameraFunc));
+        //    t.Start();
+        //}
+
         private void InitCamera()
         {
-            //cStatusGrid.Rows.Add(new object[] {"", "初始化摄像头", "正在执行" });
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化摄像头";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
@@ -68,6 +75,28 @@ namespace CabinetMgr
             }
             AppRt.VideoCaptureDevice = cap;
             UpdateStatus("初始化摄像头", "初始化成功", 1);
+        }
+
+        //private void InitFpDevice()
+        //{
+        //    Thread t = new Thread(new ThreadStart(InitFpDeviceFunc));
+        //    t.Start();
+        //}
+
+        private void InitFpDevice()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化指纹仪";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            int result = FpDevice.Init(AppConfig.FpPort);
+            if (result != 0)
+            {
+                UpdateStatus("初始化指纹仪", "初始化失败", 2);
+                _isPassed = false;
+                return;
+            }
+            AppRt.FpDeviceInit = true;
+            UpdateStatus("初始化指纹仪", "初始化成功", 1);
         }
 
         private void InitSockerServer()

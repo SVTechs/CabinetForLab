@@ -160,11 +160,21 @@ namespace Hardware.DeviceInterface
 
         private static void appServer_NewRequestReceived(AppSession session, SuperSocket.SocketBase.Protocol.StringRequestInfo requestInfo)
         {
-            string receiveStr = requestInfo.Key;
-            lock (strLock)
+            if(session == canSession)
             {
-                sbReceived.Append(receiveStr + $"}}");
+                string receivedStr = requestInfo.Key;
+                lock (strLock)
+                {
+                    sbReceived.Append(receivedStr + $"}}");
+                }
             }
+            else
+            {
+                string receivedCmd = requestInfo.Body + "}";
+                string cmd = receivedCmd.Substring(receivedCmd.IndexOf('{'));
+                CabinetServerCallback.BorrowReturnCmd?.Invoke(session, cmd);
+            }
+            
         }
 
         private static void appServer_SessionClosed(AppSession session, CloseReason reason)

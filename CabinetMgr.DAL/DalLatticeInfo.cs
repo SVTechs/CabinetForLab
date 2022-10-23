@@ -131,5 +131,16 @@ namespace CabinetMgr.DAL
             //Criterion Processing
             return SearchItem(criterionList, null, 0, -1, out exception);
         }
+
+        public static LatticeInfo GetLatticeInfo(string labName, int location, string cabinetNum, string cabinetLatticeNum, out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Eq("LabName", labName));
+            criterionList.Add(Restrictions.Eq("Location", location));
+            criterionList.Add(Restrictions.Eq("CabinetNum", cabinetNum));
+            criterionList.Add(Restrictions.Eq("CabinetLatticeNum", cabinetLatticeNum));
+
+            return GetItemInfo(criterionList, out exception);
+        }
     }
 }

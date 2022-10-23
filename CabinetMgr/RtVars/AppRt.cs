@@ -28,11 +28,15 @@ namespace CabinetMgr.RtVars
 
         public static bool IsInit = true;
 
+        public static bool IsFpCollect = false;
+
         //public static bool IsNeedAlarm = true;
 
         //public static bool IsAlarmed = false;
 
         public static VideoCapture VideoCaptureDevice;
+
+        public static bool FpDeviceInit;
 
         public static Size ScreenSize;
 

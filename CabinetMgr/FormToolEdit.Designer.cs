@@ -42,6 +42,8 @@ namespace CabinetMgr
             this.uiComboBoxToolLattice = new Sunny.UI.UIComboBox();
             this.uiLabelComment = new Sunny.UI.UILabel();
             this.uiRichTextBoxComment = new Sunny.UI.UIRichTextBox();
+            this.uiLabelToolCode = new Sunny.UI.UILabel();
+            this.uiTextBoxToolCode = new Sunny.UI.UITextBox();
             this.SuspendLayout();
             // 
             // uiTextBoxToolName
@@ -74,7 +76,7 @@ namespace CabinetMgr
             // 
             this.uiButtonSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonSave.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonSave.Location = new System.Drawing.Point(68, 442);
+            this.uiButtonSave.Location = new System.Drawing.Point(69, 476);
             this.uiButtonSave.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonSave.Name = "uiButtonSave";
             this.uiButtonSave.Radius = 30;
@@ -89,7 +91,7 @@ namespace CabinetMgr
             // 
             this.uiButtonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiButtonCancel.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonCancel.Location = new System.Drawing.Point(331, 442);
+            this.uiButtonCancel.Location = new System.Drawing.Point(332, 476);
             this.uiButtonCancel.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonCancel.Name = "uiButtonCancel";
             this.uiButtonCancel.Radius = 30;
@@ -120,7 +122,7 @@ namespace CabinetMgr
             // uiLabelToolCount
             // 
             this.uiLabelToolCount.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabelToolCount.Location = new System.Drawing.Point(68, 127);
+            this.uiLabelToolCount.Location = new System.Drawing.Point(69, 161);
             this.uiLabelToolCount.Name = "uiLabelToolCount";
             this.uiLabelToolCount.Size = new System.Drawing.Size(100, 23);
             this.uiLabelToolCount.TabIndex = 104;
@@ -132,7 +134,7 @@ namespace CabinetMgr
             // 
             this.uiTextBoxToolCount.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.uiTextBoxToolCount.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiTextBoxToolCount.Location = new System.Drawing.Point(175, 127);
+            this.uiTextBoxToolCount.Location = new System.Drawing.Point(176, 161);
             this.uiTextBoxToolCount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBoxToolCount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBoxToolCount.Name = "uiTextBoxToolCount";
@@ -148,7 +150,7 @@ namespace CabinetMgr
             // uiLabelToolType
             // 
             this.uiLabelToolType.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabelToolType.Location = new System.Drawing.Point(68, 186);
+            this.uiLabelToolType.Location = new System.Drawing.Point(69, 220);
             this.uiLabelToolType.Name = "uiLabelToolType";
             this.uiLabelToolType.Size = new System.Drawing.Size(100, 23);
             this.uiLabelToolType.TabIndex = 105;
@@ -161,7 +163,7 @@ namespace CabinetMgr
             this.uiComboBoxToolType.DataSource = null;
             this.uiComboBoxToolType.FillColor = System.Drawing.Color.White;
             this.uiComboBoxToolType.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiComboBoxToolType.Location = new System.Drawing.Point(175, 186);
+            this.uiComboBoxToolType.Location = new System.Drawing.Point(176, 220);
             this.uiComboBoxToolType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiComboBoxToolType.MinimumSize = new System.Drawing.Size(63, 0);
             this.uiComboBoxToolType.Name = "uiComboBoxToolType";
@@ -175,7 +177,7 @@ namespace CabinetMgr
             // uiLabelToolLattice
             // 
             this.uiLabelToolLattice.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabelToolLattice.Location = new System.Drawing.Point(68, 245);
+            this.uiLabelToolLattice.Location = new System.Drawing.Point(69, 279);
             this.uiLabelToolLattice.Name = "uiLabelToolLattice";
             this.uiLabelToolLattice.Size = new System.Drawing.Size(100, 23);
             this.uiLabelToolLattice.TabIndex = 107;
@@ -188,7 +190,7 @@ namespace CabinetMgr
             this.uiComboBoxToolLattice.DataSource = null;
             this.uiComboBoxToolLattice.FillColor = System.Drawing.Color.White;
             this.uiComboBoxToolLattice.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiComboBoxToolLattice.Location = new System.Drawing.Point(175, 245);
+            this.uiComboBoxToolLattice.Location = new System.Drawing.Point(176, 279);
             this.uiComboBoxToolLattice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiComboBoxToolLattice.MinimumSize = new System.Drawing.Size(63, 0);
             this.uiComboBoxToolLattice.Name = "uiComboBoxToolLattice";
@@ -202,7 +204,7 @@ namespace CabinetMgr
             // uiLabelComment
             // 
             this.uiLabelComment.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabelComment.Location = new System.Drawing.Point(68, 304);
+            this.uiLabelComment.Location = new System.Drawing.Point(69, 338);
             this.uiLabelComment.Name = "uiLabelComment";
             this.uiLabelComment.Size = new System.Drawing.Size(100, 23);
             this.uiLabelComment.TabIndex = 108;
@@ -214,7 +216,7 @@ namespace CabinetMgr
             // 
             this.uiRichTextBoxComment.FillColor = System.Drawing.Color.White;
             this.uiRichTextBoxComment.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiRichTextBoxComment.Location = new System.Drawing.Point(175, 304);
+            this.uiRichTextBoxComment.Location = new System.Drawing.Point(176, 338);
             this.uiRichTextBoxComment.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiRichTextBoxComment.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiRichTextBoxComment.Name = "uiRichTextBoxComment";
@@ -225,10 +227,38 @@ namespace CabinetMgr
             this.uiRichTextBoxComment.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiRichTextBoxComment.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiLabelToolCode
+            // 
+            this.uiLabelToolCode.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabelToolCode.Location = new System.Drawing.Point(69, 114);
+            this.uiLabelToolCode.Name = "uiLabelToolCode";
+            this.uiLabelToolCode.Size = new System.Drawing.Size(100, 23);
+            this.uiLabelToolCode.TabIndex = 111;
+            this.uiLabelToolCode.Text = "工具编号";
+            this.uiLabelToolCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabelToolCode.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiTextBoxToolCode
+            // 
+            this.uiTextBoxToolCode.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.uiTextBoxToolCode.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiTextBoxToolCode.Location = new System.Drawing.Point(176, 114);
+            this.uiTextBoxToolCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBoxToolCode.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBoxToolCode.Name = "uiTextBoxToolCode";
+            this.uiTextBoxToolCode.ShowText = false;
+            this.uiTextBoxToolCode.Size = new System.Drawing.Size(195, 29);
+            this.uiTextBoxToolCode.TabIndex = 110;
+            this.uiTextBoxToolCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiTextBoxToolCode.Watermark = "";
+            this.uiTextBoxToolCode.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
             // FormToolEdit
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(509, 544);
+            this.Controls.Add(this.uiLabelToolCode);
+            this.Controls.Add(this.uiTextBoxToolCode);
             this.Controls.Add(this.uiRichTextBoxComment);
             this.Controls.Add(this.uiLabelComment);
             this.Controls.Add(this.uiComboBoxToolLattice);
@@ -268,5 +298,7 @@ namespace CabinetMgr
         private Sunny.UI.UIComboBox uiComboBoxToolLattice;
         private Sunny.UI.UILabel uiLabelComment;
         private Sunny.UI.UIRichTextBox uiRichTextBoxComment;
+        private Sunny.UI.UILabel uiLabelToolCode;
+        private Sunny.UI.UITextBox uiTextBoxToolCode;
     }
 }

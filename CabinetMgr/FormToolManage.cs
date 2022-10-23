@@ -89,7 +89,6 @@ namespace CabinetMgr
             uiDataGridViewToolInfo.Columns["Id"].Visible = false;
             uiDataGridViewToolInfo.Columns["LatticeId"].Visible = false;
             uiDataGridViewToolInfo.Columns["ToolSpec"].Visible = false;
-            uiDataGridViewToolInfo.Columns["ToolCode"].Visible = false;
             uiDataGridViewToolInfo.Columns["ToolTypeId"].Visible = false;
             uiDataGridViewToolInfo.Columns["HardwareId"].Visible = false;
             uiDataGridViewToolInfo.Columns["CardId"].Visible = false;
@@ -99,9 +98,11 @@ namespace CabinetMgr
             uiDataGridViewToolInfo.Columns["Operator"].Visible = false;
 
             uiDataGridViewToolInfo.Columns["ToolName"].HeaderText = "工具名称";
+            uiDataGridViewToolInfo.Columns["ToolCode"].HeaderText = "工具编号";
             uiDataGridViewToolInfo.Columns["LatticePosition"].HeaderText = "储物柜";
             uiDataGridViewToolInfo.Columns["ToolTypeName"].HeaderText = "工具类型";
             uiDataGridViewToolInfo.Columns["ToolCount"].HeaderText = "工具数量";
+            uiDataGridViewToolInfo.Columns["CurrentCount"].HeaderText = "当前数量";
             uiDataGridViewToolInfo.Columns["Comment"].HeaderText = "备注";
             uiDataGridViewToolInfo.Columns["OperatorName"].HeaderText = "修改人";
             uiDataGridViewToolInfo.Columns["OperateTime"].HeaderText = "修改时间";

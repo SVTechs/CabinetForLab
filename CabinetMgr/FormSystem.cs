@@ -79,7 +79,7 @@ namespace CabinetMgr
         private void uiButtonRoleAdd_Click(object sender, EventArgs e)
         {
             TreeNode tn = uiTreeViewRole.SelectedNode;
-            if (tn == null) return;
+            if (tn == null) { UIMessageBox.Show("请选择父角色"); return; }
             FormRoleEdit formRoleEdit = FormRoleEdit.Instance();
             formRoleEdit.LoadData("", tn.Tag.ToString().Split('|')[0]);
             formRoleEdit.ShowDialog();
@@ -89,7 +89,7 @@ namespace CabinetMgr
         private void uiButtonRoleEdit_Click(object sender, EventArgs e)
         {
             TreeNode tn = uiTreeViewRole.SelectedNode;
-            if (tn == null) return;
+            if (tn == null) { UIMessageBox.Show("请选择要编辑的角色"); return; }
             if (tn.Tag.ToString().Split('|')[1] == "1")
             {
                 UIMessageBox.Show("该节点不可编辑");
@@ -104,13 +104,13 @@ namespace CabinetMgr
         private void uiButtonRoleDel_Click(object sender, EventArgs e)
         {
             TreeNode tn = uiTreeViewRole.SelectedNode;
+            if (tn == null) { UIMessageBox.Show("请选择要删除的角色"); return; }
             if (tn.Tag.ToString().Split('|')[1] == "1")
             {
                 UIMessageBox.Show("该节点不可删除");
                 return;
             }
             if (MessageBox.Show(this, "该操作不可撤销，确定删除该节点吗?", "提醒", MessageBoxButtons.YesNo) == DialogResult.No) return;
-            if (tn == null) return;
             if (tn.Tag.ToString().Split('|')[0] == "-") MessageBox.Show("不能删除根节点");
             int result = BllRoleInfo.DeleteRoleInfo(tn.Tag.ToString().Split('|')[0], out _);
             if (result <= 0)

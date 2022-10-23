@@ -17,9 +17,12 @@ using CabinetMgr.Config;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Hardware.DeviceInterface;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
 using OpenCvSharp;
 using Sunny.UI;
+using SuperSocket.SocketBase;
 using testface;
 using Utilities.FileHelper;
 using Size = System.Drawing.Size;
@@ -56,6 +59,9 @@ namespace CabinetMgr
             InitializeComponent();
             FpCallBack.OnUserRecognised = OnUserRecognised;
             CabinetServerCallback.JsonStrParsed += JsonStrParsed;
+            CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
+            CabinetServerCallback.NewSessionConnected += NewSessionConnected;
+            CabinetServerCallback.SessionClosed += SessionClosed;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -82,11 +88,72 @@ namespace CabinetMgr
 
             InitFaceData();
             InitFaceCricThread();
+            InitFpData();
+            InitFpCricThread();
         }
 
         private void JsonStrParsed(string parseStr)
         {
             AppRt.FormLog.AddLine(parseStr);
+        }
+
+        private void BorrowReturnCmd(AppSession session, string cmd)
+        {
+            if(AppRt.CurUser == null)
+            {
+                UIMessageBox.Show("请先登录再申请借还");
+                return;
+            }
+            var value = cmd.Replace($"\\", "").Replace("{","").Replace("}","").Replace($"\"","");
+            string[] cmdAry = value.Split(',');
+            bool success = true;
+            foreach(string cmdStr in cmdAry)
+            {
+                if (string.IsNullOrEmpty(cmdStr)) continue;
+                var toolLocation = cmdStr.Split(":")[0];
+                var cmdType = cmdStr.Split(":")[1];
+                int result = ExecuteCmd(toolLocation, cmdType);
+                if (result <= 0) success = false;
+            }
+            session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
+            (_indexForm as FormIndex).ReloadData();
+            (_indexForm as FormIndex).LoadCurrentPage();
+        }
+
+        private int ExecuteCmd(string toolLocation, string cmdType)
+        {
+            string[] locationParam = toolLocation.Split('-');
+            string labName = locationParam[0];
+            int labLocation = int.Parse(locationParam[1]);
+            string cabinetNum = locationParam[2];
+            string cabinetLatticeNum = locationParam[3];
+            string toolCode = locationParam[4];
+            LatticeInfo lattice = BllLatticeInfo.GetLatticeInfo(labName, labLocation, cabinetNum, cabinetLatticeNum, out Exception ex);
+            if (lattice == null) return -1;
+            ToolInfo ti = BllToolInfo.GetToolInfo(lattice.Id, toolCode, out ex);
+            if (ti == null) return -1;
+            switch (cmdType)
+            {
+                case "0":
+                    return BllBorrowRecord.AddBorrowRecord(ti, AppRt.CurUser, out ex);
+                
+                case "1":
+                    return BllReturnRecord.AddReturnRecord(ti, AppRt.CurUser, out ex);
+                default:
+                    return -1;
+            }
+            
+        }
+
+        private void NewSessionConnected(AppSession session)
+        {
+            AppRt.FormLog.AddLine($"{session.RemoteEndPoint.Address}:{session.RemoteEndPoint.Port} Connected");
+        }
+
+        private void SessionClosed(AppSession session, SuperSocket.SocketBase.CloseReason reason)
+        {
+            AppRt.FormLog.AddLine($"{session.RemoteEndPoint.Address}:{session.RemoteEndPoint.Port} Closed.");
+            AppRt.FormLog.AddLine($"The Reason Is {reason}.");
         }
 
         /// <summary>
@@ -320,6 +387,51 @@ namespace CabinetMgr
 
         #endregion
 
+        #region Finger
+
+        private void InitFpData()
+        {
+            IList<UserInfo> listUserInfo = BllUserInfo.SearchUserInfo(0, -1, null, out _);
+            if (listUserInfo == null || listUserInfo.Count == 0) return;
+            bool isAllSucceed = true;
+            foreach (UserInfo ui in listUserInfo)
+            {
+                //if (!ui.HasFingerFeature) continue;
+                //int ret = FpDevice.DownChar(ui.FingerFeature);
+                //if (ret != DriveOpration.PS_OK) isAllSucceed = false;
+                //ret = FpDevice.StoreChar((int)ui.TemplateId);
+                //if (ret != DriveOpration.PS_OK) isAllSucceed = false;
+            }
+            if(!isAllSucceed) SetLabelText(uiLabelErrInfo, "指纹下发出错，部分指纹将不能使用");
+        }
+
+        private void InitFpCricThread()
+        {
+            Thread t = new Thread(FpCric) { IsBackground = true };
+            t.Start();
+        }
+
+        private void FpCric()
+        {
+            int address = -1, score = 0;
+            while(true)
+            {
+                Thread.Sleep(300);
+                if (AppRt.IsInit || AppRt.IsFpCollect) continue;
+                int ret = FpDevice.GetImage();
+                if (ret != DriveOpration.PS_OK) continue;
+                ret = FpDevice.GenChar(1);
+                if (ret != DriveOpration.PS_OK) continue;
+                ret = FpDevice.SearchFeature(ref address, ref score);
+                if(ret == DriveOpration.PS_OK)
+                {
+                    FpCallBack.OnUserRecognised?.Invoke(address, 1);
+                }
+            }
+        }
+
+        #endregion
+
         #region ShowForms
 
         private void uiButtonIndex_Click(object sender, EventArgs e)
@@ -436,10 +548,19 @@ namespace CabinetMgr
             }
         }
 
-        public delegate void RefreshFormDelegate();
-        public void RefreshForm()
+        public delegate void SetLabelTextDelegate(Label label, string text);
+        public void SetLabelText(Label label, string text)
         {
-            ShowWindow(_curForm);
+            if (label.InvokeRequired)
+            {
+                SetLabelTextDelegate d = SetLabelText;
+                label.Invoke(d, label, text);
+            }
+            else
+            {
+                label.Text = text;
+                label.Visible = true;
+            }
         }
 
         private delegate void UpdateTextDelegate(string text);
@@ -537,8 +658,6 @@ namespace CabinetMgr
             targetForm.Height = panelWindow.Height;
             panelWindow.Controls.Add(targetForm);
         }
-
-        
 
         private void FormMain_Resize(object sender, EventArgs e)
         {

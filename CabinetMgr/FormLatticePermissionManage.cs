@@ -74,6 +74,10 @@ namespace CabinetMgr
                 };
                 list.Add(info);
             }
+            if (list.Count == 0)
+            {
+                UIMessageBox.Show("请选择需要保存的储物格权限"); return;
+            }
             int result = BllLatticePermissionSettings.BatchSaveLatticePermissionSettings(ownerId, ownerType, list, out Exception exception);
             if(result <= 0)
             {

@@ -24,17 +24,18 @@ namespace CabinetMgr
     public partial class FormUserEdit : UIForm
     {
         public static FormUserEdit formUserEdit;
-        private static string userName;
+        private static UserInfo user;
         private VideoCapture cap;
         private Window windowVideo;
         private bool enableVideo = false;
         private Mat mat;
-        private bool faceCap = false;
+        private byte[] fingerTemplate = new byte[1024];
+        //private bool faceCap = false, fingerCap = false;
 
-        public static FormUserEdit Instance(string name = "")
+        public static FormUserEdit Instance(string userName = "")
         {
             if (formUserEdit == null || formUserEdit.IsDisposed) formUserEdit = new FormUserEdit();
-            userName = name;
+            user = BllUserInfo.GetUserInfoByUserName(userName, out _);
             return formUserEdit;
         }
 
@@ -50,22 +51,25 @@ namespace CabinetMgr
 
         private void LoadData(string userName)
         {
-            UserInfo ui = BllUserInfo.GetUserInfoByUserName(userName, out _);
-            if (ui == null) return;
-
-            uiTextBoxFullName.Text = ui.FullName;
-            uiSwitchSex.Active = ui.Sex == "男";
-            uiSwitchUserState.Active = ui.UserState == 1;
-            if (!string.IsNullOrEmpty(ui.Image))
+            user = BllUserInfo.GetUserInfoByUserName(userName, out _);
+            if (user == null) return;
+            uiTextBoxUserName.Text = user.UserName;
+            uiTextBoxFullName.Text = user.FullName;
+            uiSwitchSex.Active = user.Sex == "男";
+            uiSwitchUserState.Active = user.UserState == 1;
+            if (!string.IsNullOrEmpty(user.Image))
             {
-                Bitmap image = (Bitmap)StrUtil.Base64StringToImage(ui.Image);
+                Bitmap image = (Bitmap)StrUtil.Base64StringToImage(user.Image);
                 pictureBoxFace.BackgroundImage = image;
             }
             else
             {
                 pictureBoxFace.BackgroundImage = Properties.Resources.Avatar;
             }
-
+            uiButtonDetect.Visible = true;
+            uiButtonCapFinger.Visible = true;
+            uiButtonCap.Visible = false;
+            uiButtonSaveFinger.Visible = false;
         }
 
         private void uiButtonDetect_Click(object sender, EventArgs e)
@@ -107,7 +111,7 @@ namespace CabinetMgr
                         info[index] = (BDFaceBBox)Marshal.PtrToStructure(ptr, typeof(BDFaceBBox));
                     }
 
-                    //FaceDraw.draw_rects(ref image, faceSize, info);
+                    FaceDraw.draw_rects(ref image, faceSize, info);
                     //FaceDraw.draw_shape(ref image, faceSize, track_info);
                     Marshal.FreeHGlobal(ptT);
                     windowVideo.ShowImage(image);
@@ -122,6 +126,7 @@ namespace CabinetMgr
 
         private void uiButtonCap_Click(object sender, EventArgs e)
         {
+
             Mat image = new Mat();
             cap.Read(image); // same as cvQueryFrame
             if (!image.Empty())
@@ -136,7 +141,7 @@ namespace CabinetMgr
                 int curSize = ilen;//当前人脸数 输入分配的人脸数，输出实际检测到的人脸数
                 int type = 0;
                 faceSize = FaceDetect.detect(ptT, image.CvPtr, type);
-                //if (faceSize > 1) faceSize = 1;
+                if (faceSize < 1) { UIMessageBox.Show("未识别到人脸");  return; }
                 for (int index = 0; index < faceSize; index++)
                 {
                     IntPtr ptr = new IntPtr();
@@ -168,70 +173,76 @@ namespace CabinetMgr
                 mat = image;
                 Bitmap bp = new Bitmap(ms);
                 pictureBoxFace.BackgroundImage = bp;
-                faceCap = true;
+
+                FaceFeature faceFeature = new FaceFeature();
+                BDFaceFeature[] ff = faceFeature.test_get_face_feature_by_path(mat);
+                BDFaceFeature bDFaceFeature = ff[0];
+                byte[] faceByte = new byte[bDFaceFeature.data.Length * 4];
+                int j = 0;
+                for (int i = 0; i < bDFaceFeature.data.Length; i++)
+                {
+                    Buffer.BlockCopy(BitConverter.GetBytes(bDFaceFeature.data[i]), 0, faceByte, j, 4);
+                    j = j + 4;
+                }
+                user.Image = StrUtil.ImageToBase64String(bp);
+                user.FaceFeature = faceByte;
+                int result = BllUserInfo.UpdateUserInfo(user, out Exception ex);
+                if (result <= 0)
+                {
+                    UIMessageBox.ShowError($"保存失败，原因:{ex.Message}", true, true);
+                    return;
+                }
+                LoadData(user.UserName);
             }
         }
 
-        private void uiButtonFingerFeature_Click(object sender, EventArgs e)
+        private void uiButtonCapFinger_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(uiTextBoxUserName.Text.Trim()))
             {
                 UIMessageBox.ShowError("请先输入工号", true, true);
+                return;
             }
-
+            FormFingerCap formFingerCap = FormFingerCap.Instance((int)user.TemplateId);
+            formFingerCap.ShowDialog();
+            fingerTemplate = formFingerCap.fingerTemplate;
+            uiButtonSaveFinger.Visible = true;
         }
 
-        private void uiButtonFaceFeature_Click(object sender, EventArgs e)
+        private void uiButtonSaveFinger_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(uiTextBoxUserName.Text.Trim())) UIMessageBox.ShowError("请先输入工号", true, true);
-            if(!faceCap) UIMessageBox.ShowError("请先进行拍照", true, true);
-            UserInfo ui = BllUserInfo.GetUserInfoByUserName(uiTextBoxUserName.Text.Trim(), out Exception ex);
-            Bitmap bp = (Bitmap)pictureBoxFace.BackgroundImage;
-            if (bp != null && mat != null)
-            {
-                string image = StrUtil.ImageToBase64String(bp);
-                if (image != ui.Image)
-                {
-                    ui.Image = image;
-                    //string picPath = "PicCap.bmp";
-                    FaceFeature faceFeature = new FaceFeature();
-                    BDFaceFeature[] ff = faceFeature.test_get_face_feature_by_path(mat);
-                    BDFaceFeature bDFaceFeature = ff[0];
-                    byte[] faceByte = new byte[bDFaceFeature.data.Length * 4];
-                    int j = 0;
-                    for (int i = 0; i < bDFaceFeature.data.Length; i++)
-                    {
-                        Buffer.BlockCopy(BitConverter.GetBytes(bDFaceFeature.data[i]), 0, faceByte, j, 4);
-                        j = j + 4;
-                    }
-                    ui.FaceFeature = faceByte;
-                }
-            }
-            int result = BllUserInfo.UpdateUserInfo(ui, out ex);
-            if(result <= 0)
+            user.FingerFeature = fingerTemplate;
+            int result = BllUserInfo.UpdateUserInfo(user, out Exception ex);
+            if (result <= 0)
             {
                 UIMessageBox.ShowError($"保存失败，原因:{ex.Message}", true, true);
                 return;
             }
-            uiButtonCap.Visible = false;
+            LoadData(user.UserName);
         }
+
 
         private void uiButtonSave_Click(object sender, EventArgs e)
         {
             int result = -1;
-            if (string.IsNullOrEmpty(uiTextBoxUserName.Text.Trim())) UIMessageBox.ShowError("请先输入工号", true, true);
-            if (string.IsNullOrEmpty(userName)) result = AddUserInfo();
+            if (string.IsNullOrEmpty(uiTextBoxUserName.Text.Trim())) UIMessageBox.ShowError("请输入工号", true, true);
+            if (user == null) result = AddUserInfo();
             else result = UpdateUserInfo();
             if(result > 0)
             {
-                userName = uiTextBoxUserName.Text.Trim();
-                LoadData(userName);
+                LoadData(uiTextBoxUserName.Text.Trim());
             }
         }
 
         private int AddUserInfo()
         {
-            if(string.IsNullOrEmpty(uiTextBoxPassword.Text)) UIMessageBox.ShowError("请输入密码", true, true);
+            UserInfo tmpUser = BllUserInfo.GetUserInfoByUserName(uiTextBoxUserName.Text.Trim(), out _);
+            if (tmpUser != null)
+            {
+                UIMessageBox.ShowError($"该工号已被{tmpUser.FullName}使用", true, true);
+                return -1;
+            }
+            if (string.IsNullOrEmpty(uiTextBoxPassword.Text)) UIMessageBox.ShowError("请输入密码", true, true);
             UserInfo ui = new UserInfo()
             {
                 ID = Guid.NewGuid().ToString(),
@@ -253,7 +264,7 @@ namespace CabinetMgr
 
         private int UpdateUserInfo()
         {
-            if(uiTextBoxUserName.Text.Trim() != userName)
+            if(uiTextBoxUserName.Text.Trim() != user.UserName)
             {
                 UserInfo tmpUser = BllUserInfo.GetUserInfoByUserName(uiTextBoxUserName.Text.Trim(), out _);
                 if(tmpUser != null)
@@ -262,14 +273,13 @@ namespace CabinetMgr
                     return -1;
                 }
             }
-            UserInfo ui = BllUserInfo.GetUserInfoByUserName(userName, out _);
-            if (!string.IsNullOrEmpty(uiTextBoxPassword.Text.Trim())) ui.Password = Md5Encode.Encode(uiTextBoxPassword.Text.Trim(), false);
-            ui.UserName = uiTextBoxUserName.Text.Trim();
-            ui.FullName = uiTextBoxFullName.Text.Trim();
-            ui.Sex = uiSwitchSex.Active ? "男" : "女";
-            ui.UserState = uiSwitchUserState.Active ? 1 : 0;
-            ui.Updatetime = DateTime.Now;
-            int result = BllUserInfo.UpdateUserInfo(ui, out Exception ex);
+            if (!string.IsNullOrEmpty(uiTextBoxPassword.Text.Trim())) user.Password = Md5Encode.Encode(uiTextBoxPassword.Text.Trim(), false);
+            user.UserName = uiTextBoxUserName.Text.Trim();
+            user.FullName = uiTextBoxFullName.Text.Trim();
+            user.Sex = uiSwitchSex.Active ? "男" : "女";
+            user.UserState = uiSwitchUserState.Active ? 1 : 0;
+            user.Updatetime = DateTime.Now;
+            int result = BllUserInfo.UpdateUserInfo(user, out Exception ex);
             if (result <= 0)
             {
                 UIMessageBox.ShowError($"保存失败，原因:{ex.Message}", true, true);
@@ -287,30 +297,27 @@ namespace CabinetMgr
 
         private void FormReset()
         {
-            userName = "";
             uiTextBoxUserName.Text = "";
             uiTextBoxPassword.Text = "";
             uiTextBoxFullName.Text = "";
             uiSwitchSex.Active = true;
             uiSwitchUserState.Active = true;
             pictureBoxFace.BackgroundImage = Properties.Resources.Avatar;
+            uiButtonDetect.Visible = false;
             uiButtonCap.Visible = false;
-            faceCap = false;
-        }
-
-        private void FormUserEdit_Shown(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(userName)) return;
-            uiTextBoxUserName.Text = userName;
-            LoadData(userName);
+            uiButtonCapFinger.Visible = false;
+            uiButtonSaveFinger.Visible = false;
+            fingerTemplate = new byte[1024];
         }
 
         private void FormUserEdit_FormClosed(object sender, FormClosedEventArgs e)
         {
-            enableVideo = false;
-            windowVideo?.Dispose();
-            FormReset();
-            Hide();
+            uiButtonCancel.PerformClick();
+        }
+
+        private void FormUserEdit_Shown(object sender, EventArgs e)
+        {
+            LoadData(user?.UserName);
         }
     }
 }

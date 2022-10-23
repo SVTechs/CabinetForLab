@@ -74,7 +74,9 @@ namespace CabinetMgr
             {
                 Id = Guid.NewGuid().ToString(),
                 ToolName = uiTextBoxToolName.Text.Trim(),
+                ToolCode = uiTextBoxToolCode.Text.Trim(),
                 ToolCount = int.Parse(uiTextBoxToolCount.Text.Trim()),
+                CurrentCount = int.Parse(uiTextBoxToolCount.Text.Trim()),
                 ToolTypeId = (long)uiComboBoxToolType.SelectedValue,
                 ToolTypeName = uiComboBoxToolType.Text,
                 LatticeId = (long)uiComboBoxToolLattice.SelectedValue,
@@ -91,7 +93,9 @@ namespace CabinetMgr
         {
             ToolInfo info = BllToolInfo.GetToolInfo(uiTextBoxId.Text, out exception);
             info.ToolName = uiTextBoxToolName.Text.Trim();
+            info.ToolCode = uiTextBoxToolCode.Text.Trim();
             info.ToolCount = int.Parse(uiTextBoxToolCount.Text.Trim());
+            info.CurrentCount = int.Parse(uiTextBoxToolCount.Text.Trim());
             info.ToolTypeId = (long)uiComboBoxToolType.SelectedValue;
             info.ToolTypeName = uiComboBoxToolType.Text;
             info.LatticeId = (long)uiComboBoxToolLattice.SelectedValue;
@@ -114,6 +118,7 @@ namespace CabinetMgr
         {
             uiTextBoxId.Text = "";
             uiTextBoxToolName.Text = "";
+            uiTextBoxToolCode.Text = "";
             uiTextBoxToolCount.Text = "0";
             uiComboBoxToolType.SelectedIndex = -1;
             uiComboBoxToolLattice.SelectedIndex = -1;
@@ -129,6 +134,7 @@ namespace CabinetMgr
                 ToolInfo ti = BllToolInfo.GetToolInfo(uiTextBoxId.Text, out _);
                 if (ti == null) return;
                 uiTextBoxToolName.Text = ti.ToolName;
+                uiTextBoxToolCode.Text = ti.ToolCode;
                 uiTextBoxToolCount.Text = ti.ToolCount.ToString();
                 uiComboBoxToolType.SelectedValue = ti.ToolTypeId;
                 uiComboBoxToolLattice.SelectedValue = ti.LatticeId;

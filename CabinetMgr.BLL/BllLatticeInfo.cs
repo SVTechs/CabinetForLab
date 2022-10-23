@@ -82,5 +82,10 @@ namespace CabinetMgr.BLL
         {
             return DalLatticeInfo.SearchLatticeInfo(idAry, out exception);
         }
+
+        public static LatticeInfo GetLatticeInfo(string labName, int location, string cabinetNum, string cabinetLatticeNum, out Exception exception)
+        {
+            return DalLatticeInfo.GetLatticeInfo(labName, location, cabinetNum, cabinetLatticeNum, out exception);
+        }
     }
 }

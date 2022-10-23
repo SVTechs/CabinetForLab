@@ -98,7 +98,10 @@
     <Compile Include="CabinetServerCallback.cs" />
     <Compile Include="CabinetSrv.cs" />
     <Compile Include="CabinetSrvCallback.cs" />
+    <Compile Include="DriveOpration.cs" />
     <Compile Include="FpCallBack.cs" />
+    <Compile Include="FpComDevice.cs" />
+    <Compile Include="FpDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +127,11 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SynoAPIEx.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

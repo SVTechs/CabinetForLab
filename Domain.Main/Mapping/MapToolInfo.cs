@@ -22,6 +22,7 @@ namespace Domain.Main.Mapping
             Map(x => x.ToolTypeId).Column("ToolTypeId");
             Map(x => x.ToolTypeName).Column("ToolTypeName");
             Map(x => x.ToolCount).Column("ToolCount");
+            Map(x => x.CurrentCount).Column("CurrentCount");
             Map(x => x.HardwareId).Column("HardwareId");
             Map(x => x.CardId).Column("CardId");
             Map(x => x.ToolManager).Column("ToolManager");

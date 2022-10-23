@@ -28,6 +28,11 @@ namespace CabinetMgr.BLL
             return DalToolInfo.GetToolInfo(id, out exception);
         }
 
+        public static ToolInfo GetToolInfo(long latticeId, string toolCode, out Exception exception)
+        {
+            return DalToolInfo.GetToolInfo(latticeId, toolCode, out exception);
+        }
+
         public static ToolInfo GetToolInfo(string entityName, object entityValue, out Exception exception)
         {
             return DalToolInfo.GetToolInfo(entityName, entityValue, out exception);

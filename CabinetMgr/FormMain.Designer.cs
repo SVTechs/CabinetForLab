@@ -42,6 +42,7 @@
             this.pictureBoxQuit = new System.Windows.Forms.PictureBox();
             this.pictureBoxKeyBoard = new System.Windows.Forms.PictureBox();
             this.panelWindow = new System.Windows.Forms.Panel();
+            this.uiLabelErrInfo = new Sunny.UI.UILabel();
             this.panelTop.SuspendLayout();
             this.panelTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSystem)).BeginInit();
@@ -58,6 +59,7 @@
             // 
             this.panelTop.BackColor = System.Drawing.Color.Transparent;
             this.panelTop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelTop.Controls.Add(this.uiLabelErrInfo);
             this.panelTop.Controls.Add(this.uiLabelUser);
             this.panelTop.Controls.Add(this.uiButtonRecord);
             this.panelTop.Controls.Add(this.uiButtonToolManage);
@@ -208,6 +210,20 @@
             this.panelWindow.TabIndex = 4;
             this.panelWindow.SizeChanged += new System.EventHandler(this.panelWindow_SizeChanged);
             // 
+            // uiLabelErrInfo
+            // 
+            this.uiLabelErrInfo.AutoSize = true;
+            this.uiLabelErrInfo.Font = new System.Drawing.Font("Microsoft YaHei", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiLabelErrInfo.ForeColor = System.Drawing.Color.White;
+            this.uiLabelErrInfo.Location = new System.Drawing.Point(24, 270);
+            this.uiLabelErrInfo.Name = "uiLabelErrInfo";
+            this.uiLabelErrInfo.Size = new System.Drawing.Size(0, 27);
+            this.uiLabelErrInfo.Style = Sunny.UI.UIStyle.Custom;
+            this.uiLabelErrInfo.TabIndex = 17;
+            this.uiLabelErrInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabelErrInfo.Visible = false;
+            this.uiLabelErrInfo.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -247,6 +263,7 @@
         private Sunny.UI.UILabel uiLabelUser;
         private System.Windows.Forms.PictureBox pictureBoxQuit;
         private System.Windows.Forms.PictureBox pictureBoxSystem;
+        private Sunny.UI.UILabel uiLabelErrInfo;
     }
 }
 

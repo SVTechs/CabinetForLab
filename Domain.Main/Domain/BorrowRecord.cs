@@ -17,7 +17,7 @@ namespace Domain.Main.Domain
 
         public virtual string ToolName { get; set; }
 
-        public virtual int ToolPosition { get; set; }
+        public virtual string ToolPosition { get; set; }
 
         public virtual string WorkerId { get; set; }
 
