@@ -78,5 +78,16 @@ namespace CabinetMgr.DAL
             criterionList.Add(Restrictions.Not(Restrictions.Eq("IsProtected", 1)));
             return DeleteItem(criterionList, out exception);
         }
+
+        public static UserInfo Login(string userName, string userPwd, out Exception exception)
+        {
+            List<AbstractCriterion> critList = new List<AbstractCriterion>
+            {
+                Restrictions.Eq("UserName", userName),
+                Restrictions.Eq("Password", userPwd)
+            };
+            UserInfo userInfo = GetItemInfo<UserInfo>(critList, out exception);
+            return userInfo;
+        }
     }
 }

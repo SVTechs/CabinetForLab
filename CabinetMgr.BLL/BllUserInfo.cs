@@ -8,6 +8,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities.Encryption;
 
 namespace CabinetMgr.BLL
 {
@@ -66,6 +67,17 @@ namespace CabinetMgr.BLL
         public static int DeleteAll(out Exception exception)
         {
             return DalUserInfo.DeleteAll(out exception);
+        }
+
+        public static UserInfo Login(string userName, string userPwd, out Exception exception)
+        {
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(userPwd))
+            {
+                exception = null;
+                return null;
+            }
+            string pwdHash = Md5Encode.Encode(userPwd, false);
+            return DalUserInfo.Login(userName, pwdHash, out exception);
         }
     }
 }

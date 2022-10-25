@@ -18,11 +18,12 @@ namespace CabinetMgr.DAL
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static IList<BorrowRecord> SearchBorrowRecord(DateTime startDate, DateTime endDate,  int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
+        public static IList<BorrowRecord> SearchBorrowRecord(DateTime startDate, DateTime endDate, string toolName,  int dataStart, int dataCount, List<DbOrder.OrderInfo> orderList, out Exception exception)
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
             criterionList.Add(Restrictions.Ge("EventTime", startDate));
             criterionList.Add(Restrictions.Le("EventTime", endDate));
+            if(!string.IsNullOrEmpty(toolName)) criterionList.Add(Restrictions.Like("ToolName", toolName, MatchMode.Anywhere));
             //Criterion Processing
             List<Order> requestedOrder;
             if(orderList == null)
@@ -113,7 +114,7 @@ namespace CabinetMgr.DAL
             return DeleteItem(criterionList, out exception);
         }
 
-        public static int AddBorrowRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
+        public static int AddBorrowRecord(ToolInfo toolInfo, UserInfo ui, int status, int toolCount, out Exception exception)
         {
             IList<TaskInfo> taskList = new List<TaskInfo>();
 
@@ -126,13 +127,24 @@ namespace CabinetMgr.DAL
                 WorkerId = ui.ID,
                 WorkerName = ui.FullName,
                 EventTime = DateTime.Now,
-                Status = 0,
+                Status = status,
+                ToolCount = toolCount,
                 ReturnTime = Env.MinTime,
             };
             taskList.Add(new TaskInfo(OperationType.Add, itemRecord));
             toolInfo.CurrentCount -= 1;
             taskList.Add(new TaskInfo(OperationType.Update, toolInfo));
             return ExecBatchTask(taskList, out exception);
+        }
+
+        public static BorrowRecord GetLastBorrowRecord(string toolId, out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Eq("ToolId", toolId));
+            List<Order> requestedOrder = new List<Order>() { new Order("EventTime", false) };
+            IList<BorrowRecord> result = SearchItem(criterionList, requestedOrder, 0, 1, out exception);
+            if (result == null || result.Count == 0) return null;
+            return result[0];
         }
 
 

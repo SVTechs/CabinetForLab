@@ -96,7 +96,7 @@ namespace CabinetMgr.DAL
         public static int AddReturnRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
         {
             IList<TaskInfo> taskList = new List<TaskInfo>();
-            BorrowRecord borrowRecord = DalBorrowRecord.GetBorrowRecord("ToolId", toolInfo.Id, out exception);
+            BorrowRecord borrowRecord = DalBorrowRecord.GetLastBorrowRecord(toolInfo.Id, out exception);
             if (borrowRecord == null) return -1;
             ReturnRecord itemRecord = new ReturnRecord
             {

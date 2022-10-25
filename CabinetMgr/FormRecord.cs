@@ -1,4 +1,5 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.Common;
 using Domain.Main.Domain;
 using Sunny.UI;
 using System;
@@ -20,50 +21,43 @@ namespace CabinetMgr
             InitializeComponent();
         }
 
-        private void FormRecord_Load(object sender, EventArgs e)
-        {
-            DateTime currentDate = DateTime.Today;
-            uiDatePickerStartDate.Value = new DateTime(currentDate.Year, currentDate.Month, 1);
-            uiDatePickerStartDate.Text = uiDatePickerStartDate.Value.ToString("yyyy-MM-dd");
-            uiDatePickerEndDate.Value = currentDate.AddDays(1);
-            uiDatePickerEndDate.Text = uiDatePickerEndDate.Value.ToString("yyyy-MM-dd");
-
-        }
-
-        private void uiButtonQuery_Click(object sender, EventArgs e)
-        {
-            LoadBorrowRecord();
-        }
-
-        private void uiButtonExport_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void LoadBorrowRecord()
-        {
-            DateTime startDate = uiDatePickerStartDate.Value;
-            DateTime endDate = uiDatePickerEndDate.Value;
-            IList<BorrowRecord> recordList = BllBorrowRecord.SearchBorrowRecord(startDate, endDate, 0, -1, null, out Exception ex);
-            uiDataGridViewBorrowRecord.DataSource = recordList;
-
-
-            uiDataGridViewBorrowRecord.Columns["Id"].Visible = false;
-            uiDataGridViewBorrowRecord.Columns["ToolId"].Visible = false;
-            uiDataGridViewBorrowRecord.Columns["WorkerId"].Visible = false;
-            uiDataGridViewBorrowRecord.Columns["Status"].Visible = false;
-            
-
-            uiDataGridViewBorrowRecord.Columns["ToolName"].HeaderText = "工具名称";
-            uiDataGridViewBorrowRecord.Columns["ToolPosition"].HeaderText = "工具位置";
-            uiDataGridViewBorrowRecord.Columns["WorkerName"].HeaderText = "借取人";
-            uiDataGridViewBorrowRecord.Columns["EventTime"].HeaderText = "借取时间";
-            uiDataGridViewBorrowRecord.Columns["ReturnTime"].HeaderText = "归还时间";
-        }
-
         private void FormRecord_Shown(object sender, EventArgs e)
         {
-            LoadBorrowRecord();
+            uiTextBoxSeachToolName.Text = "";
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            DateTime startDate = DateTime.Today.AddDays(-3);
+            DateTime endDate = DateTime.Today.AddDays(1);
+            string searchName = uiTextBoxSeachToolName.Text;
+            IList<BorrowRecord> list = BllBorrowRecord.SearchBorrowRecord(startDate, endDate, searchName, 0, 15, null, out Exception ex);
+            uiDataGridView.DataSource = list;
+
+            uiDataGridView.Columns["Id"].Visible = false;
+            uiDataGridView.Columns["ToolId"].Visible = false;
+            uiDataGridView.Columns["WorkerId"].Visible = false;
+            uiDataGridView.Columns["Status"].Visible = false;
+            uiDataGridView.Columns["ReturnTime"].Visible = false;
+
+            uiDataGridView.Columns["ToolName"].HeaderText = "物资名称";
+            uiDataGridView.Columns["ToolPosition"].HeaderText = "物资位置";
+            uiDataGridView.Columns["WorkerName"].HeaderText = "人员名称";
+            uiDataGridView.Columns["StatusResult"].HeaderText = "操作";
+            uiDataGridView.Columns["EventTIme"].HeaderText = "操作时间";
+            uiDataGridView.Columns["ToolCount"].HeaderText = "数量";
+            uiDataGridView.Columns["ReturnTimeValue"].HeaderText = "归还时间";
+        }
+
+        private void uiTextBoxSeachToolName_TextChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void uiTextBoxSeachToolName_Enter(object sender, EventArgs e)
+        {
+            Osk.ShowInputPanel();
         }
     }
 }

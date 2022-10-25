@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BllBorrowRecord.cs" />
+    <Compile Include="BllInfo.cs" />
     <Compile Include="BllLatticeInfo.cs" />
     <Compile Include="BllLatticePermissionSettings.cs" />
     <Compile Include="BllReturnRecord.cs" />
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\Domain.Main\Domain.Main.csproj">
       <Project>{50EFF280-4931-4BBF-9F13-A0AEAC0DD36C}</Project>
       <Name>Domain.Main</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{6D4B3B46-5AA8-40CD-90A9-C5CB1FBADF43}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

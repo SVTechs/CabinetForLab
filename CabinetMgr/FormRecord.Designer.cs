@@ -35,208 +35,203 @@ namespace CabinetMgr
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.uiButtonQuery = new Sunny.UI.UIButton();
-            this.uiButtonExport = new Sunny.UI.UIButton();
-            this.uiLabelEndDate = new Sunny.UI.UILabel();
-            this.uiLabelStartDate = new Sunny.UI.UILabel();
-            this.uiDatePickerEndDate = new Sunny.UI.UIDatePicker();
-            this.uiDatePickerStartDate = new Sunny.UI.UIDatePicker();
-            this.panelBottom = new System.Windows.Forms.Panel();
-            this.uiDataGridViewBorrowRecord = new Sunny.UI.UIDataGridView();
+            this.pictureBoxTitleE = new System.Windows.Forms.PictureBox();
+            this.pictureBoxTitleC = new System.Windows.Forms.PictureBox();
+            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
+            this.flowLayoutPanelSearch = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
+            this.uiTextBoxSeachToolName = new Sunny.UI.UITextBox();
+            this.panelDataGridView = new System.Windows.Forms.Panel();
+            this.uiDataGridView = new Sunny.UI.UIDataGridView();
             this.panelTop.SuspendLayout();
-            this.panelBottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.uiDataGridViewBorrowRecord)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
+            this.flowLayoutPanelSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).BeginInit();
+            this.panelDataGridView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.uiButtonQuery);
-            this.panelTop.Controls.Add(this.uiButtonExport);
-            this.panelTop.Controls.Add(this.uiLabelEndDate);
-            this.panelTop.Controls.Add(this.uiLabelStartDate);
-            this.panelTop.Controls.Add(this.uiDatePickerEndDate);
-            this.panelTop.Controls.Add(this.uiDatePickerStartDate);
+            this.panelTop.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleBg;
+            this.panelTop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelTop.Controls.Add(this.pictureBoxTitleE);
+            this.panelTop.Controls.Add(this.pictureBoxTitleC);
+            this.panelTop.Controls.Add(this.pictureBoxIcon);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1026, 125);
-            this.panelTop.TabIndex = 0;
+            this.panelTop.Size = new System.Drawing.Size(1080, 135);
+            this.panelTop.TabIndex = 7;
             // 
-            // uiButtonQuery
+            // pictureBoxTitleE
             // 
-            this.uiButtonQuery.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButtonQuery.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonQuery.Location = new System.Drawing.Point(669, 43);
-            this.uiButtonQuery.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButtonQuery.Name = "uiButtonQuery";
-            this.uiButtonQuery.Radius = 30;
-            this.uiButtonQuery.Size = new System.Drawing.Size(100, 35);
-            this.uiButtonQuery.TabIndex = 5;
-            this.uiButtonQuery.Text = "查询";
-            this.uiButtonQuery.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonQuery.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiButtonQuery.Click += new System.EventHandler(this.uiButtonQuery_Click);
+            this.pictureBoxTitleE.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxTitleE.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleE;
+            this.pictureBoxTitleE.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxTitleE.Location = new System.Drawing.Point(653, 79);
+            this.pictureBoxTitleE.Name = "pictureBoxTitleE";
+            this.pictureBoxTitleE.Size = new System.Drawing.Size(260, 23);
+            this.pictureBoxTitleE.TabIndex = 2;
+            this.pictureBoxTitleE.TabStop = false;
             // 
-            // uiButtonExport
+            // pictureBoxTitleC
             // 
-            this.uiButtonExport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiButtonExport.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonExport.Location = new System.Drawing.Point(869, 43);
-            this.uiButtonExport.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiButtonExport.Name = "uiButtonExport";
-            this.uiButtonExport.Radius = 30;
-            this.uiButtonExport.Size = new System.Drawing.Size(100, 35);
-            this.uiButtonExport.TabIndex = 4;
-            this.uiButtonExport.Text = "导出";
-            this.uiButtonExport.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonExport.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiButtonExport.Click += new System.EventHandler(this.uiButtonExport_Click);
+            this.pictureBoxTitleC.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxTitleC.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleC;
+            this.pictureBoxTitleC.Location = new System.Drawing.Point(653, 31);
+            this.pictureBoxTitleC.Name = "pictureBoxTitleC";
+            this.pictureBoxTitleC.Size = new System.Drawing.Size(290, 42);
+            this.pictureBoxTitleC.TabIndex = 1;
+            this.pictureBoxTitleC.TabStop = false;
             // 
-            // uiLabelEndDate
+            // pictureBoxIcon
             // 
-            this.uiLabelEndDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabelEndDate.Location = new System.Drawing.Point(313, 49);
-            this.uiLabelEndDate.Name = "uiLabelEndDate";
-            this.uiLabelEndDate.Size = new System.Drawing.Size(100, 23);
-            this.uiLabelEndDate.TabIndex = 3;
-            this.uiLabelEndDate.Text = "截止日期";
-            this.uiLabelEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiLabelEndDate.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.pictureBoxIcon.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxIcon.BackgroundImage = global::CabinetMgr.Properties.Resources.LOGO;
+            this.pictureBoxIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxIcon.Location = new System.Drawing.Point(52, 31);
+            this.pictureBoxIcon.Name = "pictureBoxIcon";
+            this.pictureBoxIcon.Size = new System.Drawing.Size(300, 75);
+            this.pictureBoxIcon.TabIndex = 0;
+            this.pictureBoxIcon.TabStop = false;
             // 
-            // uiLabelStartDate
+            // flowLayoutPanelSearch
             // 
-            this.uiLabelStartDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiLabelStartDate.Location = new System.Drawing.Point(37, 49);
-            this.uiLabelStartDate.Name = "uiLabelStartDate";
-            this.uiLabelStartDate.Size = new System.Drawing.Size(100, 23);
-            this.uiLabelStartDate.TabIndex = 2;
-            this.uiLabelStartDate.Text = "开始日期";
-            this.uiLabelStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiLabelStartDate.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.flowLayoutPanelSearch.Controls.Add(this.pictureBoxSearch);
+            this.flowLayoutPanelSearch.Controls.Add(this.uiTextBoxSeachToolName);
+            this.flowLayoutPanelSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanelSearch.Location = new System.Drawing.Point(0, 135);
+            this.flowLayoutPanelSearch.Name = "flowLayoutPanelSearch";
+            this.flowLayoutPanelSearch.Size = new System.Drawing.Size(1080, 68);
+            this.flowLayoutPanelSearch.TabIndex = 8;
             // 
-            // uiDatePickerEndDate
+            // pictureBoxSearch
             // 
-            this.uiDatePickerEndDate.FillColor = System.Drawing.Color.White;
-            this.uiDatePickerEndDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiDatePickerEndDate.Location = new System.Drawing.Point(426, 46);
-            this.uiDatePickerEndDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiDatePickerEndDate.MaxLength = 10;
-            this.uiDatePickerEndDate.MinimumSize = new System.Drawing.Size(63, 0);
-            this.uiDatePickerEndDate.Name = "uiDatePickerEndDate";
-            this.uiDatePickerEndDate.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
-            this.uiDatePickerEndDate.Size = new System.Drawing.Size(150, 29);
-            this.uiDatePickerEndDate.SymbolDropDown = 61555;
-            this.uiDatePickerEndDate.SymbolNormal = 61555;
-            this.uiDatePickerEndDate.TabIndex = 1;
-            this.uiDatePickerEndDate.Text = "2022-10-18";
-            this.uiDatePickerEndDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiDatePickerEndDate.Value = new System.DateTime(2022, 10, 18, 11, 38, 49, 420);
-            this.uiDatePickerEndDate.Watermark = "";
-            this.uiDatePickerEndDate.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.pictureBoxSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
+            this.pictureBoxSearch.BackgroundImage = global::CabinetMgr.Properties.Resources.TextBoxSearch;
+            this.pictureBoxSearch.Location = new System.Drawing.Point(50, 5);
+            this.pictureBoxSearch.Margin = new System.Windows.Forms.Padding(50, 5, 1, 5);
+            this.pictureBoxSearch.Name = "pictureBoxSearch";
+            this.pictureBoxSearch.Size = new System.Drawing.Size(58, 58);
+            this.pictureBoxSearch.TabIndex = 0;
+            this.pictureBoxSearch.TabStop = false;
             // 
-            // uiDatePickerStartDate
+            // uiTextBoxSeachToolName
             // 
-            this.uiDatePickerStartDate.FillColor = System.Drawing.Color.White;
-            this.uiDatePickerStartDate.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiDatePickerStartDate.Location = new System.Drawing.Point(150, 46);
-            this.uiDatePickerStartDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiDatePickerStartDate.MaxLength = 10;
-            this.uiDatePickerStartDate.MinimumSize = new System.Drawing.Size(63, 0);
-            this.uiDatePickerStartDate.Name = "uiDatePickerStartDate";
-            this.uiDatePickerStartDate.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
-            this.uiDatePickerStartDate.Size = new System.Drawing.Size(150, 29);
-            this.uiDatePickerStartDate.SymbolDropDown = 61555;
-            this.uiDatePickerStartDate.SymbolNormal = 61555;
-            this.uiDatePickerStartDate.TabIndex = 0;
-            this.uiDatePickerStartDate.Text = "2022-10-18";
-            this.uiDatePickerStartDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiDatePickerStartDate.Value = new System.DateTime(2022, 10, 18, 0, 0, 0, 0);
-            this.uiDatePickerStartDate.Watermark = "";
-            this.uiDatePickerStartDate.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiTextBoxSeachToolName.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.uiTextBoxSeachToolName.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
+            this.uiTextBoxSeachToolName.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
+            this.uiTextBoxSeachToolName.Font = new System.Drawing.Font("HarmonyOS Sans SC", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiTextBoxSeachToolName.Location = new System.Drawing.Point(110, 5);
+            this.uiTextBoxSeachToolName.Margin = new System.Windows.Forms.Padding(1, 5, 5, 5);
+            this.uiTextBoxSeachToolName.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBoxSeachToolName.Name = "uiTextBoxSeachToolName";
+            this.uiTextBoxSeachToolName.ShowText = false;
+            this.uiTextBoxSeachToolName.Size = new System.Drawing.Size(918, 58);
+            this.uiTextBoxSeachToolName.Style = Sunny.UI.UIStyle.Custom;
+            this.uiTextBoxSeachToolName.TabIndex = 1;
+            this.uiTextBoxSeachToolName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiTextBoxSeachToolName.Watermark = "请输入物资名称";
+            this.uiTextBoxSeachToolName.WatermarkActiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.uiTextBoxSeachToolName.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiTextBoxSeachToolName.TextChanged += new System.EventHandler(this.uiTextBoxSeachToolName_TextChanged);
+            this.uiTextBoxSeachToolName.Enter += new System.EventHandler(this.uiTextBoxSeachToolName_Enter);
             // 
-            // panelBottom
+            // panelDataGridView
             // 
-            this.panelBottom.Controls.Add(this.uiDataGridViewBorrowRecord);
-            this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 125);
-            this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(1026, 1429);
-            this.panelBottom.TabIndex = 1;
+            this.panelDataGridView.Controls.Add(this.uiDataGridView);
+            this.panelDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDataGridView.Location = new System.Drawing.Point(0, 203);
+            this.panelDataGridView.Name = "panelDataGridView";
+            this.panelDataGridView.Size = new System.Drawing.Size(1080, 1542);
+            this.panelDataGridView.TabIndex = 9;
             // 
-            // uiDataGridViewBorrowRecord
+            // uiDataGridView
             // 
-            this.uiDataGridViewBorrowRecord.AllowUserToAddRows = false;
-            this.uiDataGridViewBorrowRecord.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
-            this.uiDataGridViewBorrowRecord.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.uiDataGridViewBorrowRecord.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.uiDataGridViewBorrowRecord.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
-            this.uiDataGridViewBorrowRecord.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.uiDataGridView.AllowUserToAddRows = false;
+            this.uiDataGridView.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.uiDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.uiDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.uiDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            this.uiDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiDataGridViewBorrowRecord.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.uiDataGridViewBorrowRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.uiDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.uiDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(236)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.uiDataGridViewBorrowRecord.DefaultCellStyle = dataGridViewCellStyle3;
-            this.uiDataGridViewBorrowRecord.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uiDataGridViewBorrowRecord.EnableHeadersVisualStyles = false;
-            this.uiDataGridViewBorrowRecord.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiDataGridViewBorrowRecord.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(173)))), ((int)(((byte)(255)))));
-            this.uiDataGridViewBorrowRecord.Location = new System.Drawing.Point(0, 0);
-            this.uiDataGridViewBorrowRecord.MultiSelect = false;
-            this.uiDataGridViewBorrowRecord.Name = "uiDataGridViewBorrowRecord";
-            this.uiDataGridViewBorrowRecord.ReadOnly = true;
+            this.uiDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            this.uiDataGridView.EnableHeadersVisualStyles = false;
+            this.uiDataGridView.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiDataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            this.uiDataGridView.Location = new System.Drawing.Point(50, 75);
+            this.uiDataGridView.MultiSelect = false;
+            this.uiDataGridView.Name = "uiDataGridView";
+            this.uiDataGridView.ReadOnly = true;
+            this.uiDataGridView.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiDataGridViewBorrowRecord.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(236)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiDataGridViewBorrowRecord.RowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.uiDataGridViewBorrowRecord.RowTemplate.Height = 23;
-            this.uiDataGridViewBorrowRecord.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
-            this.uiDataGridViewBorrowRecord.SelectedIndex = -1;
-            this.uiDataGridViewBorrowRecord.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.uiDataGridViewBorrowRecord.Size = new System.Drawing.Size(1026, 1429);
-            this.uiDataGridViewBorrowRecord.TabIndex = 0;
-            this.uiDataGridViewBorrowRecord.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.uiDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("HarmonyOS Sans SC", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            this.uiDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.uiDataGridView.RowTemplate.Height = 45;
+            this.uiDataGridView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
+            this.uiDataGridView.SelectedIndex = -1;
+            this.uiDataGridView.Size = new System.Drawing.Size(978, 1455);
+            this.uiDataGridView.StripeEvenColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            this.uiDataGridView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.uiDataGridView.TabIndex = 0;
+            this.uiDataGridView.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // FormRecord
             // 
             this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1026, 1554);
-            this.Controls.Add(this.panelBottom);
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackgroundImage = global::CabinetMgr.Properties.Resources.MainBg;
+            this.ClientSize = new System.Drawing.Size(1080, 1745);
+            this.Controls.Add(this.panelDataGridView);
+            this.Controls.Add(this.flowLayoutPanelSearch);
             this.Controls.Add(this.panelTop);
             this.Name = "FormRecord";
             this.Padding = new System.Windows.Forms.Padding(0);
             this.ShowTitle = false;
-            this.Tag = "4";
+            this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "FormRecord";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 1010, 1577);
-            this.Load += new System.EventHandler(this.FormRecord_Load);
+            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.Shown += new System.EventHandler(this.FormRecord_Shown);
             this.panelTop.ResumeLayout(false);
-            this.panelBottom.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.uiDataGridViewBorrowRecord)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
+            this.flowLayoutPanelSearch.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).EndInit();
+            this.panelDataGridView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -244,13 +239,13 @@ namespace CabinetMgr
         #endregion
 
         private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.Panel panelBottom;
-        private Sunny.UI.UIDataGridView uiDataGridViewBorrowRecord;
-        private Sunny.UI.UIButton uiButtonQuery;
-        private Sunny.UI.UIButton uiButtonExport;
-        private Sunny.UI.UILabel uiLabelEndDate;
-        private Sunny.UI.UILabel uiLabelStartDate;
-        private Sunny.UI.UIDatePicker uiDatePickerEndDate;
-        private Sunny.UI.UIDatePicker uiDatePickerStartDate;
+        private System.Windows.Forms.PictureBox pictureBoxTitleE;
+        private System.Windows.Forms.PictureBox pictureBoxTitleC;
+        private System.Windows.Forms.PictureBox pictureBoxIcon;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelSearch;
+        private System.Windows.Forms.PictureBox pictureBoxSearch;
+        private Sunny.UI.UITextBox uiTextBoxSeachToolName;
+        private System.Windows.Forms.Panel panelDataGridView;
+        private Sunny.UI.UIDataGridView uiDataGridView;
     }
 }

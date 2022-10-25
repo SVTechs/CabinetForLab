@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\BorrowRecord.cs" />
+    <Compile Include="Domain\Info.cs" />
     <Compile Include="Domain\LatticeInfo.cs" />
     <Compile Include="Domain\LatticePermissionSettings.cs" />
     <Compile Include="Domain\ReturnRecord.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Interface\ITreeDef.cs" />
     <Compile Include="Mapping\MapBorrowRecord.cs" />
+    <Compile Include="Mapping\MapInfo.cs" />
     <Compile Include="Mapping\MapLatticeInfo.cs" />
     <Compile Include="Mapping\MapLatticePermissionSettings.cs" />
     <Compile Include="Mapping\MapReturnRecord.cs" />
@@ -88,6 +90,10 @@
     <Compile Include="Types\NhTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CabinetMgr.Config\CabinetMgr.Config.csproj">
+      <Project>{B1FF809C-3EB2-4B2D-8EFB-844EE5A0DCE5}</Project>
+      <Name>CabinetMgr.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{6D4B3B46-5AA8-40CD-90A9-C5CB1FBADF43}</Project>
       <Name>Utilities</Name>

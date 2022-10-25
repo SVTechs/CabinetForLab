@@ -28,7 +28,13 @@ namespace CabinetMgr.RtVars
 
         public static bool IsInit = true;
 
-        public static bool IsFpCollect = false;
+        public static bool HaveFaceDevice = false;
+
+        public static bool FaceEnable = false;
+
+        public static bool HaveFpDevice = false;
+
+        public static bool FpEnable = false;
 
         //public static bool IsNeedAlarm = true;
 
@@ -36,11 +42,11 @@ namespace CabinetMgr.RtVars
 
         public static VideoCapture VideoCaptureDevice;
 
-        public static bool FpDeviceInit;
-
         public static Size ScreenSize;
 
         public static FormLog FormLog;
+
+        public static FormMain FormMain;
 
         public static void ResetUserInfo()
         {

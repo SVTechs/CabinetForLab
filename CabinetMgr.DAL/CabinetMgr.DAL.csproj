@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalBorrowRecord.cs" />
+    <Compile Include="DalInfo.cs" />
     <Compile Include="DalLatticeInfo.cs" />
     <Compile Include="DalLatticePermissionSettings.cs" />
     <Compile Include="DalReturnRecord.cs" />

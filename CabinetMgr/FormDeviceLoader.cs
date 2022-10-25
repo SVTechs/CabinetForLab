@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
-using CabinetMgr.BLL;
+﻿using CabinetMgr.BLL;
 using CabinetMgr.Config;
 using CabinetMgr.RtVars;
-using Domain.Main.Domain;
 using Hardware.DeviceInterface;
 using NLog;
 using OpenCvSharp;
+using Sunny.UI;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormDeviceLoader : Form
+    public partial class FormDeviceLoader : UIForm
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private DataGridViewCellStyle _ctRed, _ctGreen;
         private bool _isPassed = true;
 
-        public FormDeviceLoader()
-        {
-            InitializeComponent();
-            CabinetServerCallback.OnInitDone += OnCabinetInitDone;
-        }
-
-        private void FormDeviceLoader_Load(object sender, EventArgs e)
+        private void FormDeviceLoad_Load(object sender, EventArgs e)
         {
             CenterToScreen();
             ConfigLoader.LoadConfig();
@@ -38,28 +32,33 @@ namespace CabinetMgr
             InitGrid();
         }
 
-        private void FormDeviceLoader_Shown(object sender, EventArgs e)
+        public FormDeviceLoader()
         {
+            InitializeComponent();
+            CabinetServerCallback.OnInitDone += OnCabinetInitDone;
+        }
 
+        private void FormDeviceLoad_Shown(object sender, EventArgs e)
+        {
             Screen screen = Screen.PrimaryScreen;
             AppRt.ScreenSize = screen.Bounds.Size;
-            InitLogForm();
             InitCamera();
             InitFpDevice();
             InitSockerServer();
         }
 
-        private void InitLogForm()
+        private void InitGrid()
         {
-            FormLog formLog = new FormLog();
-            AppRt.FormLog = formLog;
+            cStatusGrid.ColumnCount = 2;
+            cStatusGrid.Columns[0].HeaderText = "项目";
+            cStatusGrid.Columns[1].HeaderText = "状态";
+            cStatusGrid.Columns[0].Width = (cStatusGrid.Width - 50) / 2;
+            cStatusGrid.Columns[1].Width = (cStatusGrid.Width - 50) / 2;
+            _ctRed = new DataGridViewCellStyle();
+            _ctGreen = new DataGridViewCellStyle();
+            _ctRed.BackColor = Color.HotPink;
+            _ctGreen.BackColor = Color.LightGreen;
         }
-
-        //private void InitCamera()
-        //{
-        //    Thread t = new Thread(new ThreadStart(InitCameraFunc));
-        //    t.Start();
-        //}
 
         private void InitCamera()
         {
@@ -71,17 +70,13 @@ namespace CabinetMgr
             {
                 UpdateStatus("初始化摄像头", "初始化失败", 2);
                 _isPassed = false;
+                AppRt.HaveFaceDevice = false;
                 return;
             }
             AppRt.VideoCaptureDevice = cap;
+            AppRt.HaveFaceDevice = true;
             UpdateStatus("初始化摄像头", "初始化成功", 1);
         }
-
-        //private void InitFpDevice()
-        //{
-        //    Thread t = new Thread(new ThreadStart(InitFpDeviceFunc));
-        //    t.Start();
-        //}
 
         private void InitFpDevice()
         {
@@ -93,9 +88,10 @@ namespace CabinetMgr
             {
                 UpdateStatus("初始化指纹仪", "初始化失败", 2);
                 _isPassed = false;
+                AppRt.HaveFpDevice = false;
                 return;
             }
-            AppRt.FpDeviceInit = true;
+            AppRt.HaveFpDevice = true;
             UpdateStatus("初始化指纹仪", "初始化成功", 1);
         }
 
@@ -105,20 +101,6 @@ namespace CabinetMgr
             cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
             CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP, AppConfig.CanPort);
-        }
-
-        private void InitGrid()
-        {
-            cStatusGrid.ColumnCount = 2;
-            //cStatusGrid.RowCount = 1;
-            cStatusGrid.Columns[0].HeaderText = "项目";
-            cStatusGrid.Columns[1].HeaderText = "状态";
-            cStatusGrid.Columns[0].Width = (cStatusGrid.Width - 50) / 2;
-            cStatusGrid.Columns[1].Width = (cStatusGrid.Width - 50) / 2;
-            _ctRed = new DataGridViewCellStyle();
-            _ctGreen = new DataGridViewCellStyle();
-            _ctRed.BackColor = Color.HotPink;
-            _ctGreen.BackColor = Color.LightGreen;
         }
 
         private delegate void UpdateStatusDelegate(string itemName, string result, int color = 0);
@@ -188,15 +170,15 @@ namespace CabinetMgr
                         }
                     }
                 }
-                if(AppConfig.InitDB == 1)
+                if (AppConfig.InitDB == 1)
                 {
                     IList<string> doorList = new List<string>();
-                    foreach(DoorInfo di in CabinetServer.GetDoorList())
+                    foreach (DoorInfo di in CabinetServer.GetDoorList())
                     {
                         doorList.Add(di.Id + "|" + di.Nch);
                     }
                     int initDBResult = BllLatticeInfo.InitLattice(doorList, AppConfig.LabName, AppConfig.Location, out Exception ex);
-                    if(initDBResult <= 0)
+                    if (initDBResult <= 0)
                     {
                         using (FormMessageBox messageBox = new FormMessageBox($"初始化Lattice信息失败,原因:\n{ex.Message}", "提示", 1, 5000))
                         {

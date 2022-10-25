@@ -17,6 +17,7 @@ namespace Domain.Main.Mapping
             Map(x => x.ToolId).Column("ToolId");
             Map(x => x.ToolName).Column("ToolName");
             Map(x => x.ToolPosition).Column("ToolPosition");
+            Map(x => x.ToolCount).Column("ToolCount");
             Map(x => x.WorkerId).Column("WorkerId");
             Map(x => x.WorkerName).Column("WorkerName");
             Map(x => x.EventTime).Column("EventTime");
