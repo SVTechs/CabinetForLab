@@ -33,8 +33,9 @@ namespace CabinetMgr
         public Form _indexForm;
         public Form _manageForm;
         public Form _recordForm;
-        public Form _toolManageForm;
-        public Form _userManageForm;
+        //public Form _toolManageForm;
+        //public Form _userManageForm;
+        public Form _systemManage;
 
         SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
 
@@ -43,9 +44,20 @@ namespace CabinetMgr
             InitializeComponent();
             FpCallBack.OnUserRecognised = OnUserRecognised;
             CabinetServerCallback.JsonStrParsed += JsonStrParsed;
+            CabinetServerCallback.MsgReceived += MsgReceived;
             CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
             CabinetServerCallback.NewSessionConnected += NewSessionConnected;
             CabinetServerCallback.SessionClosed += SessionClosed;
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -141,10 +153,18 @@ namespace CabinetMgr
                     long[] latticePermissionList = BllLatticePermissionSettings.GetLatticePermissionList(loginUser.ID, roleAry, out e);
                     IList<LatticeInfo> LatticeList = BllLatticeInfo.GetLatticeInfoList(latticePermissionList, out e);
 
+                    IList<ToolSettings> toolSettings = BllToolSettings.GetToolSettings(roleAry, out _);
+                    IList<ToolInfo> ToolList = new List<ToolInfo>();
+                    foreach (ToolSettings ts in toolSettings)
+                    {
+                        ToolInfo ti = BllToolInfo.GetToolInfo(ts.ToolId, out e);
+                        ToolList.Add(ti);
+                    }
                     AppRt.CurUser = loginUser;
                     AppRt.RoleList = RoleList;
                     AppRt.RoleSettings = roleSettings;
                     AppRt.LatticeList = LatticeList;
+                    AppRt.ToolList = ToolList;
 
                     (_indexForm as FormIndex).DisplayUser((AppRt.CurUser.FullName ?? "") + " | 退出账号");
                     loginSuccess.Play();
@@ -250,13 +270,15 @@ namespace CabinetMgr
                 _recordForm = new FormRecord();
                 AddToPanel(_recordForm);
 
-                _toolManageForm = new FormToolManage();
-                AddToPanel(_toolManageForm);
+                _systemManage = new FormSystemManage();
+                AddToPanel(_systemManage);
 
-                _userManageForm = new FormUserManage();
-                AddToPanel(_userManageForm);
+                //_toolManageForm = new FormToolManage();
+                //AddToPanel(_toolManageForm);
 
-                if (AppConfig.DebugMode == 1) AppRt.FormLog.Show();
+                //_userManageForm = new FormSystemManage();
+                //AddToPanel(_userManageForm);
+
             }
             catch (Exception ex)
             {
@@ -292,9 +314,11 @@ namespace CabinetMgr
 
         public void PerformManualLogin()
         {
-            if (AppRt.CurUser == null) return;
-            AppRt.ResetUserInfo();
-            (_indexForm as FormIndex).DisplayUser("");
+            if (AppRt.CurUser != null)
+            {
+                AppRt.ResetUserInfo();
+                (_indexForm as FormIndex).DisplayUser("");
+            }
             AppRt.FormMain.ShowWindow(_loginForm);
         }
 
@@ -302,6 +326,13 @@ namespace CabinetMgr
         {
             AppRt.FormLog.AddLine(parseStr);
         }
+
+        private void MsgReceived(string parseStr)
+        {
+            AppRt.FormLog.AddLine(parseStr);
+            Logger.Info(parseStr);
+        }
+
 
         private void NewSessionConnected(AppSession session)
         {
@@ -333,8 +364,8 @@ namespace CabinetMgr
                 if (result <= 0) success = false;
             }
             session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
-            (_indexForm as FormIndexOld).ReloadData();
-            (_indexForm as FormIndexOld).LoadCurrentPage();
+            (_indexForm as FormIndex).ReloadData();
+            (_indexForm as FormIndex).LoadPage();
         }
 
         private int ExecuteCmd(string toolLocation, string cmdType)

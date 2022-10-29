@@ -43,5 +43,9 @@ namespace Domain.Main.Domain
         public virtual DateTime OperateTime { get; set; }
 
         public virtual int ToolStatus { get; set; }
+
+        public virtual int WarnType { get; set; }
+
+        public virtual int WarnValue { get; set; }
     }
 }

@@ -29,6 +29,7 @@ namespace CabinetMgr
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.panelWindow = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -51,6 +52,8 @@ namespace CabinetMgr
             this.ClientSize = new System.Drawing.Size(1080, 1880);
             this.ControlBox = false;
             this.Controls.Add(this.panelWindow);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";

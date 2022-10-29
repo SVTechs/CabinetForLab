@@ -68,9 +68,9 @@ namespace CabinetMgr.BLL
             return DalReturnRecord.DeleteAll(out exception);
         }
 
-        public static int AddReturnRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
+        public static int AddReturnRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception, int toolCount = 1)
         {
-            return DalReturnRecord.AddReturnRecord(toolInfo, ui, out exception);
+            return DalReturnRecord.AddReturnRecord(toolInfo, ui, out exception, toolCount);
         }
     }
 }

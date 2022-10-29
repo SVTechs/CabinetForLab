@@ -71,7 +71,7 @@ namespace CabinetMgr
                     result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, 0, toolCount);
                     break;
                 case "Return":
-                    result = BllReturnRecord.AddReturnRecord(toolInfo, AppRt.CurUser, out ex);
+                    result = BllReturnRecord.AddReturnRecord(toolInfo, AppRt.CurUser, out ex, toolCount);
                     break;
                 case "Repair":
                     result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, -10, toolCount);
@@ -89,7 +89,7 @@ namespace CabinetMgr
                     info = new Info()
                     {
                         Id = Guid.NewGuid().ToString().ToUpper(),
-                        InfoContent = $"{toolInfo.LatticePosition}缺少{toolInfo.ToolName}需要维修",
+                        InfoContent = $"{toolInfo.LatticePosition}缺少{toolInfo.ToolName}",
                         InfoType = 2,
                         CreateTime = DateTime.Now
                     };
@@ -102,6 +102,8 @@ namespace CabinetMgr
                 UIMessageBox.ShowError($"提交失败，原因为:\n{ex.Message}");
                 return;
             }
+            (AppRt.FormMain._loginForm as FormLogin).LoadInfo();
+            (AppRt.FormMain._indexForm as FormIndex).ReloadData();
             Dispose();
 
         }

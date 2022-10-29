@@ -16,12 +16,12 @@ using Utilities.Json;
 
 namespace Hardware.DeviceInterface
 {
-    public class CabinetServer
+    public class CabinetServerOld
     {
         private static int _serverPort;
         private static string _serverIP, _canIP;
         private static bool _initDone = false;
-        public static MyServer Server;
+        public static MyServerOld Server;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static string openStr = $"{{\"cmd\":\"ctrl_one\",\"msgid\":\"string\",\"id\":_id,\"nch\":_nch}}";
         private static StringBuilder sbReceived = new StringBuilder();
@@ -36,7 +36,7 @@ namespace Hardware.DeviceInterface
             _canIP = canIP;
             try
             {
-                Server = new MyServer();
+                Server = new MyServerOld();
                 var serverConfig = new ServerConfig();
                 serverConfig.MaxRequestLength = 102400;
                 serverConfig.Port = _serverPort;
@@ -50,8 +50,8 @@ namespace Hardware.DeviceInterface
                     CabinetServerCallback.OnInitDone?.Invoke($"Socket启动失败"); return;
                 }
                 BindEvents();
-                //Thread tParser = new Thread(JsonStrParser) { IsBackground = true };
-                //tParser.Start();
+                Thread tParser = new Thread(JsonStrParser) { IsBackground = true };
+                tParser.Start();
             }
             catch (Exception ex)
             {
@@ -61,6 +61,52 @@ namespace Hardware.DeviceInterface
             }
         }
 
+        private static void JsonStrParser()
+        {
+            try
+            {
+                while (true)
+                {
+                    lock (strLock)
+                    {
+                        string receivedStr = sbReceived.ToString();
+
+                        int checkIdx = receivedStr.IndexOf($"check");
+
+                        int sensorIdx = receivedStr.IndexOf($"sensor");
+
+                        if (checkIdx < sensorIdx && checkIdx > 0)
+                        {
+                            int tmpCIdx = receivedStr.IndexOf($"}}]}}");
+                            var strC = receivedStr.Substring(0, tmpCIdx + 3);
+                            CabinetServerCallback.JsonStrParsed?.Invoke(strC);
+                            var c = ConvertJson.JsonToObject<CheckJObject>(strC);
+                            UpdateCheck(c);
+                            sbReceived.Remove(0, tmpCIdx + 3);
+                            continue;
+                        }
+
+                        if (sensorIdx < checkIdx && sensorIdx > 0)
+                        {
+                            int tmpSIdx = receivedStr.IndexOf($"}}");
+                            var strS = receivedStr.Substring(0, tmpSIdx + 2);
+                            CabinetServerCallback.JsonStrParsed?.Invoke(strS);
+                            var s = ConvertJson.JsonToObject<StatusJObject>(strS);
+                            UpdateStatus(s);
+                            sbReceived.Remove(0, tmpSIdx + 2);
+                            continue;
+                        }
+
+                    }
+                    Thread.Sleep(1000);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
         public static IList<DoorInfo> GetDoorList()
         {
@@ -69,8 +115,6 @@ namespace Hardware.DeviceInterface
 
         private static void UpdateCheck(CheckJObject c)
         {
-            CabinetServerCallback.MsgReceived?.Invoke("UpdateCheck");
-            CabinetServerCallback.MsgReceived?.Invoke(_initDone ? "true" : "false");
             if (_initDone) return;
             foreach (CheckChild child in c.ChildList)
             {
@@ -109,44 +153,27 @@ namespace Hardware.DeviceInterface
 
         private static void appServer_NewSessionConnected(AppSession session)
         {
-            if (session.RemoteEndPoint.Address.ToString() == _canIP)
-            {
-                canSession = session;
-                CabinetServerCallback.MsgReceived?.Invoke($"Can Session Catched");
-            }
+            if (session.RemoteEndPoint.Address.ToString() == _canIP) canSession = session;
             CabinetServerCallback.NewSessionConnected?.Invoke(session);
         }
 
         private static void appServer_NewRequestReceived(AppSession session, SuperSocket.SocketBase.Protocol.StringRequestInfo requestInfo)
         {
-            string receivedStr = requestInfo.Key;
-            string receicedValue = requestInfo.Body;
-
-            CabinetServerCallback.MsgReceived?.Invoke($"Key:{receivedStr}");
-            CabinetServerCallback.MsgReceived?.Invoke($"Value:{receicedValue}");
-            CabinetServerCallback.MsgReceived?.Invoke($"Ip:{session.RemoteEndPoint.Address.ToString()}");
-
-            int checkIdx = receivedStr.IndexOf($"check");
-
-            int sensorIdx = receivedStr.IndexOf($"sensor");
-
-            if (checkIdx > 0)
+            if(session == canSession)
             {
-                var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
-                UpdateCheck(c);
-            }
-            else if (sensorIdx > 0)
-            {
-                var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
-                UpdateStatus(s);
+                string receivedStr = requestInfo.Key;
+                lock (strLock)
+                {
+                    sbReceived.Append(receivedStr + $"}}");
+                }
             }
             else
             {
-                string receivedCmd = requestInfo.Body;
+                string receivedCmd = requestInfo.Body + "}";
                 string cmd = receivedCmd.Substring(receivedCmd.IndexOf('{'));
                 CabinetServerCallback.BorrowReturnCmd?.Invoke(session, cmd);
             }
-
+            
         }
 
         private static void appServer_SessionClosed(AppSession session, CloseReason reason)
@@ -190,60 +217,14 @@ namespace Hardware.DeviceInterface
     }
 
 
-    public class MyServer : AppServer
+    public class MyServerOld : AppServer
     {
-        public MyServer()
-            : base(new TerminatorReceiveFilterFactory("\n"))
+        public MyServerOld()
+            : base(new TerminatorReceiveFilterFactory("}"))
         {
 
         }
     }
-
-    public class DoorInfo
-    {
-        public int Id { get; set; }
-
-        public int Nch { get; set; }
-
-        public bool IsClosed { get; set; }
-
-    }
-
-
-    #region JsonParseClass
-
-    public class CheckJObject
-    {
-        [JsonProperty("status")]
-        public string Status { get; set; }
-
-        [JsonProperty("node")]
-        public IList<CheckChild> ChildList { get; set; }
-    }
-
-    public class CheckChild
-    {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("nch")]
-        public int Nch { get; set; }
-    }
-
-    public class StatusJObject
-    {
-        [JsonProperty("status")]
-        public string Status { get; set; }
-
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("nch")]
-        public JObject ChildList { get; set; }
-    }
-
-    #endregion
-
 
 
 

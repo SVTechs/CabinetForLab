@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -87,35 +90,24 @@
     <Compile Include="Common\PresetRole.cs" />
     <Compile Include="Common\StrUtil.cs" />
     <Compile Include="Common\TreeManager.cs" />
+    <Compile Include="Common\WindowHelper.cs" />
     <Compile Include="FormDeviceLoader.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormDeviceLoader.Designer.cs">
       <DependentUpon>FormDeviceLoader.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDeviceLoaderOld.cs">
+    <Compile Include="FormFingerCap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDeviceLoaderOld.Designer.cs">
-      <DependentUpon>FormDeviceLoaderOld.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormFingerCapOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormFingerCapOld.Designer.cs">
-      <DependentUpon>FormFingerCapOld.cs</DependentUpon>
+    <Compile Include="FormFingerCap.Designer.cs">
+      <DependentUpon>FormFingerCap.cs</DependentUpon>
     </Compile>
     <Compile Include="FormIndex.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormIndex.Designer.cs">
       <DependentUpon>FormIndex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormIndexOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormIndexOld.Designer.cs">
-      <DependentUpon>FormIndexOld.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLog.cs">
       <SubType>Form</SubType>
@@ -134,12 +126,6 @@
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormMainOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormMainOld.Designer.cs">
-      <DependentUpon>FormMainOld.cs</DependentUpon>
     </Compile>
     <Compile Include="FormManage.cs">
       <SubType>Form</SubType>
@@ -171,23 +157,17 @@
     <Compile Include="FormRecord.Designer.cs">
       <DependentUpon>FormRecord.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormRecordOld.cs">
+    <Compile Include="FormRoleEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormRecordOld.Designer.cs">
-      <DependentUpon>FormRecordOld.cs</DependentUpon>
+    <Compile Include="FormRoleEdit.Designer.cs">
+      <DependentUpon>FormRoleEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormToolEditOld.cs">
+    <Compile Include="FormToolEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormToolEditOld.Designer.cs">
-      <DependentUpon>FormToolEditOld.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormRoleEditOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormRoleEditOld.Designer.cs">
-      <DependentUpon>FormRoleEditOld.cs</DependentUpon>
+    <Compile Include="FormToolEdit.Designer.cs">
+      <DependentUpon>FormToolEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLatticePermissionManageOld.cs">
       <SubType>Form</SubType>
@@ -195,53 +175,29 @@
     <Compile Include="FormLatticePermissionManageOld.Designer.cs">
       <DependentUpon>FormLatticePermissionManageOld.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormRoleManageOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormRoleManageOld.Designer.cs">
-      <DependentUpon>FormRoleManageOld.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormSystemOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSystemOld.Designer.cs">
-      <DependentUpon>FormSystemOld.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormToolManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormToolManage.Designer.cs">
       <DependentUpon>FormToolManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormToolManageOld.cs">
+    <Compile Include="FormUserEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormToolManageOld.Designer.cs">
-      <DependentUpon>FormToolManageOld.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormToolTypeEditOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormToolTypeEditOld.Designer.cs">
-      <DependentUpon>FormToolTypeEditOld.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormUserEditOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUserEditOld.Designer.cs">
-      <DependentUpon>FormUserEditOld.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormUserManageOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUserManageOld.Designer.cs">
-      <DependentUpon>FormUserManageOld.cs</DependentUpon>
+    <Compile Include="FormUserEdit.Designer.cs">
+      <DependentUpon>FormUserEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUserManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormUserManage.Designer.cs">
       <DependentUpon>FormUserManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSystemManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSystemManage.Designer.cs">
+      <DependentUpon>FormSystemManage.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUserRoleManageOld.cs">
       <SubType>Form</SubType>
@@ -295,6 +251,7 @@
     <None Include="Res\img\user-solid.png" />
     <None Include="Res\img\keyboard-solid.png" />
     <None Include="Res\img\Avatar.png" />
+    <Content Include="logo.ico" />
     <Content Include="Res\img\bg.jpeg" />
     <None Include="Res\img\Title.png" />
     <None Include="Res\img\btn_s_userManage.png" />
@@ -310,17 +267,11 @@
     <EmbeddedResource Include="FormDeviceLoader.resx">
       <DependentUpon>FormDeviceLoader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDeviceLoaderOld.resx">
-      <DependentUpon>FormDeviceLoaderOld.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormFingerCapOld.resx">
-      <DependentUpon>FormFingerCapOld.cs</DependentUpon>
+    <EmbeddedResource Include="FormFingerCap.resx">
+      <DependentUpon>FormFingerCap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormIndex.resx">
       <DependentUpon>FormIndex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormIndexOld.resx">
-      <DependentUpon>FormIndexOld.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLog.resx">
       <DependentUpon>FormLog.cs</DependentUpon>
@@ -330,10 +281,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormMainOld.resx">
-      <DependentUpon>FormMainOld.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormManage.resx">
       <DependentUpon>FormManage.cs</DependentUpon>
@@ -350,41 +297,26 @@
     <EmbeddedResource Include="FormRecord.resx">
       <DependentUpon>FormRecord.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRecordOld.resx">
-      <DependentUpon>FormRecordOld.cs</DependentUpon>
+    <EmbeddedResource Include="FormRoleEdit.resx">
+      <DependentUpon>FormRoleEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormToolEditOld.resx">
-      <DependentUpon>FormToolEditOld.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRoleEditOld.resx">
-      <DependentUpon>FormRoleEditOld.cs</DependentUpon>
+    <EmbeddedResource Include="FormToolEdit.resx">
+      <DependentUpon>FormToolEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLatticePermissionManageOld.resx">
       <DependentUpon>FormLatticePermissionManageOld.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRoleManageOld.resx">
-      <DependentUpon>FormRoleManageOld.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSystemOld.resx">
-      <DependentUpon>FormSystemOld.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormToolManage.resx">
       <DependentUpon>FormToolManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormToolManageOld.resx">
-      <DependentUpon>FormToolManageOld.cs</DependentUpon>
+    <EmbeddedResource Include="FormUserEdit.resx">
+      <DependentUpon>FormUserEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormToolTypeEditOld.resx">
-      <DependentUpon>FormToolTypeEditOld.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUserEditOld.resx">
-      <DependentUpon>FormUserEditOld.cs</DependentUpon>
+    <EmbeddedResource Include="FormSystemManage.resx">
+      <DependentUpon>FormSystemManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUserManage.resx">
       <DependentUpon>FormUserManage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUserManageOld.resx">
-      <DependentUpon>FormUserManageOld.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUserRoleManageOld.resx">
       <DependentUpon>FormUserRoleManageOld.cs</DependentUpon>

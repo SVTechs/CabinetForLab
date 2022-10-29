@@ -250,6 +250,7 @@ namespace CabinetMgr
             this.pictureBoxIcon.Size = new System.Drawing.Size(300, 75);
             this.pictureBoxIcon.TabIndex = 0;
             this.pictureBoxIcon.TabStop = false;
+            this.pictureBoxIcon.Click += new System.EventHandler(this.pictureBoxIcon_Click);
             // 
             // panelPage
             // 
@@ -411,7 +412,7 @@ namespace CabinetMgr
             this.panel01.Controls.Add(this.uiTextBox01SetAmount);
             this.panel01.Controls.Add(this.uiTextBox01CurrentAmount);
             this.panel01.Controls.Add(this.uiTextBox01);
-            this.panel01.Location = new System.Drawing.Point(187, 286);
+            this.panel01.Location = new System.Drawing.Point(187, 287);
             this.panel01.Name = "panel01";
             this.panel01.Size = new System.Drawing.Size(348, 112);
             this.panel01.TabIndex = 9;
@@ -428,14 +429,15 @@ namespace CabinetMgr
             // 
             // uiTextBox01SetAmount
             // 
+            this.uiTextBox01SetAmount.AutoSize = true;
             this.uiTextBox01SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox01SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox01SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox01SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox01SetAmount.Location = new System.Drawing.Point(267, 61);
             this.uiTextBox01SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox01SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox01SetAmount.Name = "uiTextBox01SetAmount";
-            this.uiTextBox01SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox01SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox01SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox01SetAmount.TabIndex = 4;
             this.uiTextBox01SetAmount.Text = "1";
@@ -444,14 +446,15 @@ namespace CabinetMgr
             // 
             // uiTextBox01CurrentAmount
             // 
+            this.uiTextBox01CurrentAmount.AutoSize = true;
             this.uiTextBox01CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox01CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox01CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox01CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox01CurrentAmount.Location = new System.Drawing.Point(267, 9);
             this.uiTextBox01CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox01CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox01CurrentAmount.Name = "uiTextBox01CurrentAmount";
-            this.uiTextBox01CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox01CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox01CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox01CurrentAmount.TabIndex = 3;
             this.uiTextBox01CurrentAmount.Text = "1";
@@ -460,6 +463,7 @@ namespace CabinetMgr
             // 
             // uiTextBox01
             // 
+            this.uiTextBox01.AutoSize = true;
             this.uiTextBox01.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox01.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox01.ForeColor = System.Drawing.Color.White;
@@ -467,7 +471,7 @@ namespace CabinetMgr
             this.uiTextBox01.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox01.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox01.Name = "uiTextBox01";
-            this.uiTextBox01.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox01.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox01.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox01.TabIndex = 0;
             this.uiTextBox01.Text = "uiTextBox01";
@@ -493,7 +497,7 @@ namespace CabinetMgr
             this.uiLabel02.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel02.ForeColor = System.Drawing.Color.White;
             this.uiLabel02.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel02.Location = new System.Drawing.Point(78, 435);
+            this.uiLabel02.Location = new System.Drawing.Point(558, 299);
             this.uiLabel02.Name = "uiLabel02";
             this.uiLabel02.Size = new System.Drawing.Size(88, 88);
             this.uiLabel02.Style = Sunny.UI.UIStyle.Custom;
@@ -510,7 +514,7 @@ namespace CabinetMgr
             this.panel02.Controls.Add(this.uiTextBox02SetAmount);
             this.panel02.Controls.Add(this.uiTextBox02CurrentAmount);
             this.panel02.Controls.Add(this.uiTextBox02);
-            this.panel02.Location = new System.Drawing.Point(187, 422);
+            this.panel02.Location = new System.Drawing.Point(667, 287);
             this.panel02.Name = "panel02";
             this.panel02.Size = new System.Drawing.Size(348, 112);
             this.panel02.TabIndex = 11;
@@ -527,14 +531,15 @@ namespace CabinetMgr
             // 
             // uiTextBox02SetAmount
             // 
+            this.uiTextBox02SetAmount.AutoSize = true;
             this.uiTextBox02SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox02SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox02SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox02SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox02SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox02SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox02SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox02SetAmount.Name = "uiTextBox02SetAmount";
-            this.uiTextBox02SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox02SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox02SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox02SetAmount.TabIndex = 4;
             this.uiTextBox02SetAmount.Text = "2";
@@ -543,14 +548,15 @@ namespace CabinetMgr
             // 
             // uiTextBox02CurrentAmount
             // 
+            this.uiTextBox02CurrentAmount.AutoSize = true;
             this.uiTextBox02CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox02CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox02CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox02CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox02CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox02CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox02CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox02CurrentAmount.Name = "uiTextBox02CurrentAmount";
-            this.uiTextBox02CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox02CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox02CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox02CurrentAmount.TabIndex = 3;
             this.uiTextBox02CurrentAmount.Text = "2";
@@ -559,6 +565,7 @@ namespace CabinetMgr
             // 
             // uiTextBox02
             // 
+            this.uiTextBox02.AutoSize = true;
             this.uiTextBox02.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox02.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox02.ForeColor = System.Drawing.Color.White;
@@ -566,7 +573,7 @@ namespace CabinetMgr
             this.uiTextBox02.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox02.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox02.Name = "uiTextBox02";
-            this.uiTextBox02.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox02.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox02.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox02.TabIndex = 0;
             this.uiTextBox02.Text = "uiTextBox02";
@@ -578,7 +585,7 @@ namespace CabinetMgr
             this.uiLabel03.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel03.ForeColor = System.Drawing.Color.White;
             this.uiLabel03.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel03.Location = new System.Drawing.Point(78, 584);
+            this.uiLabel03.Location = new System.Drawing.Point(78, 435);
             this.uiLabel03.Name = "uiLabel03";
             this.uiLabel03.Size = new System.Drawing.Size(88, 88);
             this.uiLabel03.Style = Sunny.UI.UIStyle.Custom;
@@ -595,7 +602,7 @@ namespace CabinetMgr
             this.panel03.Controls.Add(this.uiTextBox03SetAmount);
             this.panel03.Controls.Add(this.uiTextBox03CurrentAmount);
             this.panel03.Controls.Add(this.uiTextBox03);
-            this.panel03.Location = new System.Drawing.Point(187, 571);
+            this.panel03.Location = new System.Drawing.Point(187, 423);
             this.panel03.Name = "panel03";
             this.panel03.Size = new System.Drawing.Size(348, 112);
             this.panel03.TabIndex = 13;
@@ -612,14 +619,15 @@ namespace CabinetMgr
             // 
             // uiTextBox03SetAmount
             // 
+            this.uiTextBox03SetAmount.AutoSize = true;
             this.uiTextBox03SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox03SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox03SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox03SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox03SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox03SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox03SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox03SetAmount.Name = "uiTextBox03SetAmount";
-            this.uiTextBox03SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox03SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox03SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox03SetAmount.TabIndex = 4;
             this.uiTextBox03SetAmount.Text = "3";
@@ -628,14 +636,15 @@ namespace CabinetMgr
             // 
             // uiTextBox03CurrentAmount
             // 
+            this.uiTextBox03CurrentAmount.AutoSize = true;
             this.uiTextBox03CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox03CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox03CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox03CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox03CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox03CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox03CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox03CurrentAmount.Name = "uiTextBox03CurrentAmount";
-            this.uiTextBox03CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox03CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox03CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox03CurrentAmount.TabIndex = 3;
             this.uiTextBox03CurrentAmount.Text = "3";
@@ -644,6 +653,7 @@ namespace CabinetMgr
             // 
             // uiTextBox03
             // 
+            this.uiTextBox03.AutoSize = true;
             this.uiTextBox03.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox03.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox03.ForeColor = System.Drawing.Color.White;
@@ -651,7 +661,7 @@ namespace CabinetMgr
             this.uiTextBox03.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox03.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox03.Name = "uiTextBox03";
-            this.uiTextBox03.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox03.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox03.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox03.TabIndex = 0;
             this.uiTextBox03.Text = "uiTextBox03";
@@ -663,7 +673,7 @@ namespace CabinetMgr
             this.uiLabel04.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel04.ForeColor = System.Drawing.Color.White;
             this.uiLabel04.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel04.Location = new System.Drawing.Point(78, 732);
+            this.uiLabel04.Location = new System.Drawing.Point(558, 435);
             this.uiLabel04.Name = "uiLabel04";
             this.uiLabel04.Size = new System.Drawing.Size(88, 88);
             this.uiLabel04.Style = Sunny.UI.UIStyle.Custom;
@@ -680,7 +690,7 @@ namespace CabinetMgr
             this.panel04.Controls.Add(this.uiTextBox04SetAmount);
             this.panel04.Controls.Add(this.uiTextBox04CurrentAmount);
             this.panel04.Controls.Add(this.uiTextBox04);
-            this.panel04.Location = new System.Drawing.Point(187, 719);
+            this.panel04.Location = new System.Drawing.Point(667, 423);
             this.panel04.Name = "panel04";
             this.panel04.Size = new System.Drawing.Size(348, 112);
             this.panel04.TabIndex = 15;
@@ -697,14 +707,15 @@ namespace CabinetMgr
             // 
             // uiTextBox04SetAmount
             // 
+            this.uiTextBox04SetAmount.AutoSize = true;
             this.uiTextBox04SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox04SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox04SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox04SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox04SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox04SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox04SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox04SetAmount.Name = "uiTextBox04SetAmount";
-            this.uiTextBox04SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox04SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox04SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox04SetAmount.TabIndex = 4;
             this.uiTextBox04SetAmount.Text = "4";
@@ -713,14 +724,15 @@ namespace CabinetMgr
             // 
             // uiTextBox04CurrentAmount
             // 
+            this.uiTextBox04CurrentAmount.AutoSize = true;
             this.uiTextBox04CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox04CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox04CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox04CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox04CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox04CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox04CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox04CurrentAmount.Name = "uiTextBox04CurrentAmount";
-            this.uiTextBox04CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox04CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox04CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox04CurrentAmount.TabIndex = 3;
             this.uiTextBox04CurrentAmount.Text = "4";
@@ -729,6 +741,7 @@ namespace CabinetMgr
             // 
             // uiTextBox04
             // 
+            this.uiTextBox04.AutoSize = true;
             this.uiTextBox04.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox04.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox04.ForeColor = System.Drawing.Color.White;
@@ -736,7 +749,7 @@ namespace CabinetMgr
             this.uiTextBox04.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox04.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox04.Name = "uiTextBox04";
-            this.uiTextBox04.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox04.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox04.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox04.TabIndex = 0;
             this.uiTextBox04.Text = "uiTextBox04";
@@ -748,7 +761,7 @@ namespace CabinetMgr
             this.uiLabel05.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel05.ForeColor = System.Drawing.Color.White;
             this.uiLabel05.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel05.Location = new System.Drawing.Point(78, 884);
+            this.uiLabel05.Location = new System.Drawing.Point(78, 589);
             this.uiLabel05.Name = "uiLabel05";
             this.uiLabel05.Size = new System.Drawing.Size(88, 88);
             this.uiLabel05.Style = Sunny.UI.UIStyle.Custom;
@@ -765,7 +778,7 @@ namespace CabinetMgr
             this.panel05.Controls.Add(this.uiTextBox05SetAmount);
             this.panel05.Controls.Add(this.uiTextBox05CurrentAmount);
             this.panel05.Controls.Add(this.uiTextBox05);
-            this.panel05.Location = new System.Drawing.Point(187, 871);
+            this.panel05.Location = new System.Drawing.Point(187, 576);
             this.panel05.Name = "panel05";
             this.panel05.Size = new System.Drawing.Size(348, 112);
             this.panel05.TabIndex = 17;
@@ -782,14 +795,15 @@ namespace CabinetMgr
             // 
             // uiTextBox05SetAmount
             // 
+            this.uiTextBox05SetAmount.AutoSize = true;
             this.uiTextBox05SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox05SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox05SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox05SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox05SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox05SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox05SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox05SetAmount.Name = "uiTextBox05SetAmount";
-            this.uiTextBox05SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox05SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox05SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox05SetAmount.TabIndex = 4;
             this.uiTextBox05SetAmount.Text = "5";
@@ -798,14 +812,15 @@ namespace CabinetMgr
             // 
             // uiTextBox05CurrentAmount
             // 
+            this.uiTextBox05CurrentAmount.AutoSize = true;
             this.uiTextBox05CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox05CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox05CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox05CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox05CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox05CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox05CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox05CurrentAmount.Name = "uiTextBox05CurrentAmount";
-            this.uiTextBox05CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox05CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox05CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox05CurrentAmount.TabIndex = 3;
             this.uiTextBox05CurrentAmount.Text = "5";
@@ -814,6 +829,7 @@ namespace CabinetMgr
             // 
             // uiTextBox05
             // 
+            this.uiTextBox05.AutoSize = true;
             this.uiTextBox05.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox05.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox05.ForeColor = System.Drawing.Color.White;
@@ -821,7 +837,7 @@ namespace CabinetMgr
             this.uiTextBox05.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox05.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox05.Name = "uiTextBox05";
-            this.uiTextBox05.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox05.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox05.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox05.TabIndex = 0;
             this.uiTextBox05.Text = "uiTextBox05";
@@ -833,7 +849,7 @@ namespace CabinetMgr
             this.uiLabel06.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel06.ForeColor = System.Drawing.Color.White;
             this.uiLabel06.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel06.Location = new System.Drawing.Point(78, 1029);
+            this.uiLabel06.Location = new System.Drawing.Point(558, 594);
             this.uiLabel06.Name = "uiLabel06";
             this.uiLabel06.Size = new System.Drawing.Size(88, 88);
             this.uiLabel06.Style = Sunny.UI.UIStyle.Custom;
@@ -850,7 +866,7 @@ namespace CabinetMgr
             this.panel06.Controls.Add(this.uiTextBox06SetAmount);
             this.panel06.Controls.Add(this.uiTextBox06CurrentAmount);
             this.panel06.Controls.Add(this.uiTextBox06);
-            this.panel06.Location = new System.Drawing.Point(187, 1016);
+            this.panel06.Location = new System.Drawing.Point(667, 581);
             this.panel06.Name = "panel06";
             this.panel06.Size = new System.Drawing.Size(348, 112);
             this.panel06.TabIndex = 19;
@@ -867,14 +883,15 @@ namespace CabinetMgr
             // 
             // uiTextBox06SetAmount
             // 
+            this.uiTextBox06SetAmount.AutoSize = true;
             this.uiTextBox06SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox06SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox06SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox06SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox06SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox06SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox06SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox06SetAmount.Name = "uiTextBox06SetAmount";
-            this.uiTextBox06SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox06SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox06SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox06SetAmount.TabIndex = 4;
             this.uiTextBox06SetAmount.Text = "6";
@@ -883,14 +900,15 @@ namespace CabinetMgr
             // 
             // uiTextBox06CurrentAmount
             // 
+            this.uiTextBox06CurrentAmount.AutoSize = true;
             this.uiTextBox06CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox06CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox06CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox06CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox06CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox06CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox06CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox06CurrentAmount.Name = "uiTextBox06CurrentAmount";
-            this.uiTextBox06CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox06CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox06CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox06CurrentAmount.TabIndex = 3;
             this.uiTextBox06CurrentAmount.Text = "6";
@@ -899,6 +917,7 @@ namespace CabinetMgr
             // 
             // uiTextBox06
             // 
+            this.uiTextBox06.AutoSize = true;
             this.uiTextBox06.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox06.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox06.ForeColor = System.Drawing.Color.White;
@@ -906,7 +925,7 @@ namespace CabinetMgr
             this.uiTextBox06.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox06.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox06.Name = "uiTextBox06";
-            this.uiTextBox06.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox06.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox06.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox06.TabIndex = 0;
             this.uiTextBox06.Text = "uiTextBox06";
@@ -918,7 +937,7 @@ namespace CabinetMgr
             this.uiLabel07.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel07.ForeColor = System.Drawing.Color.White;
             this.uiLabel07.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel07.Location = new System.Drawing.Point(78, 1170);
+            this.uiLabel07.Location = new System.Drawing.Point(78, 743);
             this.uiLabel07.Name = "uiLabel07";
             this.uiLabel07.Size = new System.Drawing.Size(88, 88);
             this.uiLabel07.Style = Sunny.UI.UIStyle.Custom;
@@ -935,7 +954,7 @@ namespace CabinetMgr
             this.panel07.Controls.Add(this.uiTextBox07SetAmount);
             this.panel07.Controls.Add(this.uiTextBox07CurrentAmount);
             this.panel07.Controls.Add(this.uiTextBox07);
-            this.panel07.Location = new System.Drawing.Point(187, 1157);
+            this.panel07.Location = new System.Drawing.Point(187, 730);
             this.panel07.Name = "panel07";
             this.panel07.Size = new System.Drawing.Size(348, 112);
             this.panel07.TabIndex = 21;
@@ -952,14 +971,15 @@ namespace CabinetMgr
             // 
             // uiTextBox07SetAmount
             // 
+            this.uiTextBox07SetAmount.AutoSize = true;
             this.uiTextBox07SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox07SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox07SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox07SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox07SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox07SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox07SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox07SetAmount.Name = "uiTextBox07SetAmount";
-            this.uiTextBox07SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox07SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox07SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox07SetAmount.TabIndex = 4;
             this.uiTextBox07SetAmount.Text = "7";
@@ -968,14 +988,15 @@ namespace CabinetMgr
             // 
             // uiTextBox07CurrentAmount
             // 
+            this.uiTextBox07CurrentAmount.AutoSize = true;
             this.uiTextBox07CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox07CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox07CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox07CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox07CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox07CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox07CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox07CurrentAmount.Name = "uiTextBox07CurrentAmount";
-            this.uiTextBox07CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox07CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox07CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox07CurrentAmount.TabIndex = 3;
             this.uiTextBox07CurrentAmount.Text = "7";
@@ -984,6 +1005,7 @@ namespace CabinetMgr
             // 
             // uiTextBox07
             // 
+            this.uiTextBox07.AutoSize = true;
             this.uiTextBox07.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox07.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox07.ForeColor = System.Drawing.Color.White;
@@ -991,7 +1013,7 @@ namespace CabinetMgr
             this.uiTextBox07.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox07.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox07.Name = "uiTextBox07";
-            this.uiTextBox07.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox07.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox07.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox07.TabIndex = 0;
             this.uiTextBox07.Text = "uiTextBox07";
@@ -1003,7 +1025,7 @@ namespace CabinetMgr
             this.uiLabel08.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel08.ForeColor = System.Drawing.Color.White;
             this.uiLabel08.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel08.Location = new System.Drawing.Point(78, 1320);
+            this.uiLabel08.Location = new System.Drawing.Point(558, 743);
             this.uiLabel08.Name = "uiLabel08";
             this.uiLabel08.Size = new System.Drawing.Size(88, 88);
             this.uiLabel08.Style = Sunny.UI.UIStyle.Custom;
@@ -1020,7 +1042,7 @@ namespace CabinetMgr
             this.panel08.Controls.Add(this.uiTextBox08SetAmount);
             this.panel08.Controls.Add(this.uiTextBox08CurrentAmount);
             this.panel08.Controls.Add(this.uiTextBox08);
-            this.panel08.Location = new System.Drawing.Point(187, 1307);
+            this.panel08.Location = new System.Drawing.Point(667, 730);
             this.panel08.Name = "panel08";
             this.panel08.Size = new System.Drawing.Size(348, 112);
             this.panel08.TabIndex = 23;
@@ -1037,14 +1059,15 @@ namespace CabinetMgr
             // 
             // uiTextBox08SetAmount
             // 
+            this.uiTextBox08SetAmount.AutoSize = true;
             this.uiTextBox08SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox08SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox08SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox08SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox08SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox08SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox08SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox08SetAmount.Name = "uiTextBox08SetAmount";
-            this.uiTextBox08SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox08SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox08SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox08SetAmount.TabIndex = 4;
             this.uiTextBox08SetAmount.Text = "8";
@@ -1053,14 +1076,15 @@ namespace CabinetMgr
             // 
             // uiTextBox08CurrentAmount
             // 
+            this.uiTextBox08CurrentAmount.AutoSize = true;
             this.uiTextBox08CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox08CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox08CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox08CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox08CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox08CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox08CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox08CurrentAmount.Name = "uiTextBox08CurrentAmount";
-            this.uiTextBox08CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox08CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox08CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox08CurrentAmount.TabIndex = 3;
             this.uiTextBox08CurrentAmount.Text = "8";
@@ -1069,6 +1093,7 @@ namespace CabinetMgr
             // 
             // uiTextBox08
             // 
+            this.uiTextBox08.AutoSize = true;
             this.uiTextBox08.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox08.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox08.ForeColor = System.Drawing.Color.White;
@@ -1076,7 +1101,7 @@ namespace CabinetMgr
             this.uiTextBox08.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox08.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox08.Name = "uiTextBox08";
-            this.uiTextBox08.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox08.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox08.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox08.TabIndex = 0;
             this.uiTextBox08.Text = "uiTextBox08";
@@ -1088,7 +1113,7 @@ namespace CabinetMgr
             this.uiLabel09.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel09.ForeColor = System.Drawing.Color.White;
             this.uiLabel09.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel09.Location = new System.Drawing.Point(78, 1460);
+            this.uiLabel09.Location = new System.Drawing.Point(78, 895);
             this.uiLabel09.Name = "uiLabel09";
             this.uiLabel09.Size = new System.Drawing.Size(88, 88);
             this.uiLabel09.Style = Sunny.UI.UIStyle.Custom;
@@ -1105,7 +1130,7 @@ namespace CabinetMgr
             this.panel09.Controls.Add(this.uiTextBox09SetAmount);
             this.panel09.Controls.Add(this.uiTextBox09CurrentAmount);
             this.panel09.Controls.Add(this.uiTextBox09);
-            this.panel09.Location = new System.Drawing.Point(187, 1447);
+            this.panel09.Location = new System.Drawing.Point(187, 882);
             this.panel09.Name = "panel09";
             this.panel09.Size = new System.Drawing.Size(348, 112);
             this.panel09.TabIndex = 25;
@@ -1122,14 +1147,15 @@ namespace CabinetMgr
             // 
             // uiTextBox09SetAmount
             // 
+            this.uiTextBox09SetAmount.AutoSize = true;
             this.uiTextBox09SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox09SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox09SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox09SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox09SetAmount.Location = new System.Drawing.Point(267, 57);
             this.uiTextBox09SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox09SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox09SetAmount.Name = "uiTextBox09SetAmount";
-            this.uiTextBox09SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox09SetAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox09SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox09SetAmount.TabIndex = 4;
             this.uiTextBox09SetAmount.Text = "9";
@@ -1138,14 +1164,15 @@ namespace CabinetMgr
             // 
             // uiTextBox09CurrentAmount
             // 
+            this.uiTextBox09CurrentAmount.AutoSize = true;
             this.uiTextBox09CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox09CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox09CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox09CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox09CurrentAmount.Location = new System.Drawing.Point(267, 5);
             this.uiTextBox09CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox09CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox09CurrentAmount.Name = "uiTextBox09CurrentAmount";
-            this.uiTextBox09CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox09CurrentAmount.Size = new System.Drawing.Size(31, 36);
             this.uiTextBox09CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox09CurrentAmount.TabIndex = 3;
             this.uiTextBox09CurrentAmount.Text = "9";
@@ -1154,6 +1181,7 @@ namespace CabinetMgr
             // 
             // uiTextBox09
             // 
+            this.uiTextBox09.AutoSize = true;
             this.uiTextBox09.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox09.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox09.ForeColor = System.Drawing.Color.White;
@@ -1161,7 +1189,7 @@ namespace CabinetMgr
             this.uiTextBox09.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox09.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox09.Name = "uiTextBox09";
-            this.uiTextBox09.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox09.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox09.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox09.TabIndex = 0;
             this.uiTextBox09.Text = "uiTextBox09";
@@ -1173,7 +1201,7 @@ namespace CabinetMgr
             this.uiLabel10.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel10.ForeColor = System.Drawing.Color.White;
             this.uiLabel10.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel10.Location = new System.Drawing.Point(78, 1606);
+            this.uiLabel10.Location = new System.Drawing.Point(558, 895);
             this.uiLabel10.Name = "uiLabel10";
             this.uiLabel10.Size = new System.Drawing.Size(88, 88);
             this.uiLabel10.Style = Sunny.UI.UIStyle.Custom;
@@ -1190,7 +1218,7 @@ namespace CabinetMgr
             this.panel10.Controls.Add(this.uiTextBox10SetAmount);
             this.panel10.Controls.Add(this.uiTextBox10CurrentAmount);
             this.panel10.Controls.Add(this.uiTextBox10);
-            this.panel10.Location = new System.Drawing.Point(187, 1593);
+            this.panel10.Location = new System.Drawing.Point(667, 882);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(348, 112);
             this.panel10.TabIndex = 27;
@@ -1207,14 +1235,15 @@ namespace CabinetMgr
             // 
             // uiTextBox10SetAmount
             // 
+            this.uiTextBox10SetAmount.AutoSize = true;
             this.uiTextBox10SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox10SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox10SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox10SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox10SetAmount.Location = new System.Drawing.Point(259, 57);
             this.uiTextBox10SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox10SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox10SetAmount.Name = "uiTextBox10SetAmount";
-            this.uiTextBox10SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox10SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox10SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox10SetAmount.TabIndex = 4;
             this.uiTextBox10SetAmount.Text = "10";
@@ -1223,14 +1252,15 @@ namespace CabinetMgr
             // 
             // uiTextBox10CurrentAmount
             // 
+            this.uiTextBox10CurrentAmount.AutoSize = true;
             this.uiTextBox10CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox10CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox10CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox10CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox10CurrentAmount.Location = new System.Drawing.Point(259, 5);
             this.uiTextBox10CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox10CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox10CurrentAmount.Name = "uiTextBox10CurrentAmount";
-            this.uiTextBox10CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox10CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox10CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox10CurrentAmount.TabIndex = 3;
             this.uiTextBox10CurrentAmount.Text = "10";
@@ -1239,6 +1269,7 @@ namespace CabinetMgr
             // 
             // uiTextBox10
             // 
+            this.uiTextBox10.AutoSize = true;
             this.uiTextBox10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox10.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox10.ForeColor = System.Drawing.Color.White;
@@ -1246,7 +1277,7 @@ namespace CabinetMgr
             this.uiTextBox10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox10.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox10.Name = "uiTextBox10";
-            this.uiTextBox10.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox10.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox10.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox10.TabIndex = 0;
             this.uiTextBox10.Text = "uiTextBox10";
@@ -1258,7 +1289,7 @@ namespace CabinetMgr
             this.uiLabel11.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel11.ForeColor = System.Drawing.Color.White;
             this.uiLabel11.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel11.Location = new System.Drawing.Point(558, 299);
+            this.uiLabel11.Location = new System.Drawing.Point(78, 1042);
             this.uiLabel11.Name = "uiLabel11";
             this.uiLabel11.Size = new System.Drawing.Size(88, 88);
             this.uiLabel11.Style = Sunny.UI.UIStyle.Custom;
@@ -1275,7 +1306,7 @@ namespace CabinetMgr
             this.panel11.Controls.Add(this.uiTextBox11SetAmount);
             this.panel11.Controls.Add(this.uiTextBox11CurrentAmount);
             this.panel11.Controls.Add(this.uiTextBox11);
-            this.panel11.Location = new System.Drawing.Point(667, 286);
+            this.panel11.Location = new System.Drawing.Point(187, 1029);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(348, 112);
             this.panel11.TabIndex = 29;
@@ -1292,14 +1323,15 @@ namespace CabinetMgr
             // 
             // uiTextBox11SetAmount
             // 
+            this.uiTextBox11SetAmount.AutoSize = true;
             this.uiTextBox11SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox11SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox11SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox11SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox11SetAmount.Location = new System.Drawing.Point(260, 57);
             this.uiTextBox11SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox11SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox11SetAmount.Name = "uiTextBox11SetAmount";
-            this.uiTextBox11SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox11SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox11SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox11SetAmount.TabIndex = 4;
             this.uiTextBox11SetAmount.Text = "11";
@@ -1308,14 +1340,15 @@ namespace CabinetMgr
             // 
             // uiTextBox11CurrentAmount
             // 
+            this.uiTextBox11CurrentAmount.AutoSize = true;
             this.uiTextBox11CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox11CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox11CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox11CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox11CurrentAmount.Location = new System.Drawing.Point(260, 5);
             this.uiTextBox11CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox11CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox11CurrentAmount.Name = "uiTextBox11CurrentAmount";
-            this.uiTextBox11CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox11CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox11CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox11CurrentAmount.TabIndex = 3;
             this.uiTextBox11CurrentAmount.Text = "11";
@@ -1324,6 +1357,7 @@ namespace CabinetMgr
             // 
             // uiTextBox11
             // 
+            this.uiTextBox11.AutoSize = true;
             this.uiTextBox11.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox11.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox11.ForeColor = System.Drawing.Color.White;
@@ -1331,7 +1365,7 @@ namespace CabinetMgr
             this.uiTextBox11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox11.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox11.Name = "uiTextBox11";
-            this.uiTextBox11.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox11.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox11.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox11.TabIndex = 0;
             this.uiTextBox11.Text = "uiTextBox11";
@@ -1340,6 +1374,7 @@ namespace CabinetMgr
             // 
             // uiTextBox12
             // 
+            this.uiTextBox12.AutoSize = true;
             this.uiTextBox12.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox12.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox12.ForeColor = System.Drawing.Color.White;
@@ -1347,7 +1382,7 @@ namespace CabinetMgr
             this.uiTextBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox12.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox12.Name = "uiTextBox12";
-            this.uiTextBox12.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox12.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox12.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox12.TabIndex = 0;
             this.uiTextBox12.Text = "uiTextBox12";
@@ -1359,7 +1394,7 @@ namespace CabinetMgr
             this.uiLabel20.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel20.ForeColor = System.Drawing.Color.White;
             this.uiLabel20.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel20.Location = new System.Drawing.Point(558, 1606);
+            this.uiLabel20.Location = new System.Drawing.Point(558, 1616);
             this.uiLabel20.Name = "uiLabel20";
             this.uiLabel20.Size = new System.Drawing.Size(88, 88);
             this.uiLabel20.Style = Sunny.UI.UIStyle.Custom;
@@ -1376,7 +1411,7 @@ namespace CabinetMgr
             this.panel20.Controls.Add(this.uiTextBox20SetAmount);
             this.panel20.Controls.Add(this.uiTextBox20CurrentAmount);
             this.panel20.Controls.Add(this.uiTextBox20);
-            this.panel20.Location = new System.Drawing.Point(667, 1593);
+            this.panel20.Location = new System.Drawing.Point(667, 1604);
             this.panel20.Name = "panel20";
             this.panel20.Size = new System.Drawing.Size(348, 112);
             this.panel20.TabIndex = 47;
@@ -1393,14 +1428,15 @@ namespace CabinetMgr
             // 
             // uiTextBox20SetAmount
             // 
+            this.uiTextBox20SetAmount.AutoSize = true;
             this.uiTextBox20SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox20SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox20SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox20SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox20SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox20SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox20SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox20SetAmount.Name = "uiTextBox20SetAmount";
-            this.uiTextBox20SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox20SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox20SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox20SetAmount.TabIndex = 4;
             this.uiTextBox20SetAmount.Text = "20";
@@ -1409,14 +1445,15 @@ namespace CabinetMgr
             // 
             // uiTextBox20CurrentAmount
             // 
+            this.uiTextBox20CurrentAmount.AutoSize = true;
             this.uiTextBox20CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox20CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox20CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox20CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox20CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox20CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox20CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox20CurrentAmount.Name = "uiTextBox20CurrentAmount";
-            this.uiTextBox20CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox20CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox20CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox20CurrentAmount.TabIndex = 3;
             this.uiTextBox20CurrentAmount.Text = "20";
@@ -1425,6 +1462,7 @@ namespace CabinetMgr
             // 
             // uiTextBox20
             // 
+            this.uiTextBox20.AutoSize = true;
             this.uiTextBox20.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox20.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox20.ForeColor = System.Drawing.Color.White;
@@ -1432,7 +1470,7 @@ namespace CabinetMgr
             this.uiTextBox20.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox20.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox20.Name = "uiTextBox20";
-            this.uiTextBox20.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox20.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox20.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox20.TabIndex = 0;
             this.uiTextBox20.Text = "uiTextBox20";
@@ -1444,7 +1482,7 @@ namespace CabinetMgr
             this.uiLabel19.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel19.ForeColor = System.Drawing.Color.White;
             this.uiLabel19.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel19.Location = new System.Drawing.Point(558, 1460);
+            this.uiLabel19.Location = new System.Drawing.Point(78, 1616);
             this.uiLabel19.Name = "uiLabel19";
             this.uiLabel19.Size = new System.Drawing.Size(88, 88);
             this.uiLabel19.Style = Sunny.UI.UIStyle.Custom;
@@ -1461,7 +1499,7 @@ namespace CabinetMgr
             this.panel19.Controls.Add(this.uiTextBox19SetAmount);
             this.panel19.Controls.Add(this.uiTextBox19CurrentAmount);
             this.panel19.Controls.Add(this.uiTextBox19);
-            this.panel19.Location = new System.Drawing.Point(667, 1447);
+            this.panel19.Location = new System.Drawing.Point(187, 1604);
             this.panel19.Name = "panel19";
             this.panel19.Size = new System.Drawing.Size(348, 112);
             this.panel19.TabIndex = 45;
@@ -1478,14 +1516,15 @@ namespace CabinetMgr
             // 
             // uiTextBox19SetAmount
             // 
+            this.uiTextBox19SetAmount.AutoSize = true;
             this.uiTextBox19SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox19SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox19SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox19SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox19SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox19SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox19SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox19SetAmount.Name = "uiTextBox19SetAmount";
-            this.uiTextBox19SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox19SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox19SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox19SetAmount.TabIndex = 4;
             this.uiTextBox19SetAmount.Text = "19";
@@ -1494,14 +1533,15 @@ namespace CabinetMgr
             // 
             // uiTextBox19CurrentAmount
             // 
+            this.uiTextBox19CurrentAmount.AutoSize = true;
             this.uiTextBox19CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox19CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox19CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox19CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox19CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox19CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox19CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox19CurrentAmount.Name = "uiTextBox19CurrentAmount";
-            this.uiTextBox19CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox19CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox19CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox19CurrentAmount.TabIndex = 3;
             this.uiTextBox19CurrentAmount.Text = "19";
@@ -1510,6 +1550,7 @@ namespace CabinetMgr
             // 
             // uiTextBox19
             // 
+            this.uiTextBox19.AutoSize = true;
             this.uiTextBox19.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox19.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox19.ForeColor = System.Drawing.Color.White;
@@ -1517,7 +1558,7 @@ namespace CabinetMgr
             this.uiTextBox19.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox19.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox19.Name = "uiTextBox19";
-            this.uiTextBox19.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox19.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox19.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox19.TabIndex = 0;
             this.uiTextBox19.Text = "uiTextBox19";
@@ -1529,7 +1570,7 @@ namespace CabinetMgr
             this.uiLabel18.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel18.ForeColor = System.Drawing.Color.White;
             this.uiLabel18.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel18.Location = new System.Drawing.Point(558, 1320);
+            this.uiLabel18.Location = new System.Drawing.Point(558, 1470);
             this.uiLabel18.Name = "uiLabel18";
             this.uiLabel18.Size = new System.Drawing.Size(88, 88);
             this.uiLabel18.Style = Sunny.UI.UIStyle.Custom;
@@ -1546,7 +1587,7 @@ namespace CabinetMgr
             this.panel18.Controls.Add(this.uiTextBox18SetAmount);
             this.panel18.Controls.Add(this.uiTextBox18CurrentAmount);
             this.panel18.Controls.Add(this.uiTextBox18);
-            this.panel18.Location = new System.Drawing.Point(667, 1307);
+            this.panel18.Location = new System.Drawing.Point(667, 1458);
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(348, 112);
             this.panel18.TabIndex = 43;
@@ -1563,14 +1604,15 @@ namespace CabinetMgr
             // 
             // uiTextBox18SetAmount
             // 
+            this.uiTextBox18SetAmount.AutoSize = true;
             this.uiTextBox18SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox18SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox18SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox18SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox18SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox18SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox18SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox18SetAmount.Name = "uiTextBox18SetAmount";
-            this.uiTextBox18SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox18SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox18SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox18SetAmount.TabIndex = 4;
             this.uiTextBox18SetAmount.Text = "18";
@@ -1579,14 +1621,15 @@ namespace CabinetMgr
             // 
             // uiTextBox18CurrentAmount
             // 
+            this.uiTextBox18CurrentAmount.AutoSize = true;
             this.uiTextBox18CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox18CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox18CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox18CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox18CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox18CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox18CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox18CurrentAmount.Name = "uiTextBox18CurrentAmount";
-            this.uiTextBox18CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox18CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox18CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox18CurrentAmount.TabIndex = 3;
             this.uiTextBox18CurrentAmount.Text = "18";
@@ -1595,6 +1638,7 @@ namespace CabinetMgr
             // 
             // uiTextBox18
             // 
+            this.uiTextBox18.AutoSize = true;
             this.uiTextBox18.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox18.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox18.ForeColor = System.Drawing.Color.White;
@@ -1602,7 +1646,7 @@ namespace CabinetMgr
             this.uiTextBox18.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox18.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox18.Name = "uiTextBox18";
-            this.uiTextBox18.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox18.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox18.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox18.TabIndex = 0;
             this.uiTextBox18.Text = "uiTextBox18";
@@ -1614,7 +1658,7 @@ namespace CabinetMgr
             this.uiLabel17.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel17.ForeColor = System.Drawing.Color.White;
             this.uiLabel17.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel17.Location = new System.Drawing.Point(558, 1170);
+            this.uiLabel17.Location = new System.Drawing.Point(78, 1470);
             this.uiLabel17.Name = "uiLabel17";
             this.uiLabel17.Size = new System.Drawing.Size(88, 88);
             this.uiLabel17.Style = Sunny.UI.UIStyle.Custom;
@@ -1631,7 +1675,7 @@ namespace CabinetMgr
             this.panel17.Controls.Add(this.uiTextBox17SetAmount);
             this.panel17.Controls.Add(this.uiTextBox17CurrentAmount);
             this.panel17.Controls.Add(this.uiTextBox17);
-            this.panel17.Location = new System.Drawing.Point(667, 1157);
+            this.panel17.Location = new System.Drawing.Point(187, 1458);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(348, 112);
             this.panel17.TabIndex = 41;
@@ -1648,14 +1692,15 @@ namespace CabinetMgr
             // 
             // uiTextBox17SetAmount
             // 
+            this.uiTextBox17SetAmount.AutoSize = true;
             this.uiTextBox17SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox17SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox17SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox17SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox17SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox17SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox17SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox17SetAmount.Name = "uiTextBox17SetAmount";
-            this.uiTextBox17SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox17SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox17SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox17SetAmount.TabIndex = 4;
             this.uiTextBox17SetAmount.Text = "17";
@@ -1664,14 +1709,15 @@ namespace CabinetMgr
             // 
             // uiTextBox17CurrentAmount
             // 
+            this.uiTextBox17CurrentAmount.AutoSize = true;
             this.uiTextBox17CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox17CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox17CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox17CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox17CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox17CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox17CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox17CurrentAmount.Name = "uiTextBox17CurrentAmount";
-            this.uiTextBox17CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox17CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox17CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox17CurrentAmount.TabIndex = 3;
             this.uiTextBox17CurrentAmount.Text = "17";
@@ -1680,6 +1726,7 @@ namespace CabinetMgr
             // 
             // uiTextBox17
             // 
+            this.uiTextBox17.AutoSize = true;
             this.uiTextBox17.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox17.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox17.ForeColor = System.Drawing.Color.White;
@@ -1687,7 +1734,7 @@ namespace CabinetMgr
             this.uiTextBox17.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox17.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox17.Name = "uiTextBox17";
-            this.uiTextBox17.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox17.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox17.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox17.TabIndex = 0;
             this.uiTextBox17.Text = "uiTextBox17";
@@ -1699,7 +1746,7 @@ namespace CabinetMgr
             this.uiLabel16.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel16.ForeColor = System.Drawing.Color.White;
             this.uiLabel16.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel16.Location = new System.Drawing.Point(558, 1029);
+            this.uiLabel16.Location = new System.Drawing.Point(558, 1320);
             this.uiLabel16.Name = "uiLabel16";
             this.uiLabel16.Size = new System.Drawing.Size(88, 88);
             this.uiLabel16.Style = Sunny.UI.UIStyle.Custom;
@@ -1716,7 +1763,7 @@ namespace CabinetMgr
             this.panel16.Controls.Add(this.uiTextBox16SetAmount);
             this.panel16.Controls.Add(this.uiTextBox16CurrentAmount);
             this.panel16.Controls.Add(this.uiTextBox16);
-            this.panel16.Location = new System.Drawing.Point(667, 1016);
+            this.panel16.Location = new System.Drawing.Point(667, 1307);
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(348, 112);
             this.panel16.TabIndex = 39;
@@ -1733,14 +1780,15 @@ namespace CabinetMgr
             // 
             // uiTextBox16SetAmount
             // 
+            this.uiTextBox16SetAmount.AutoSize = true;
             this.uiTextBox16SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox16SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox16SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox16SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox16SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox16SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox16SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox16SetAmount.Name = "uiTextBox16SetAmount";
-            this.uiTextBox16SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox16SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox16SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox16SetAmount.TabIndex = 4;
             this.uiTextBox16SetAmount.Text = "16";
@@ -1749,14 +1797,15 @@ namespace CabinetMgr
             // 
             // uiTextBox16CurrentAmount
             // 
+            this.uiTextBox16CurrentAmount.AutoSize = true;
             this.uiTextBox16CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox16CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox16CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox16CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox16CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox16CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox16CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox16CurrentAmount.Name = "uiTextBox16CurrentAmount";
-            this.uiTextBox16CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox16CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox16CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox16CurrentAmount.TabIndex = 3;
             this.uiTextBox16CurrentAmount.Text = "16";
@@ -1765,6 +1814,7 @@ namespace CabinetMgr
             // 
             // uiTextBox16
             // 
+            this.uiTextBox16.AutoSize = true;
             this.uiTextBox16.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox16.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox16.ForeColor = System.Drawing.Color.White;
@@ -1772,7 +1822,7 @@ namespace CabinetMgr
             this.uiTextBox16.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox16.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox16.Name = "uiTextBox16";
-            this.uiTextBox16.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox16.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox16.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox16.TabIndex = 0;
             this.uiTextBox16.Text = "uiTextBox16";
@@ -1784,7 +1834,7 @@ namespace CabinetMgr
             this.uiLabel15.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel15.ForeColor = System.Drawing.Color.White;
             this.uiLabel15.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel15.Location = new System.Drawing.Point(558, 884);
+            this.uiLabel15.Location = new System.Drawing.Point(78, 1320);
             this.uiLabel15.Name = "uiLabel15";
             this.uiLabel15.Size = new System.Drawing.Size(88, 88);
             this.uiLabel15.Style = Sunny.UI.UIStyle.Custom;
@@ -1801,7 +1851,7 @@ namespace CabinetMgr
             this.panel15.Controls.Add(this.uiTextBox15SetAmount);
             this.panel15.Controls.Add(this.uiTextBox15CurrentAmount);
             this.panel15.Controls.Add(this.uiTextBox15);
-            this.panel15.Location = new System.Drawing.Point(667, 871);
+            this.panel15.Location = new System.Drawing.Point(187, 1307);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(348, 112);
             this.panel15.TabIndex = 37;
@@ -1818,14 +1868,15 @@ namespace CabinetMgr
             // 
             // uiTextBox15SetAmount
             // 
+            this.uiTextBox15SetAmount.AutoSize = true;
             this.uiTextBox15SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox15SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox15SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox15SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox15SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox15SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox15SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox15SetAmount.Name = "uiTextBox15SetAmount";
-            this.uiTextBox15SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox15SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox15SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox15SetAmount.TabIndex = 4;
             this.uiTextBox15SetAmount.Text = "15";
@@ -1834,14 +1885,15 @@ namespace CabinetMgr
             // 
             // uiTextBox15CurrentAmount
             // 
+            this.uiTextBox15CurrentAmount.AutoSize = true;
             this.uiTextBox15CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox15CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox15CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox15CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox15CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox15CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox15CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox15CurrentAmount.Name = "uiTextBox15CurrentAmount";
-            this.uiTextBox15CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox15CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox15CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox15CurrentAmount.TabIndex = 3;
             this.uiTextBox15CurrentAmount.Text = "15";
@@ -1850,6 +1902,7 @@ namespace CabinetMgr
             // 
             // uiTextBox15
             // 
+            this.uiTextBox15.AutoSize = true;
             this.uiTextBox15.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox15.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox15.ForeColor = System.Drawing.Color.White;
@@ -1857,7 +1910,7 @@ namespace CabinetMgr
             this.uiTextBox15.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox15.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox15.Name = "uiTextBox15";
-            this.uiTextBox15.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox15.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox15.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox15.TabIndex = 0;
             this.uiTextBox15.Text = "uiTextBox15";
@@ -1869,7 +1922,7 @@ namespace CabinetMgr
             this.uiLabel14.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel14.ForeColor = System.Drawing.Color.White;
             this.uiLabel14.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel14.Location = new System.Drawing.Point(558, 732);
+            this.uiLabel14.Location = new System.Drawing.Point(558, 1175);
             this.uiLabel14.Name = "uiLabel14";
             this.uiLabel14.Size = new System.Drawing.Size(88, 88);
             this.uiLabel14.Style = Sunny.UI.UIStyle.Custom;
@@ -1886,7 +1939,7 @@ namespace CabinetMgr
             this.panel14.Controls.Add(this.uiTextBox14SetAmount);
             this.panel14.Controls.Add(this.uiTextBox14CurrentAmount);
             this.panel14.Controls.Add(this.uiTextBox14);
-            this.panel14.Location = new System.Drawing.Point(667, 719);
+            this.panel14.Location = new System.Drawing.Point(667, 1162);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(348, 112);
             this.panel14.TabIndex = 35;
@@ -1903,14 +1956,15 @@ namespace CabinetMgr
             // 
             // uiTextBox14SetAmount
             // 
+            this.uiTextBox14SetAmount.AutoSize = true;
             this.uiTextBox14SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox14SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox14SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox14SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox14SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox14SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox14SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox14SetAmount.Name = "uiTextBox14SetAmount";
-            this.uiTextBox14SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox14SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox14SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox14SetAmount.TabIndex = 4;
             this.uiTextBox14SetAmount.Text = "14";
@@ -1919,14 +1973,15 @@ namespace CabinetMgr
             // 
             // uiTextBox14CurrentAmount
             // 
+            this.uiTextBox14CurrentAmount.AutoSize = true;
             this.uiTextBox14CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox14CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox14CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox14CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox14CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox14CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox14CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox14CurrentAmount.Name = "uiTextBox14CurrentAmount";
-            this.uiTextBox14CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox14CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox14CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox14CurrentAmount.TabIndex = 3;
             this.uiTextBox14CurrentAmount.Text = "14";
@@ -1935,6 +1990,7 @@ namespace CabinetMgr
             // 
             // uiTextBox14
             // 
+            this.uiTextBox14.AutoSize = true;
             this.uiTextBox14.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox14.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox14.ForeColor = System.Drawing.Color.White;
@@ -1942,7 +1998,7 @@ namespace CabinetMgr
             this.uiTextBox14.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox14.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox14.Name = "uiTextBox14";
-            this.uiTextBox14.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox14.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox14.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox14.TabIndex = 0;
             this.uiTextBox14.Text = "uiTextBox14";
@@ -1954,7 +2010,7 @@ namespace CabinetMgr
             this.uiLabel13.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel13.ForeColor = System.Drawing.Color.White;
             this.uiLabel13.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel13.Location = new System.Drawing.Point(558, 584);
+            this.uiLabel13.Location = new System.Drawing.Point(78, 1183);
             this.uiLabel13.Name = "uiLabel13";
             this.uiLabel13.Size = new System.Drawing.Size(88, 88);
             this.uiLabel13.Style = Sunny.UI.UIStyle.Custom;
@@ -1971,7 +2027,7 @@ namespace CabinetMgr
             this.panel13.Controls.Add(this.uiTextBox13SetAmount);
             this.panel13.Controls.Add(this.uiTextBox13CurrentAmount);
             this.panel13.Controls.Add(this.uiTextBox13);
-            this.panel13.Location = new System.Drawing.Point(667, 571);
+            this.panel13.Location = new System.Drawing.Point(187, 1170);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(348, 112);
             this.panel13.TabIndex = 33;
@@ -1988,14 +2044,15 @@ namespace CabinetMgr
             // 
             // uiTextBox13SetAmount
             // 
+            this.uiTextBox13SetAmount.AutoSize = true;
             this.uiTextBox13SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox13SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox13SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox13SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox13SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox13SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox13SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox13SetAmount.Name = "uiTextBox13SetAmount";
-            this.uiTextBox13SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox13SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox13SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox13SetAmount.TabIndex = 4;
             this.uiTextBox13SetAmount.Text = "13";
@@ -2004,14 +2061,15 @@ namespace CabinetMgr
             // 
             // uiTextBox13CurrentAmount
             // 
+            this.uiTextBox13CurrentAmount.AutoSize = true;
             this.uiTextBox13CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox13CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox13CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox13CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox13CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox13CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox13CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox13CurrentAmount.Name = "uiTextBox13CurrentAmount";
-            this.uiTextBox13CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox13CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox13CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox13CurrentAmount.TabIndex = 3;
             this.uiTextBox13CurrentAmount.Text = "13";
@@ -2020,6 +2078,7 @@ namespace CabinetMgr
             // 
             // uiTextBox13
             // 
+            this.uiTextBox13.AutoSize = true;
             this.uiTextBox13.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox13.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox13.ForeColor = System.Drawing.Color.White;
@@ -2027,7 +2086,7 @@ namespace CabinetMgr
             this.uiTextBox13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox13.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox13.Name = "uiTextBox13";
-            this.uiTextBox13.Size = new System.Drawing.Size(180, 44);
+            this.uiTextBox13.Size = new System.Drawing.Size(172, 36);
             this.uiTextBox13.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox13.TabIndex = 0;
             this.uiTextBox13.Text = "uiTextBox13";
@@ -2039,7 +2098,7 @@ namespace CabinetMgr
             this.uiLabel12.Font = new System.Drawing.Font("HarmonyOS Sans SC", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel12.ForeColor = System.Drawing.Color.White;
             this.uiLabel12.Image = global::CabinetMgr.Properties.Resources.PageBg;
-            this.uiLabel12.Location = new System.Drawing.Point(558, 435);
+            this.uiLabel12.Location = new System.Drawing.Point(558, 1047);
             this.uiLabel12.Name = "uiLabel12";
             this.uiLabel12.Size = new System.Drawing.Size(88, 88);
             this.uiLabel12.Style = Sunny.UI.UIStyle.Custom;
@@ -2056,7 +2115,7 @@ namespace CabinetMgr
             this.panel12.Controls.Add(this.uiTextBox12SetAmount);
             this.panel12.Controls.Add(this.uiTextBox12CurrentAmount);
             this.panel12.Controls.Add(this.uiTextBox12);
-            this.panel12.Location = new System.Drawing.Point(667, 422);
+            this.panel12.Location = new System.Drawing.Point(667, 1034);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(348, 112);
             this.panel12.TabIndex = 31;
@@ -2073,14 +2132,15 @@ namespace CabinetMgr
             // 
             // uiTextBox12SetAmount
             // 
+            this.uiTextBox12SetAmount.AutoSize = true;
             this.uiTextBox12SetAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox12SetAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox12SetAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox12SetAmount.Location = new System.Drawing.Point(255, 57);
+            this.uiTextBox12SetAmount.Location = new System.Drawing.Point(258, 57);
             this.uiTextBox12SetAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox12SetAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox12SetAmount.Name = "uiTextBox12SetAmount";
-            this.uiTextBox12SetAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox12SetAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox12SetAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox12SetAmount.TabIndex = 4;
             this.uiTextBox12SetAmount.Text = "12";
@@ -2089,14 +2149,15 @@ namespace CabinetMgr
             // 
             // uiTextBox12CurrentAmount
             // 
+            this.uiTextBox12CurrentAmount.AutoSize = true;
             this.uiTextBox12CurrentAmount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiTextBox12CurrentAmount.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBox12CurrentAmount.ForeColor = System.Drawing.Color.White;
-            this.uiTextBox12CurrentAmount.Location = new System.Drawing.Point(255, 5);
+            this.uiTextBox12CurrentAmount.Location = new System.Drawing.Point(258, 5);
             this.uiTextBox12CurrentAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBox12CurrentAmount.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBox12CurrentAmount.Name = "uiTextBox12CurrentAmount";
-            this.uiTextBox12CurrentAmount.Size = new System.Drawing.Size(57, 44);
+            this.uiTextBox12CurrentAmount.Size = new System.Drawing.Size(47, 36);
             this.uiTextBox12CurrentAmount.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBox12CurrentAmount.TabIndex = 3;
             this.uiTextBox12CurrentAmount.Text = "12";
@@ -2109,7 +2170,7 @@ namespace CabinetMgr
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Transparent;
             this.BackgroundImage = global::CabinetMgr.Properties.Resources.MainBg;
-            this.ClientSize = new System.Drawing.Size(1080, 1745);
+            this.ClientSize = new System.Drawing.Size(1080, 1880);
             this.Controls.Add(this.uiLabel20);
             this.Controls.Add(this.panel20);
             this.Controls.Add(this.uiLabel19);
@@ -2172,44 +2233,64 @@ namespace CabinetMgr
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonA)).EndInit();
             this.panel01.ResumeLayout(false);
+            this.panel01.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox01)).EndInit();
             this.panel02.ResumeLayout(false);
+            this.panel02.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox02)).EndInit();
             this.panel03.ResumeLayout(false);
+            this.panel03.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox03)).EndInit();
             this.panel04.ResumeLayout(false);
+            this.panel04.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox04)).EndInit();
             this.panel05.ResumeLayout(false);
+            this.panel05.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox05)).EndInit();
             this.panel06.ResumeLayout(false);
+            this.panel06.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox06)).EndInit();
             this.panel07.ResumeLayout(false);
+            this.panel07.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox07)).EndInit();
             this.panel08.ResumeLayout(false);
+            this.panel08.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox08)).EndInit();
             this.panel09.ResumeLayout(false);
+            this.panel09.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox09)).EndInit();
             this.panel10.ResumeLayout(false);
+            this.panel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.panel11.ResumeLayout(false);
+            this.panel11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             this.panel20.ResumeLayout(false);
+            this.panel20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
             this.panel19.ResumeLayout(false);
+            this.panel19.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
             this.panel18.ResumeLayout(false);
+            this.panel18.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).EndInit();
             this.panel17.ResumeLayout(false);
+            this.panel17.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
             this.panel16.ResumeLayout(false);
+            this.panel16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
             this.panel15.ResumeLayout(false);
+            this.panel15.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
             this.panel14.ResumeLayout(false);
+            this.panel14.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
             this.panel13.ResumeLayout(false);
+            this.panel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
             this.panel12.ResumeLayout(false);
+            this.panel12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
             this.ResumeLayout(false);
 

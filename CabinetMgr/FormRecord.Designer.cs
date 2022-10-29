@@ -97,6 +97,7 @@ namespace CabinetMgr
             this.pictureBoxIcon.Size = new System.Drawing.Size(300, 75);
             this.pictureBoxIcon.TabIndex = 0;
             this.pictureBoxIcon.TabStop = false;
+            this.pictureBoxIcon.Click += new System.EventHandler(this.pictureBoxIcon_Click);
             // 
             // flowLayoutPanelSearch
             // 
@@ -204,6 +205,7 @@ namespace CabinetMgr
             this.uiDataGridView.Size = new System.Drawing.Size(978, 1455);
             this.uiDataGridView.StripeEvenColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
             this.uiDataGridView.StripeOddColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.uiDataGridView.Style = Sunny.UI.UIStyle.Custom;
             this.uiDataGridView.TabIndex = 0;
             this.uiDataGridView.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 

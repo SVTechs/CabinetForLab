@@ -34,6 +34,7 @@ namespace CabinetMgr
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDeviceLoader));
             this.cStatusGrid = new Sunny.UI.UIDataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.cStatusGrid)).BeginInit();
             this.SuspendLayout();
@@ -98,6 +99,7 @@ namespace CabinetMgr
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(600, 600);
             this.Controls.Add(this.cStatusGrid);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormDeviceLoader";
             this.Text = "设备初始化";
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);

@@ -37,7 +37,7 @@ namespace CabinetMgr.Common
 
         public static void HideInputPanel()
         {
-            if (!kbpr.HasExited)
+            if (kbpr != null && !kbpr.HasExited)
             {
                 kbpr.Kill();
             }

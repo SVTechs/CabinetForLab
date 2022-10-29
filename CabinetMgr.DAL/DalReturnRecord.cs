@@ -93,7 +93,7 @@ namespace CabinetMgr.DAL
             return DeleteItem(criterionList, out exception);
         }
 
-        public static int AddReturnRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception)
+        public static int AddReturnRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception, int toolCount)
         {
             IList<TaskInfo> taskList = new List<TaskInfo>();
             BorrowRecord borrowRecord = DalBorrowRecord.GetLastBorrowRecord(toolInfo.Id, out exception);
@@ -110,7 +110,7 @@ namespace CabinetMgr.DAL
             borrowRecord.ReturnTime = DateTime.Now;
             borrowRecord.Status = 10;
             taskList.Add(new TaskInfo(OperationType.Update, borrowRecord));
-            toolInfo.CurrentCount += 1;
+            toolInfo.CurrentCount += toolCount;
             taskList.Add(new TaskInfo(OperationType.Update, toolInfo));
             return ExecBatchTask(taskList, out exception);
         }

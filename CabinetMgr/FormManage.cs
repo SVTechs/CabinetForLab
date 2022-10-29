@@ -29,15 +29,15 @@ namespace CabinetMgr
         {
             if(AppRt.CurUser == null)
             {
-                UIMessageBox.Show("请登录后进行维护", "", UIStyle.Orange);
+                UIMessageBox.ShowError("请登录后进行维护");
                 return;
             }
             if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin) == null)
             {
-                UIMessageBox.Show("只有管理员可以维护", "", UIStyle.Orange);
+                UIMessageBox.ShowError("只有管理员可以维护");
                 return;
             }
-            AppRt.FormMain.ShowWindow(AppRt.FormMain._toolManageForm);
+            AppRt.FormMain.ShowWindow(AppRt.FormMain._systemManage);
         }
     }
 }

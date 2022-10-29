@@ -159,6 +159,7 @@ namespace CabinetMgr
             this.uiRadioButtonRepair.Size = new System.Drawing.Size(155, 46);
             this.uiRadioButtonRepair.Style = Sunny.UI.UIStyle.Custom;
             this.uiRadioButtonRepair.TabIndex = 10;
+            this.uiRadioButtonRepair.Tag = "Repair";
             this.uiRadioButtonRepair.Text = "报修";
             this.uiRadioButtonRepair.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
@@ -177,6 +178,7 @@ namespace CabinetMgr
             this.uiRadioButtonLack.Size = new System.Drawing.Size(155, 46);
             this.uiRadioButtonLack.Style = Sunny.UI.UIStyle.Custom;
             this.uiRadioButtonLack.TabIndex = 11;
+            this.uiRadioButtonLack.Tag = "Lack";
             this.uiRadioButtonLack.Text = "缺料";
             this.uiRadioButtonLack.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 

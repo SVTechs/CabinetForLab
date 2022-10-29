@@ -152,16 +152,6 @@ namespace CabinetMgr.Config
             }
         }
 
-        public static int CanPort
-        {
-            get => _canPort;
-            set
-            {
-                _canPort = value;
-                IniHelper.Write("AppConfig", "CanPort", value.ToString(), Env.ConfigPath);
-            }
-        }
-
 
         private static string _appName = "智能储物柜";
         private static string _appUnit = "";
@@ -177,7 +167,6 @@ namespace CabinetMgr.Config
         private static string _serverIP = "192.168.1.10";
         private static int _serverPort = 1502;
         private static string _canIP = "192.168.1.100";
-        private static int _canPort = 8000;
 
 
     }

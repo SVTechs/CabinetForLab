@@ -16,6 +16,7 @@ namespace Hardware.DeviceInterface
 
         private static IntPtr DeviceHandle = IntPtr.Zero;
         private static UInt32 N_ADDR = 0XFFFFFFFF;//设备地址
+        //StoreChar占用地址199
 
         public static int Init(int serialPort)
         {

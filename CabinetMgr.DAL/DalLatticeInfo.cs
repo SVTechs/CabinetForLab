@@ -1,6 +1,7 @@
 ﻿using CabinetMgr.DAL.NhUtils;
 using Domain.Main.Domain;
 using Domain.Main.Types;
+using NHibernate;
 using NHibernate.Criterion;
 using NLog;
 using System;
@@ -141,6 +142,26 @@ namespace CabinetMgr.DAL
             criterionList.Add(Restrictions.Eq("CabinetLatticeNum", cabinetLatticeNum));
 
             return GetItemInfo(criterionList, out exception);
+        }
+
+        public static IList<string> GetPageList(out Exception exception)
+        {
+            exception = null;
+            try
+            {
+                var sessionFactory = NhControl.CreateSessionFactory(NhTypes.DbTarget.Client);
+                using (var session = sessionFactory.OpenSession())
+                {
+                    string queryStr = "select distinct CabinetNum from LatticeInfo order by cabinetnum";
+                    var pQuery = session.CreateQuery(queryStr);
+                    return pQuery.List<string>();
+                }
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+            return null;
         }
     }
 }

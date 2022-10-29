@@ -29,5 +29,8 @@ namespace Hardware.DeviceInterface
 
         public delegate void BorrowReturnCmdDelegate(AppSession session, string cmd);
         public static BorrowReturnCmdDelegate BorrowReturnCmd = null;
+
+        public delegate void MsgReceivedDelegate(string str);
+        public static MsgReceivedDelegate MsgReceived = null;
     }
 }

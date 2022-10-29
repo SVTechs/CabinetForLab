@@ -71,6 +71,7 @@
     <Compile Include="Domain\RoleSettings.cs" />
     <Compile Include="Domain\RuntimeInfo.cs" />
     <Compile Include="Domain\ToolInfo.cs" />
+    <Compile Include="Domain\ToolSettings.cs" />
     <Compile Include="Domain\ToolType.cs" />
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Interface\ITreeDef.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Mapping\MapRoleSettings.cs" />
     <Compile Include="Mapping\MapRuntimeInfo.cs" />
     <Compile Include="Mapping\MapToolInfo.cs" />
+    <Compile Include="Mapping\MapToolSettings.cs" />
     <Compile Include="Mapping\MapToolType.cs" />
     <Compile Include="Mapping\MapUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

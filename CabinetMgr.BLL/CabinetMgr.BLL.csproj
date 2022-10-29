@@ -50,6 +50,7 @@
     <Compile Include="BllRoleSettings.cs" />
     <Compile Include="BllRuntimeInfo.cs" />
     <Compile Include="BllToolInfo.cs" />
+    <Compile Include="BllToolSettings.cs" />
     <Compile Include="BllToolType.cs" />
     <Compile Include="BllUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

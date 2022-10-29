@@ -31,6 +31,8 @@ namespace Domain.Main.Mapping
             Map(x => x.OperatorName).Column("OperatorName");
             Map(x => x.OperateTime).Column("OperateTime");
             Map(x => x.ToolStatus).Column("ToolStatus");
+            Map(x => x.WarnType).Column("WarnType");
+            Map(x => x.WarnValue).Column("WarnValue");
         }
     }
 }

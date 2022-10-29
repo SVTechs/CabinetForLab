@@ -132,7 +132,7 @@ namespace CabinetMgr.DAL
                 ReturnTime = Env.MinTime,
             };
             taskList.Add(new TaskInfo(OperationType.Add, itemRecord));
-            toolInfo.CurrentCount -= 1;
+            toolInfo.CurrentCount -= toolCount;
             taskList.Add(new TaskInfo(OperationType.Update, toolInfo));
             return ExecBatchTask(taskList, out exception);
         }

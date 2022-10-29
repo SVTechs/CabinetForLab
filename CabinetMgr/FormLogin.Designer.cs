@@ -35,11 +35,11 @@ namespace CabinetMgr
             this.uiImageButtonFingerPrint = new Sunny.UI.UIImageButton();
             this.uiImageButtonFace = new Sunny.UI.UIImageButton();
             this.pictureBoxBgPic = new System.Windows.Forms.PictureBox();
-            this.uiFlowLayoutPanelInfo = new Sunny.UI.UIFlowLayoutPanel();
             this.panelTop = new System.Windows.Forms.Panel();
             this.pictureBoxTitleE = new System.Windows.Forms.PictureBox();
             this.pictureBoxTitleC = new System.Windows.Forms.PictureBox();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panelButtonContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonCard)).BeginInit();
@@ -139,24 +139,6 @@ namespace CabinetMgr
             this.pictureBoxBgPic.TabIndex = 3;
             this.pictureBoxBgPic.TabStop = false;
             // 
-            // uiFlowLayoutPanelInfo
-            // 
-            this.uiFlowLayoutPanelInfo.FillColor = System.Drawing.Color.Transparent;
-            this.uiFlowLayoutPanelInfo.Font = new System.Drawing.Font("HarmonyOS Sans SC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiFlowLayoutPanelInfo.Location = new System.Drawing.Point(115, 143);
-            this.uiFlowLayoutPanelInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiFlowLayoutPanelInfo.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiFlowLayoutPanelInfo.Name = "uiFlowLayoutPanelInfo";
-            this.uiFlowLayoutPanelInfo.Padding = new System.Windows.Forms.Padding(2);
-            this.uiFlowLayoutPanelInfo.RectColor = System.Drawing.Color.Transparent;
-            this.uiFlowLayoutPanelInfo.ShowText = false;
-            this.uiFlowLayoutPanelInfo.Size = new System.Drawing.Size(855, 387);
-            this.uiFlowLayoutPanelInfo.Style = Sunny.UI.UIStyle.Custom;
-            this.uiFlowLayoutPanelInfo.TabIndex = 5;
-            this.uiFlowLayoutPanelInfo.Text = "uiFlowLayoutPanel1";
-            this.uiFlowLayoutPanelInfo.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-            this.uiFlowLayoutPanelInfo.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            // 
             // panelTop
             // 
             this.panelTop.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleBg;
@@ -203,6 +185,13 @@ namespace CabinetMgr
             this.pictureBoxIcon.TabIndex = 0;
             this.pictureBoxIcon.TabStop = false;
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(131, 157);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(855, 387);
+            this.flowLayoutPanel1.TabIndex = 7;
+            // 
             // FormLogin
             // 
             this.AllowShowTitle = false;
@@ -210,8 +199,8 @@ namespace CabinetMgr
             this.BackColor = System.Drawing.Color.Transparent;
             this.BackgroundImage = global::CabinetMgr.Properties.Resources.MainBg;
             this.ClientSize = new System.Drawing.Size(1080, 1745);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panelTop);
-            this.Controls.Add(this.uiFlowLayoutPanelInfo);
             this.Controls.Add(this.panelButtonContainer);
             this.Controls.Add(this.pictureBoxBgPic);
             this.Name = "FormLogin";
@@ -223,6 +212,7 @@ namespace CabinetMgr
             this.Load += new System.EventHandler(this.FormLogin_Load);
             this.Shown += new System.EventHandler(this.FormLogin_Shown);
             this.Click += new System.EventHandler(this.FormLogin_Click);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormLogin_KeyDown);
             this.panelButtonContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonCard)).EndInit();
@@ -245,10 +235,10 @@ namespace CabinetMgr
         private Sunny.UI.UIImageButton uiImageButtonFingerPrint;
         private Sunny.UI.UIImageButton uiImageButtonFace;
         private System.Windows.Forms.PictureBox pictureBoxBgPic;
-        private Sunny.UI.UIFlowLayoutPanel uiFlowLayoutPanelInfo;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.PictureBox pictureBoxTitleE;
         private System.Windows.Forms.PictureBox pictureBoxTitleC;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

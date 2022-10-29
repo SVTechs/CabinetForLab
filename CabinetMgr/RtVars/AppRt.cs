@@ -22,6 +22,8 @@ namespace CabinetMgr.RtVars
 
         public static IList<LatticeInfo> LatticeList = null;
 
+        public static IList<ToolInfo> ToolList = null;
+
         public static IList<RoleInfo> RoleList = null;
 
         public static IList<RoleSettings> RoleSettings = null;
@@ -48,10 +50,18 @@ namespace CabinetMgr.RtVars
 
         public static FormMain FormMain;
 
+        public static void BackToLoginForm(bool clearLoginState)
+        {
+            if (clearLoginState) ResetUserInfo();
+            (FormMain._loginForm as FormLogin).LoadInfo();
+            FormMain.ShowWindow(FormMain._loginForm);
+        }
+
         public static void ResetUserInfo()
         {
             CurUser = null;
             LatticeList = null;
+            ToolList = null;
             RoleList = null;
             RoleSettings = null;
         }

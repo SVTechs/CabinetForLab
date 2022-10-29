@@ -1,5 +1,6 @@
 ﻿using CabinetMgr.BLL;
 using CabinetMgr.Common;
+using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Sunny.UI;
 using System;
@@ -58,6 +59,11 @@ namespace CabinetMgr
         private void uiTextBoxSeachToolName_Enter(object sender, EventArgs e)
         {
             Osk.ShowInputPanel();
+        }
+
+        private void pictureBoxIcon_Click(object sender, EventArgs e)
+        {
+            AppRt.BackToLoginForm(true);
         }
     }
 }

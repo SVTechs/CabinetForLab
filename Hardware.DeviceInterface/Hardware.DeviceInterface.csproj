@@ -35,15 +35,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxInterop.zkemkeeper">
-      <HintPath>lib\AxInterop.zkemkeeper.dll</HintPath>
-    </Reference>
-    <Reference Include="AxZKFPEngXControl">
-      <HintPath>lib\AxZKFPEngXControl.dll</HintPath>
-    </Reference>
-    <Reference Include="GReaderApi">
-      <HintPath>..\packages\RFID\GReaderApi.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -55,9 +46,6 @@
     </Reference>
     <Reference Include="Reader">
       <HintPath>..\packages\RFID\RIP-16-R2000\Reader.dll</HintPath>
-    </Reference>
-    <Reference Include="RJCP.SerialPortStream, Version=2.4.0.0, Culture=neutral, PublicKeyToken=5f5e7b70c6a74deb, processorArchitecture=MSIL">
-      <HintPath>..\packages\SerialPortStream.2.4.0\lib\net45\RJCP.SerialPortStream.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.Common, Version=1.6.6.1, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <HintPath>..\packages\SuperSocket.1.6.6.1\lib\net45\SuperSocket.Common.dll</HintPath>
@@ -89,15 +77,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UHFReader18CSharp">
-      <HintPath>lib\UHFReader18CSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CabinetServer.cs" />
+    <Compile Include="CabinetServerOld.cs" />
     <Compile Include="CabinetServerCallback.cs" />
-    <Compile Include="CabinetSrv.cs" />
-    <Compile Include="CabinetSrvCallback.cs" />
+    <Compile Include="CardDevice.cs" />
     <Compile Include="DriveOpration.cs" />
     <Compile Include="FpCallBack.cs" />
     <Compile Include="FpComDevice.cs" />
@@ -116,17 +101,6 @@
     <None Include="packages.config" />
     <None Include="supersocket.cmd" />
     <None Include="supersocket.sh" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="PInteliCabinetSrv">
-      <Guid>{B8E5185B-9FD3-40BC-84D9-B6342FDE628C}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SynoAPIEx.dll">

@@ -42,9 +42,11 @@ namespace CabinetMgr
         {
             Screen screen = Screen.PrimaryScreen;
             AppRt.ScreenSize = screen.Bounds.Size;
+            if (AppConfig.DebugMode == 1) AppRt.FormLog.Show();
             InitCamera();
             InitFpDevice();
-            InitSockerServer();
+            //InitCardDevice();
+            InitSocketServer();
         }
 
         private void InitGrid()
@@ -95,12 +97,29 @@ namespace CabinetMgr
             UpdateStatus("初始化指纹仪", "初始化成功", 1);
         }
 
-        private void InitSockerServer()
+        private void InitCardDevice()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化读卡器";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            int result = FpDevice.Init(AppConfig.FpPort);
+            if (result != 0)
+            {
+                UpdateStatus("初始化读卡器", "初始化失败", 2);
+                _isPassed = false;
+                AppRt.HaveFpDevice = false;
+                return;
+            }
+            AppRt.HaveFpDevice = true;
+            UpdateStatus("初始化读卡器", "初始化成功", 1);
+        }
+
+        private void InitSocketServer()
         {
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP, AppConfig.CanPort);
+            CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP);
         }
 
         private delegate void UpdateStatusDelegate(string itemName, string result, int color = 0);

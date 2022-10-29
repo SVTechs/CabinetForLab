@@ -62,11 +62,18 @@ namespace CabinetMgr
 
         private void FormLogin_Shown(object sender, EventArgs e)
         {
+            LoadInfo();
+        }
+
+        public void LoadInfo()
+        {
+            InfoClear();
             infoList = BllInfo.SearchInfo(0, 3, null, out _);
-            foreach(Info info in infoList)
+            foreach (Info info in infoList)
             {
                 AddInfo(info.InfoContent, info.InfoType);
             }
+            flowLayoutPanel1.Refresh();
         }
 
         private void uiImageButtonFace_Click(object sender, EventArgs e)
@@ -229,7 +236,7 @@ namespace CabinetMgr
                             {
                                 FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 1);
                                 AppRt.FaceEnable = false;
-                                windowVideo.Dispose();
+                                windowVideo?.Dispose();
                             }
                         }
 
@@ -327,31 +334,50 @@ namespace CabinetMgr
         private delegate void AddInfoDelegate(string infoContent, int infoLevel);
         private void AddInfo(string infoContent, int infoLevel)
         {
-            if (uiFlowLayoutPanelInfo.InvokeRequired)
+            if (flowLayoutPanel1.InvokeRequired)
             {
                 AddInfoDelegate d = AddInfo;
-                uiFlowLayoutPanelInfo.Invoke(d, infoContent, infoLevel);
+                flowLayoutPanel1.Invoke(d, infoContent, infoLevel);
             }
-            UIButton button = new UIButton();
-            button.Font = new Font("HarmonyOS Sans SC", 20);
-            button.Text = infoContent;
-            button.Width = uiFlowLayoutPanelInfo.Width - 20;
-            button.Height = 75;
-            switch (infoLevel)
+            else
             {
-                case 0:
-                    button.Style = UIStyle.Green;
-                    uiFlowLayoutPanelInfo.Add(button);
-                    break;
-                case 1:
-                    button.Style = UIStyle.Orange;
-                    uiFlowLayoutPanelInfo.Add(button);
-                    break;
-                case 2:
-                    button.Style = UIStyle.Red;
-                    uiFlowLayoutPanelInfo.Add(button);
-                    break;
+                UIButton button = new UIButton();
+                button.Font = new Font("HarmonyOS Sans SC", 20);
+                button.Text = infoContent;
+                button.Width = flowLayoutPanel1.Width - 20;
+                button.Height = 75;
+                switch (infoLevel)
+                {
+                    case 0:
+                        button.Style = UIStyle.Green;
+                        flowLayoutPanel1.Controls.Add(button);
+                        break;
+                    case 1:
+                        button.Style = UIStyle.Orange;
+                        flowLayoutPanel1.Controls.Add(button);
+                        break;
+                    case 2:
+                        button.Style = UIStyle.Red;
+                        flowLayoutPanel1.Controls.Add(button);
+                        break;
+                }
             }
+
+        }
+
+        private delegate void InfoClearDelegate();
+        private void InfoClear()
+        {
+            if (flowLayoutPanel1.InvokeRequired)
+            {
+                InfoClearDelegate d = InfoClear;
+                flowLayoutPanel1.Invoke(d);
+            }
+            else
+            {
+                flowLayoutPanel1.Controls.Clear();
+            }
+            
         }
 
         private void pictureBoxTitleC_Click(object sender, EventArgs e)
@@ -362,6 +388,11 @@ namespace CabinetMgr
                 currentCount = 1;
                 AppRt.FormMain.ShowWindow(AppRt.FormMain._manageForm);
             }
+        }
+
+        private void FormLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }
