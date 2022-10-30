@@ -5,6 +5,7 @@ using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
 using SuperSocket.SocketBase.Protocol;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -20,14 +21,13 @@ namespace Hardware.DeviceInterface
     {
         private static int _serverPort;
         private static string _serverIP, _canIP;
-        private static bool _initDone = false;
+        //private static bool _initDone = false;
         public static MyServer Server;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static string openStr = $"{{\"cmd\":\"ctrl_one\",\"msgid\":\"string\",\"id\":_id,\"nch\":_nch}}";
-        private static StringBuilder sbReceived = new StringBuilder();
-        private static object strLock = new object();
         private static readonly List<DoorInfo> DoorList = new List<DoorInfo>();
         private static AppSession canSession;
+        private static Hashtable htCanValue = new Hashtable();
 
         public static void Init(string serverIP, int serverPort, string canIP)
         {
@@ -69,32 +69,34 @@ namespace Hardware.DeviceInterface
 
         private static void UpdateCheck(CheckJObject c)
         {
-            CabinetServerCallback.MsgReceived?.Invoke("UpdateCheck");
-            CabinetServerCallback.MsgReceived?.Invoke(_initDone ? "true" : "false");
-            if (_initDone) return;
-            foreach (CheckChild child in c.ChildList)
-            {
-                var id = child.Id;
-                for (int i = 1; i <= child.Nch; i++)
-                {
-                    DoorList.Add(new DoorInfo() { Id = id, Nch = i, IsClosed = false });
-                }
-            }
-            _initDone = true;
-            CabinetServerCallback.OnInitDone?.Invoke("成功");
+            //CabinetServerCallback.MsgReceived?.Invoke("UpdateCheck");
+            //if (_initDone) return;
+            //foreach (CheckChild child in c.ChildList)
+            //{
+            //    var id = child.Id;
+            //    for (int i = 1; i <= child.Nch; i++)
+            //    {
+            //        DoorList.Add(new DoorInfo() { Id = id, Nch = i, IsClosed = false });
+            //    }
+            //}
+            //_initDone = true;
+            //CabinetServerCallback.OnInitDone?.Invoke("成功");
         }
 
         private static void UpdateStatus(StatusJObject s)
         {
-            if (!_initDone) return;
-            bool _isChanged = false;
-            //var canControl = controllers.FirstOrDefault(x => x.Id == s.Id);
+            //if (!_initDone) return;
+            
             foreach (JProperty property in s.ChildList as JToken)
             {
                 int doorIdx = int.Parse(property.Name.Replace("bit", ""));
-                var door = DoorList.FirstOrDefault(x => x.Id == s.Id && x.Nch == doorIdx);
-                if (door == null) continue;
                 var currentDoorState = (int)property.Value == 1;
+                var door = DoorList.FirstOrDefault(x => x.Id == s.Id && x.Nch == doorIdx);
+                if (door == null)
+                {
+                    DoorList.Add(new DoorInfo() { Id = s.Id, Nch = doorIdx, IsClosed = currentDoorState });
+                    continue;
+                }
                 if (door.IsClosed != currentDoorState) CabinetServerCallback.DoorStatusChange?.Invoke(s.Id, doorIdx);
                 door.IsClosed = currentDoorState;
             }
@@ -113,32 +115,33 @@ namespace Hardware.DeviceInterface
             {
                 canSession = session;
                 CabinetServerCallback.MsgReceived?.Invoke($"Can Session Catched");
+                CabinetServerCallback.OnInitDone?.Invoke("成功");
             }
             CabinetServerCallback.NewSessionConnected?.Invoke(session);
         }
 
         private static void appServer_NewRequestReceived(AppSession session, SuperSocket.SocketBase.Protocol.StringRequestInfo requestInfo)
         {
-            string receivedStr = requestInfo.Key;
-            string receicedValue = requestInfo.Body;
-
-            CabinetServerCallback.MsgReceived?.Invoke($"Key:{receivedStr}");
-            CabinetServerCallback.MsgReceived?.Invoke($"Value:{receicedValue}");
-            CabinetServerCallback.MsgReceived?.Invoke($"Ip:{session.RemoteEndPoint.Address.ToString()}");
-
-            int checkIdx = receivedStr.IndexOf($"check");
-
-            int sensorIdx = receivedStr.IndexOf($"sensor");
-
-            if (checkIdx > 0)
+            if (session.RemoteEndPoint.Address.ToString() == _canIP)
             {
-                var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
-                UpdateCheck(c);
-            }
-            else if (sensorIdx > 0)
-            {
-                var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
-                UpdateStatus(s);
+                string receivedStr = requestInfo.Key;
+
+                //if (htCanValue.ContainsKey(receivedStr)) return;
+                //else htCanValue.Add(receivedStr, 1);
+
+                int checkIdx = receivedStr.IndexOf($"check");
+
+                int sensorIdx = receivedStr.IndexOf($"sensor");
+                if (checkIdx > 0)
+                {
+                    var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
+                    UpdateCheck(c);
+                }
+                else if (sensorIdx > 0)
+                {
+                    var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
+                    UpdateStatus(s);
+                }
             }
             else
             {
@@ -146,7 +149,6 @@ namespace Hardware.DeviceInterface
                 string cmd = receivedCmd.Substring(receivedCmd.IndexOf('{'));
                 CabinetServerCallback.BorrowReturnCmd?.Invoke(session, cmd);
             }
-
         }
 
         private static void appServer_SessionClosed(AppSession session, CloseReason reason)
@@ -156,6 +158,7 @@ namespace Hardware.DeviceInterface
 
         public static void Stop()
         {
+            canSession?.Close();
             Server?.Stop();
         }
 

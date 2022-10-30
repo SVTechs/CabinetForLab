@@ -291,11 +291,11 @@ namespace CabinetMgr
             bool isAllSucceed = true;
             foreach (UserInfo ui in listUserInfo)
             {
-                //if (!ui.HasFingerFeature) continue;
-                //int ret = FpDevice.DownChar(ui.FingerFeature);
-                //if (ret != DriveOpration.PS_OK) isAllSucceed = false;
-                //ret = FpDevice.StoreChar((int)ui.TemplateId);
-                //if (ret != DriveOpration.PS_OK) isAllSucceed = false;
+                if (!ui.HasFingerFeature) continue;
+                int ret = FpDevice.DownChar(ui.FingerFeature);
+                if (ret != DriveOpration.PS_OK) isAllSucceed = false;
+                ret = FpDevice.StoreChar((int)ui.TemplateId);
+                if (ret != DriveOpration.PS_OK) isAllSucceed = false;
             }
             if (!isAllSucceed) AddInfo("指纹下发出错，部分指纹将不能使用", 2);
         }

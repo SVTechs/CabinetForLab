@@ -33,8 +33,6 @@ namespace CabinetMgr
         public Form _indexForm;
         public Form _manageForm;
         public Form _recordForm;
-        //public Form _toolManageForm;
-        //public Form _userManageForm;
         public Form _systemManage;
 
         SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
@@ -43,7 +41,6 @@ namespace CabinetMgr
         {
             InitializeComponent();
             FpCallBack.OnUserRecognised = OnUserRecognised;
-            CabinetServerCallback.JsonStrParsed += JsonStrParsed;
             CabinetServerCallback.MsgReceived += MsgReceived;
             CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
             CabinetServerCallback.NewSessionConnected += NewSessionConnected;
@@ -81,7 +78,11 @@ namespace CabinetMgr
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+            Face.sdk_destroy();
+            CabinetServer.Stop();
+            AppRt.VideoCaptureDevice.Dispose();
+            FpDevice.CloseDeviceEx();
+            Application.Exit();
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
@@ -102,7 +103,7 @@ namespace CabinetMgr
                 BllToolType.DeleteAll(out ex);
                 BllUserInfo.DeleteAll(out ex);
                 //清除登录状态
-                PerformManualLogin();
+                AppRt.ResetUserInfo();
 
                 //窗口刷新
                 MessageBox.Show("重置完成");
@@ -178,7 +179,6 @@ namespace CabinetMgr
 
         }
 
-
         #region ControlDelegate
 
         private delegate void FormVisibleDelegate(bool visible, Form form);
@@ -251,7 +251,6 @@ namespace CabinetMgr
             }
         }
 
-
         #endregion
 
         private void InitForm()
@@ -272,12 +271,6 @@ namespace CabinetMgr
 
                 _systemManage = new FormSystemManage();
                 AddToPanel(_systemManage);
-
-                //_toolManageForm = new FormToolManage();
-                //AddToPanel(_toolManageForm);
-
-                //_userManageForm = new FormSystemManage();
-                //AddToPanel(_userManageForm);
 
             }
             catch (Exception ex)
@@ -312,25 +305,9 @@ namespace CabinetMgr
             panelWindow.Controls.Add(targetForm);
         }
 
-        public void PerformManualLogin()
-        {
-            if (AppRt.CurUser != null)
-            {
-                AppRt.ResetUserInfo();
-                (_indexForm as FormIndex).DisplayUser("");
-            }
-            AppRt.FormMain.ShowWindow(_loginForm);
-        }
-
-        private void JsonStrParsed(string parseStr)
-        {
-            AppRt.FormLog.AddLine(parseStr);
-        }
-
         private void MsgReceived(string parseStr)
         {
             AppRt.FormLog.AddLine(parseStr);
-            Logger.Info(parseStr);
         }
 
 

@@ -199,12 +199,6 @@
     <Compile Include="FormSystemManage.Designer.cs">
       <DependentUpon>FormSystemManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUserRoleManageOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUserRoleManageOld.Designer.cs">
-      <DependentUpon>FormUserRoleManageOld.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -317,9 +311,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUserManage.resx">
       <DependentUpon>FormUserManage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUserRoleManageOld.resx">
-      <DependentUpon>FormUserRoleManageOld.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

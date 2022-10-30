@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using CabinetMgr.BLL;
 using CabinetMgr.Config;
@@ -15,6 +16,7 @@ using Domain.Main.Domain;
 using Hardware.DeviceInterface;
 using NLog;
 using OpenCvSharp;
+using testface;
 
 namespace CabinetMgr
 {
@@ -23,14 +25,10 @@ namespace CabinetMgr
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private DataGridViewCellStyle _ctRed, _ctGreen;
         private bool _isPassed = true;
+        private bool _cameraPassed = false, _fpDevicePassed = false, _faceEnginePassed = false;
+        public static ManualResetEvent InitManualEvent = new ManualResetEvent(false);
 
-        public FormDeviceLoaderOld()
-        {
-            InitializeComponent();
-            CabinetServerCallback.OnInitDone += OnCabinetInitDone;
-        }
-
-        private void FormDeviceLoader_Load(object sender, EventArgs e)
+        private void FormDeviceOldLoad_Load(object sender, EventArgs e)
         {
             CenterToScreen();
             ConfigLoader.LoadConfig();
@@ -38,80 +36,41 @@ namespace CabinetMgr
             InitGrid();
         }
 
-        private void FormDeviceLoader_Shown(object sender, EventArgs e)
+        public FormDeviceLoaderOld()
         {
+            InitializeComponent();
+            CabinetServerCallback.OnInitDone += OnCabinetInitDone;
+        }
 
+        private void FormDeviceOldLoad_Shown(object sender, EventArgs e)
+        {
             Screen screen = Screen.PrimaryScreen;
             AppRt.ScreenSize = screen.Bounds.Size;
-            InitLogForm();
+            if (AppConfig.DebugMode == 1) AppRt.FormLog.Show();
+            Init();
+            //InitCamera();
+            //InitFpDevice();
+            //InitFaceEngine();
+            //InitCardDevice();
+            InitSocketServer();
+        }
+
+        private async Task Init()
+        {
             InitCamera();
             InitFpDevice();
-            InitSockerServer();
-        }
-
-        private void InitLogForm()
-        {
-            FormLog formLog = new FormLog();
-            AppRt.FormLog = formLog;
-        }
-
-        //private void InitCamera()
-        //{
-        //    Thread t = new Thread(new ThreadStart(InitCameraFunc));
-        //    t.Start();
-        //}
-
-        private void InitCamera()
-        {
-            int index = cStatusGrid.Rows.Add();
-            cStatusGrid.Rows[index].Cells[0].Value = "初始化摄像头";
-            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            VideoCapture cap = VideoCapture.FromCamera(0);
-            if (!cap.IsOpened())
+            InitFaceEngine();
+            while (true)
             {
-                UpdateStatus("初始化摄像头", "初始化失败", 2);
-                _isPassed = false;
-                return;
+                Application.DoEvents();
+                Thread.Sleep(100);
+                if (_cameraPassed && _fpDevicePassed && _faceEnginePassed) break;
             }
-            AppRt.VideoCaptureDevice = cap;
-            AppRt.HaveFaceDevice = true;
-            UpdateStatus("初始化摄像头", "初始化成功", 1);
-        }
-
-        //private void InitFpDevice()
-        //{
-        //    Thread t = new Thread(new ThreadStart(InitFpDeviceFunc));
-        //    t.Start();
-        //}
-
-        private void InitFpDevice()
-        {
-            int index = cStatusGrid.Rows.Add();
-            cStatusGrid.Rows[index].Cells[0].Value = "初始化指纹仪";
-            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            int result = FpDevice.Init(AppConfig.FpPort);
-            if (result != 0)
-            {
-                UpdateStatus("初始化指纹仪", "初始化失败", 2);
-                _isPassed = false;
-                return;
-            }
-            AppRt.HaveFaceDevice = true;
-            UpdateStatus("初始化指纹仪", "初始化成功", 1);
-        }
-
-        private void InitSockerServer()
-        {
-            int index = cStatusGrid.Rows.Add();
-            cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
-            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP, AppConfig.CanPort);
         }
 
         private void InitGrid()
         {
             cStatusGrid.ColumnCount = 2;
-            //cStatusGrid.RowCount = 1;
             cStatusGrid.Columns[0].HeaderText = "项目";
             cStatusGrid.Columns[1].HeaderText = "状态";
             cStatusGrid.Columns[0].Width = (cStatusGrid.Width - 50) / 2;
@@ -120,6 +79,119 @@ namespace CabinetMgr
             _ctGreen = new DataGridViewCellStyle();
             _ctRed.BackColor = Color.HotPink;
             _ctGreen.BackColor = Color.LightGreen;
+        }
+
+        private Task InitFaceEngine()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            var task = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    int n = Face.sdk_init(null);
+                    if (n != 0)
+                    {
+                        UpdateStatus("初始化人脸识别", "初始化失败", 2);
+                        _isPassed = false;
+                        Logger.Error(n);
+                        return;
+                    }
+                    FaceAbilityLoad.load_all_ability();
+                    bool authed = Face.is_auth();
+                    UpdateStatus("初始化人脸识别", "初始化成功", 1);
+                    _faceEnginePassed = true;
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    UpdateStatus("初始化人脸识别", "初始化失败", 2);
+                    _isPassed = false;
+                    Logger.Error(ex);
+                }
+
+
+
+            }, TaskCreationOptions.LongRunning);
+            return task;
+
+
+        }
+
+        private Task InitCamera()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化摄像头";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+
+            var task = Task.Factory.StartNew(() => {
+
+                VideoCapture cap = VideoCapture.FromCamera(0);
+                if (!cap.IsOpened())
+                {
+                    UpdateStatus("初始化摄像头", "初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveFaceDevice = false;
+                }
+                AppRt.VideoCaptureDevice = cap;
+                AppRt.HaveFaceDevice = true;
+                UpdateStatus("初始化摄像头", "初始化成功", 1);
+                _cameraPassed = true;
+            }, TaskCreationOptions.LongRunning);
+            return task;
+        }
+
+        private Task InitFpDevice()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化指纹仪";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+
+            var task = Task.Factory.StartNew(() => {
+
+                int result = FpDevice.Init(AppConfig.FpPort);
+                if (result != 0)
+                {
+                    UpdateStatus("初始化指纹仪", "初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveFpDevice = false;
+                    return;
+                }
+                AppRt.HaveFpDevice = true;
+                UpdateStatus("初始化指纹仪", "初始化成功", 1);
+                _fpDevicePassed = true;
+                InitManualEvent.Set();
+            }, TaskCreationOptions.LongRunning);
+
+            return task;
+        }
+
+        private void InitCardDevice()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化读卡器";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            int result = FpDevice.Init(AppConfig.FpPort);
+            if (result != 0)
+            {
+                UpdateStatus("初始化读卡器", "初始化失败", 2);
+                _isPassed = false;
+                AppRt.HaveFpDevice = false;
+                return;
+            }
+            AppRt.HaveFpDevice = true;
+            UpdateStatus("初始化读卡器", "初始化成功", 1);
+        }
+
+        private void InitSocketServer()
+        {
+            InitManualEvent.WaitOne();
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP);
         }
 
         private delegate void UpdateStatusDelegate(string itemName, string result, int color = 0);
@@ -189,15 +261,16 @@ namespace CabinetMgr
                         }
                     }
                 }
-                if(AppConfig.InitDB == 1)
+                if (AppConfig.InitDB == 1)
                 {
+                    Thread.Sleep(1500);
                     IList<string> doorList = new List<string>();
-                    foreach(DoorInfo di in CabinetServer.GetDoorList())
+                    foreach (DoorInfo di in CabinetServer.GetDoorList())
                     {
                         doorList.Add(di.Id + "|" + di.Nch);
                     }
                     int initDBResult = BllLatticeInfo.InitLattice(doorList, AppConfig.LabName, AppConfig.Location, out Exception ex);
-                    if(initDBResult <= 0)
+                    if (initDBResult <= 0)
                     {
                         using (FormMessageBox messageBox = new FormMessageBox($"初始化Lattice信息失败,原因:\n{ex.Message}", "提示", 1, 5000))
                         {
@@ -208,9 +281,9 @@ namespace CabinetMgr
                     }
                 }
                 AppRt.IsInit = false;
-                Thread.Sleep(2000);
-                Close();
                 CabinetServerCallback.OnInitDone -= OnCabinetInitDone;
+                Close();
+
             }
             catch (Exception ex)
             {

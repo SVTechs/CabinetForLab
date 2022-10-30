@@ -107,7 +107,6 @@ namespace Hardware.DeviceInterface
         public static void Close()
         {
             DriveOpration.PSCloseDeviceEx(DeviceHandle);
-            _serialCtrl.Close();
         }
 
 

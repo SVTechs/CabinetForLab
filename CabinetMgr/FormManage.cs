@@ -39,5 +39,10 @@ namespace CabinetMgr
             }
             AppRt.FormMain.ShowWindow(AppRt.FormMain._systemManage);
         }
+
+        private void pictureBoxIcon_Click(object sender, EventArgs e)
+        {
+            AppRt.BackToLoginForm(false);
+        }
     }
 }

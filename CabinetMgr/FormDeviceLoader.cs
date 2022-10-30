@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using testface;
 
 namespace CabinetMgr
 {
@@ -23,6 +24,8 @@ namespace CabinetMgr
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private DataGridViewCellStyle _ctRed, _ctGreen;
         private bool _isPassed = true;
+        private bool _cameraPassed = false, _fpDevicePassed = false, _faceEnginePassed = false;
+        public static ManualResetEvent InitManualEvent = new ManualResetEvent(false);
 
         private void FormDeviceLoad_Load(object sender, EventArgs e)
         {
@@ -43,10 +46,25 @@ namespace CabinetMgr
             Screen screen = Screen.PrimaryScreen;
             AppRt.ScreenSize = screen.Bounds.Size;
             if (AppConfig.DebugMode == 1) AppRt.FormLog.Show();
-            InitCamera();
-            InitFpDevice();
+            Init();
+            //InitCamera();
+            //InitFpDevice();
+            //InitFaceEngine();
             //InitCardDevice();
             InitSocketServer();
+        }
+
+        private async Task Init()
+        {
+            InitCamera();
+            InitFpDevice();
+            InitFaceEngine();
+            while (true)
+            {
+                Application.DoEvents();
+                Thread.Sleep(100);
+                if (_cameraPassed && _fpDevicePassed && _faceEnginePassed) break;
+            }
         }
 
         private void InitGrid()
@@ -62,40 +80,98 @@ namespace CabinetMgr
             _ctGreen.BackColor = Color.LightGreen;
         }
 
-        private void InitCamera()
+        private Task InitCamera()
         {
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化摄像头";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            VideoCapture cap = VideoCapture.FromCamera(0);
-            if (!cap.IsOpened())
-            {
-                UpdateStatus("初始化摄像头", "初始化失败", 2);
-                _isPassed = false;
-                AppRt.HaveFaceDevice = false;
-                return;
-            }
-            AppRt.VideoCaptureDevice = cap;
-            AppRt.HaveFaceDevice = true;
-            UpdateStatus("初始化摄像头", "初始化成功", 1);
+
+            var task = Task.Factory.StartNew(() => {
+
+                VideoCapture cap = VideoCapture.FromCamera(0);
+                if (!cap.IsOpened())
+                {
+                    UpdateStatus("初始化摄像头", "初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveFaceDevice = false;
+                }
+                else
+                {
+                    AppRt.VideoCaptureDevice = cap;
+                    AppRt.HaveFaceDevice = true;
+                    UpdateStatus("初始化摄像头", "初始化成功", 1);
+                }
+                _cameraPassed = true;
+            }, TaskCreationOptions.LongRunning);
+            return task;
         }
 
-        private void InitFpDevice()
+        private Task InitFpDevice()
         {
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化指纹仪";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            int result = FpDevice.Init(AppConfig.FpPort);
-            if (result != 0)
-            {
-                UpdateStatus("初始化指纹仪", "初始化失败", 2);
-                _isPassed = false;
-                AppRt.HaveFpDevice = false;
-                return;
-            }
-            AppRt.HaveFpDevice = true;
-            UpdateStatus("初始化指纹仪", "初始化成功", 1);
+
+            var task = Task.Factory.StartNew(() => {
+
+                int result = FpDevice.Init(AppConfig.FpPort);
+                if (result != 0)
+                {
+                    UpdateStatus("初始化指纹仪", "初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveFpDevice = false;
+                }
+                else
+                {
+                    AppRt.HaveFpDevice = true;
+                    UpdateStatus("初始化指纹仪", "初始化成功", 1);
+                }
+                _fpDevicePassed = true;
+            }, TaskCreationOptions.LongRunning);
+
+            return task;
         }
+
+        private Task InitFaceEngine()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            var task = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    int n = Face.sdk_init(null);
+                    if (n != 0)
+                    {
+                        UpdateStatus("初始化人脸识别", "初始化失败", 2);
+                        _isPassed = false;
+                        Logger.Error(n);
+                    }
+                    else
+                    {
+                        FaceAbilityLoad.load_all_ability();
+                        bool authed = Face.is_auth();
+                        UpdateStatus("初始化人脸识别", "初始化成功", 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    UpdateStatus("初始化人脸识别", "初始化失败", 2);
+                    _isPassed = false;
+                    Logger.Error(ex);
+                }
+                _faceEnginePassed = true;
+                InitManualEvent.Set();
+
+
+            }, TaskCreationOptions.LongRunning);
+            return task;
+
+
+        }
+
 
         private void InitCardDevice()
         {
@@ -116,6 +192,7 @@ namespace CabinetMgr
 
         private void InitSocketServer()
         {
+            InitManualEvent.WaitOne();
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
@@ -191,6 +268,7 @@ namespace CabinetMgr
                 }
                 if (AppConfig.InitDB == 1)
                 {
+                    Thread.Sleep(1500);
                     IList<string> doorList = new List<string>();
                     foreach (DoorInfo di in CabinetServer.GetDoorList())
                     {
@@ -208,9 +286,9 @@ namespace CabinetMgr
                     }
                 }
                 AppRt.IsInit = false;
-                Thread.Sleep(2000);
-                Close();
                 CabinetServerCallback.OnInitDone -= OnCabinetInitDone;
+                Close();
+
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Hardware.DeviceInterface;
 using Sunny.UI;
@@ -24,10 +25,10 @@ namespace CabinetMgr
         public FormToolManage()
         {
             InitializeComponent();
-            foreach (Control ctl in panelPage.Controls)
+            for (int i = 1; i <= 20; i++)
             {
-                UIImageButton button = ctl as UIImageButton;
-                button.Click += PageButton_Click;
+                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                panel.Click += Panel_Click;
             }
             InitPageButton();
         }
@@ -116,6 +117,7 @@ namespace CabinetMgr
         private void Panel_Click(object sender, EventArgs e)
         {
             Panel panel = sender as Panel;
+            (AppRt.FormLog as FormLog).AddLine(panel.Tag as string);
             FormToolEdit formToolEdit = FormToolEdit.Instance(panel.Tag as string);
             formToolEdit.ShowDialog();
             ReloadData();
@@ -155,7 +157,7 @@ namespace CabinetMgr
                     SetLabel(currentAmount, false, "", Color.White);
                     SetLabel(setAmount, false, "", Color.White);
                     SetPicture(pictureBox, false);
-                    SetPanel(pnl, true, null);
+                    SetPanel(pnl, true, currentPage + i.ToString("D2") + "|" + "" + "|" + lattice.Id);
                     continue;
                 }
                 SetLabel(toolName, true, tool.ToolName, Color.White);

@@ -55,8 +55,8 @@
             this.MaximizeBox = false;
             this.Name = "FormDeviceLoader";
             this.Text = "设备初始化";
-            this.Load += new System.EventHandler(this.FormDeviceLoader_Load);
-            this.Shown += new System.EventHandler(this.FormDeviceLoader_Shown);
+            this.Load += new System.EventHandler(this.FormDeviceOldLoad_Load);
+            this.Shown += new System.EventHandler(this.FormDeviceOldLoad_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.cStatusGrid)).EndInit();
             this.ResumeLayout(false);
 

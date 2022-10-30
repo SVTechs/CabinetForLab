@@ -175,6 +175,7 @@ namespace CabinetMgr
             this.pictureBoxIcon.Size = new System.Drawing.Size(300, 75);
             this.pictureBoxIcon.TabIndex = 0;
             this.pictureBoxIcon.TabStop = false;
+            this.pictureBoxIcon.Click += new System.EventHandler(this.pictureBoxIcon_Click);
             // 
             // FormManage
             // 

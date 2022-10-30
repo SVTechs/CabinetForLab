@@ -21,9 +21,6 @@ namespace Hardware.DeviceInterface
         public delegate void SessionClosedDelegate(AppSession session, CloseReason reason);
         public static SessionClosedDelegate SessionClosed = null;
 
-        public delegate void JsonStrParsedDelegate(string session);
-        public static JsonStrParsedDelegate JsonStrParsed = null;
-
         public delegate void DoorStatusChangeDelegate(int id, int nch);
         public static DoorStatusChangeDelegate DoorStatusChange = null;
 

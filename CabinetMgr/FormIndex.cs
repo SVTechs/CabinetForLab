@@ -24,23 +24,8 @@ namespace CabinetMgr
         private static IList<LatticeInfo> latticeList;
         private static IList<ToolInfo> toolInfoList;
 
-        public FormIndex()
-        {
-            InitializeComponent();
-            CabinetServerCallback.DoorStatusChange += DoorStatusChange;
-
-            for (int i = 1; i <= 20; i++)
-            {
-                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
-                panel.Click += Panel_Click;
-            }
-
-            InitPageButton();
-
-        }
-
         private readonly float[,,] btnPositions =
-        {
+{
                 //1
                 { { 0.5f, 0.5f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f },
                 { 0f, 0f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f }  },
@@ -66,6 +51,28 @@ namespace CabinetMgr
                 { { 0.11f, 0.5f }, { 0.22f, 0.5f }, { 0.33f, 0.5f }, { 0.44f, 0.5f },
                 { 0.55f, 0.5f }, { 0.66f, 0.5f }, { 0.77f, 0.5f }, { 0.88f, 0.5f } },
         };
+
+        private readonly UILabel[] lblList = new UILabel[20];
+        private readonly Panel[] pnlList = new Panel[20];
+        private readonly UILabel[] tbList = new UILabel[20];
+        private readonly UILabel[] currentAmountlList = new UILabel[20];
+        private readonly PictureBox[] pblList = new PictureBox[20];
+        private readonly UILabel[] setAmountlList = new UILabel[20];
+
+        public FormIndex()
+        {
+            InitializeComponent();
+            CabinetServerCallback.DoorStatusChange += DoorStatusChange;
+
+            for (int i = 1; i <= 20; i++)
+            {
+                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                panel.Click += Panel_Click;
+            }
+
+            InitPageButton();
+            InitControlAry();
+        }
 
         private int[,] GetButtonPosition(int itemCount, int panelWidth, int panelHeight,
     int iconWidth, int iconHeight)
@@ -102,6 +109,27 @@ namespace CabinetMgr
                     button.Tag = "";
                     button.Text = "";
                 }
+            }
+        }
+
+        private void InitControlAry()
+        {
+            for (int i = 1; i <= 20; i++)
+            {
+                UILabel lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as UILabel;
+                Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                UILabel toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as UILabel;
+                UILabel currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as UILabel;
+                UILabel setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as UILabel;
+                PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
+
+                lblList[i - 1] = lbl;
+                pnlList[i - 1] = pnl;
+                tbList[i - 1] = toolName;
+                currentAmountlList[i - 1] = currentAmount;
+                setAmountlList[i - 1] = setAmount;
+                pblList[i - 1] = pictureBox;
+
             }
         }
 
@@ -155,9 +183,8 @@ namespace CabinetMgr
                 DoorInfo door = doorList.FirstOrDefault(x => x.Id.ToString() == lattice?.Channel && x.Nch.ToString() == lattice?.BoardId);
                 ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
 
-                
-                UILabel lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as UILabel;
-                Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                UILabel lbl = lblList[i - 1];
+                Panel pnl = pnlList[i - 1];
 
                 if (lattice == null)
                 {
@@ -174,10 +201,10 @@ namespace CabinetMgr
                 }
                 SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
 
-                UILabel toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as UILabel;
-                UILabel currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as UILabel;
-                UILabel setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as UILabel;
-                PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
+                UILabel toolName = tbList[i - 1];
+                UILabel currentAmount = currentAmountlList[i - 1];
+                UILabel setAmount = setAmountlList[i - 1];
+                PictureBox pictureBox = pblList[i - 1];
                 
                 if(tool == null)
                 {

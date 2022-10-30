@@ -79,7 +79,7 @@ namespace Hardware.DeviceInterface
                         {
                             int tmpCIdx = receivedStr.IndexOf($"}}]}}");
                             var strC = receivedStr.Substring(0, tmpCIdx + 3);
-                            CabinetServerCallback.JsonStrParsed?.Invoke(strC);
+                            //CabinetServerCallback.JsonStrParsed?.Invoke(strC);
                             var c = ConvertJson.JsonToObject<CheckJObject>(strC);
                             UpdateCheck(c);
                             sbReceived.Remove(0, tmpCIdx + 3);
@@ -90,7 +90,7 @@ namespace Hardware.DeviceInterface
                         {
                             int tmpSIdx = receivedStr.IndexOf($"}}");
                             var strS = receivedStr.Substring(0, tmpSIdx + 2);
-                            CabinetServerCallback.JsonStrParsed?.Invoke(strS);
+                            //CabinetServerCallback.JsonStrParsed?.Invoke(strS);
                             var s = ConvertJson.JsonToObject<StatusJObject>(strS);
                             UpdateStatus(s);
                             sbReceived.Remove(0, tmpSIdx + 2);

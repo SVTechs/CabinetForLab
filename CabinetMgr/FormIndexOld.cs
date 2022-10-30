@@ -18,226 +18,284 @@ namespace CabinetMgr
 {
     public partial class FormIndexOld : UIForm
     {
-        private static int pageCount;
-        private static int pageIdx = 0;
+        private static string currentPage;// = "A";
+        private static readonly Color notFullColor = Color.FromArgb(0, 188, 212);
+
         private IList<DoorInfo> doorList;
-        private IList<LatticeInfo> searchedLattice;
-        private static readonly Color defaultColor = Color.FromArgb(80, 160, 255);
-        private static readonly Color openedColor = Color.Orange;
-        private static readonly Color searchedColor = Color.Green;
-        private static readonly Color hoverColor = Color.Green;
-        private static readonly Color normalColor = Color.FromArgb(80, 160, 255);
         private static IList<LatticeInfo> latticeList;
         private static IList<ToolInfo> toolInfoList;
+
+        private readonly float[,,] btnPositions =
+{
+                //1
+                { { 0.5f, 0.5f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f },
+                { 0f, 0f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f }  },
+                //2
+                { { 0.3f, 0.5f }, { 0.6f, 0.5f } , { 0f, 0f }, { 0f, 0f },
+                { 0f, 0f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f } },
+                //3
+                { { 0.25f, 0.5f }, { 0.5f, 0.5f }, { 0.75f, 0.5f }, { 0f, 0f },
+                { 0f, 0f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f } },
+                //4
+                { { 0.2f, 0.5f }, { 0.4f, 0.5f }, { 0.6f, 0.5f }, { 0.8f, 0.5f },
+                { 0f, 0f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f } },
+                //5   
+                { { 0.16f, 0.5f }, { 0.32f, 0.5f }, { 0.48f, 0.5f }, { 0.64f, 0.5f },
+                { 0.8f, 0.5f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f } },
+                //6
+                { { 0.14f, 0.5f }, { 0.28f, 0.5f }, { 0.42f, 0.5f }, { 0.56f, 0.5f },
+                { 0.7f, 0.5f }, { 0.84f, 0.5f }, { 0f, 0f }, { 0f, 0f } },
+                //7       
+                { { 0.125f, 0.5f }, { 0.25f, 0.5f }, { 0.375f, 0.5f }, { 0.5f, 0.5f },
+                { 0.625f, 0.5f }, { 0.75f, 0.5f }, { 0.875f, 0.5f }, { 0f, 0f } },
+                //8
+                { { 0.11f, 0.5f }, { 0.22f, 0.5f }, { 0.33f, 0.5f }, { 0.44f, 0.5f },
+                { 0.55f, 0.5f }, { 0.66f, 0.5f }, { 0.77f, 0.5f }, { 0.88f, 0.5f } },
+        };
+
+        private readonly UILabel[] lblList = new UILabel[20];
+        private readonly Panel[] pnlList = new Panel[20];
+        private readonly UILabel[] tbList = new UILabel[20];
+        private readonly UILabel[] currentAmountlList = new UILabel[20];
+        private readonly PictureBox[] pblList = new PictureBox[20];
+        private readonly UILabel[] setAmountlList = new UILabel[20];
+
         public FormIndexOld()
         {
             InitializeComponent();
-            InitPageButton();
             CabinetServerCallback.DoorStatusChange += DoorStatusChange;
+
+            for (int i = 1; i <= 20; i++)
+            {
+                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                panel.Click += Panel_Click;
+            }
+
+            InitPageButton();
+            InitControlAry();
+        }
+
+        private int[,] GetButtonPosition(int itemCount, int panelWidth, int panelHeight,
+    int iconWidth, int iconHeight)
+        {
+            int[,] position = new int[8, 2];
+            for (int i = 0; i < itemCount; i++)
+            {
+                position[i, 0] = (int)(btnPositions[itemCount - 1, i, 0] * panelWidth - iconWidth / 2.0);
+                position[i, 1] = (int)(btnPositions[itemCount - 1, i, 1] * panelHeight - iconHeight / 2.0);
+            }
+            return position;
         }
 
         private void InitPageButton()
         {
-            doorList = CabinetServer.GetDoorList();
-            pageCount = (int)Math.Ceiling((double)doorList.Count / 12);
-            int buttonInterval = (int)Math.Floor((double)(panelPage.Width - 220) / (pageCount + 1));
-            int buttonHeight = (int)Math.Floor((double)panelPage.Height / 2);
-            for (int i = 0; i < pageCount; i++)
+            IList<string> pageList = BllLatticeInfo.GetPageList(out _);
+            if (pageList == null) pageList = new List<string>();
+            currentPage = pageList.Count == 0 ? "" : pageList[0];
+            int[,] position = GetButtonPosition(pageList.Count, panelPage.Width, panelPage.Height, 88, 88);
+            for (int i = 0; i < 8; i++)
             {
-                UIButton button = new UIButton();
-                button.Font = new Font("Microsoft YaHei", 25);
-                button.Location = new Point(110 + (i + 1) * buttonInterval - 30, buttonHeight - 30);
-                button.Text = (i + 1).ToString();
-                button.Tag = i;
-                button.Size = new Size(60, 60);
-                button.Radius = 60;
+                UIImageButton button = panelPage.Controls[i] as UIImageButton;
                 button.Click += PageButton_Click;
-                
-                panelPage.Controls.Add(button);
-            }
-        }
-
-        private void PageButton_Click(object sender, EventArgs e)
-        {
-            UIButton btn = sender as UIButton;
-            pageIdx = (int)btn.Tag;
-            LoadCurrentPage();
-        }
-
-        public void LoadCurrentPage()
-        {
-            ResetPageButton();
-            ResetDoorButton();
-            List<DoorInfo> currentPageList = doorList.Skip(pageIdx * 12).Take(12).ToList();
-            for (int i = 0; i < currentPageList.Count; i++) 
-            {
-                DoorInfo info = currentPageList[i];
-                UIButton button = panelDoorContainer.Controls.Find($"UIButton{i + 1}", false)[0] as UIButton;
-                DoorButtonSet(button, info);
-            }
-        }
-
-        private void ResetPageButton()
-        {
-            foreach (Control ctl in panelPage.Controls)
-            {
-                UIButton button = ctl as UIButton;
-                PageButtonSet(button, pageIdx);
-            }
-        }
-
-        private void ResetDoorButton()
-        {
-            foreach(Control ctl in panelDoorContainer.Controls)
-            {
-                UIButton button = ctl as UIButton;
-                DoorButtonReset(button);
-            }
-        }
-
-        public void ReloadData()
-        {
-            latticeList = BllLatticeInfo.SearchLatticeInfo(0, -1, null, out _);
-            toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
-        }
-
-        
-        private void DoorStatusChange(int id, int nch)
-        {
-            DoorInfo di = doorList.First(x => x.Id == id && x.Nch == nch);
-            di.IsClosed = !di.IsClosed;
-            LoadCurrentPage();
-        }
-
-        private delegate void DoorButtonSetDelegate(UIButton button, DoorInfo info);
-        public void DoorButtonSet(UIButton button, DoorInfo info)
-        {
-            try
-            {
-                if (button.InvokeRequired)
+                button.Location = new Point(position[i, 0], position[i, 1]);
+                if (i < pageList.Count)
                 {
-                    DoorButtonSetDelegate d = DoorButtonSet;
-                    button.Invoke(d, button, info);
-                }
-                else
-                {
-                    ToolInfo toolInfo = null;
-                    LatticeInfo lattice = latticeList.FirstOrDefault(x => x.Channel == info.Id.ToString() && x.BoardId == info.Nch.ToString());
-                    if(lattice != null) toolInfo = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice.Id);
-                    button.Text = info.Id + "-" + info.Nch + (toolInfo != null ?"   " + toolInfo.CurrentCount + "/" + toolInfo.ToolCount + "\n" + toolInfo.ToolName : "");
-                    button.FillColor = info.IsClosed ? defaultColor : openedColor;
                     button.Visible = true;
-                    button.Tag = info.Id + "|" + info.Nch;
-                    if(searchedLattice.FirstOrDefault(x => int.Parse(x.Channel) == info.Id && int.Parse(x.BoardId)== info.Nch) != null)
-                    {
-                        button.FillColor = searchedColor;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-        }
-
-        private delegate void DoorButtonResetDelegate(UIButton button);
-
-        public void PageButtonSet(UIButton button, int currentPage)
-        {
-            try
-            {
-                if (button.InvokeRequired)
-                {
-                    PageButtonSetDelegate d = PageButtonSet;
-                    button.Invoke(d, button, currentPage);
+                    button.Tag = pageList[i];
+                    button.Text = pageList[i];
                 }
                 else
                 {
-                    if ((int)button.Tag == currentPage) button.Selected = true;
-                    else button.Selected = false;
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-        }
-        private delegate void PageButtonSetDelegate(UIButton button, int currentPage);
-
-        public void DoorButtonReset(UIButton button)
-        {
-            try
-            {
-                if (button.InvokeRequired)
-                {
-                    DoorButtonResetDelegate d = DoorButtonReset;
-                    button.Invoke(d, button);
-                }
-                else
-                {
-                    button.Tag = null;
                     button.Visible = false;
-                    button.FillColor = defaultColor;
+                    button.Tag = "";
+                    button.Text = "";
                 }
             }
-            catch (Exception)
+        }
+
+        private void InitControlAry()
+        {
+            for (int i = 1; i <= 20; i++)
             {
-                // ignored
+                UILabel lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as UILabel;
+                Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                UILabel toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as UILabel;
+                UILabel currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as UILabel;
+                UILabel setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as UILabel;
+                PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
+
+                lblList[i - 1] = lbl;
+                pnlList[i - 1] = pnl;
+                tbList[i - 1] = toolName;
+                currentAmountlList[i - 1] = currentAmount;
+                setAmountlList[i - 1] = setAmount;
+                pblList[i - 1] = pictureBox;
+
             }
         }
 
         private void FormIndex_Load(object sender, EventArgs e)
         {
-            foreach (Control ctl in panelDoorContainer.Controls)
-            {
-                UIButton button = ctl as UIButton;
-                button.Click += DoorButton_Click;
-            }
-        }
 
-        private void DoorButton_Click(object sender, EventArgs e)
-        {
-            if(AppRt.CurUser == null)
-            {
-                UIMessageBox.Show("请先登录");
-                return;
-            }
-            UIButton btn = sender as UIButton;
-            string tagValue = btn.Tag as string;
-            int id = int.Parse(tagValue.Split('|')[0]);
-            int nch = int.Parse(tagValue.Split('|')[1]);
-            if(AppRt.LatticeList.FirstOrDefault(x => x.Channel == id.ToString() && x.BoardId == nch.ToString()) == null)
-            {
-                UIMessageBox.Show("您没有该储物格权限");
-                return;
-            }
-            CabinetServer.OpenDoors(id, nch);
-        }
-
-        private void uiTextBoxToolName_Enter(object sender, EventArgs e)
-        {
-            Osk.ShowInputPanel();
-        }
-
-        private void uiTextBoxToolName_Leave(object sender, EventArgs e)
-        {
-            Osk.HideInputPanel();
-        }
-
-        private void uiSymbolButtonSearch_Click(object sender, EventArgs e)
-        {
-            string searchToolName = string.IsNullOrEmpty(uiTextBoxToolName.Text.Trim())? "¿": uiTextBoxToolName.Text.Trim();
-            IList<ToolInfo> toolList = BllToolInfo.SearchToolInfo(searchToolName, 0,-1, null, out Exception ex);
-            long[] idAry = toolList.Select(x => x.LatticeId).ToArray();
-            IList<LatticeInfo> latticeList = BllLatticeInfo.SearchLatticeInfo(idAry, out ex);
-            searchedLattice = latticeList;
-            LoadCurrentPage();
         }
 
         private void FormIndex_Shown(object sender, EventArgs e)
         {
             ReloadData();
-            LoadCurrentPage();
+            LoadPage(currentPage);
+        }
+
+        private void PageButton_Click(object sender, EventArgs e)
+        {
+            UIImageButton btn = sender as UIImageButton;
+            string tagValue = btn.Tag as string;
+            currentPage = tagValue;
+            LoadPage(currentPage);
+        }
+
+        private void Panel_Click(object sender, EventArgs e)
+        {
+            Panel panel = sender as Panel;
+            if (string.IsNullOrEmpty(panel.Tag as string)) return;
+            string toolId = (panel.Tag as string).Split('|')[1];
+            ToolInfo ti = AppRt.ToolList.FirstOrDefault(x => x.Id == toolId);
+            if (ti == null)
+            {
+                UIMessageBox.Show("您没有借取该工具的权限");
+                return;
+            }
+            long latticeId = long.Parse((panel.Tag as string).Split('|')[2]);
+            LatticeInfo lattice = latticeList.FirstOrDefault(x => x.Id == latticeId);
+            CabinetServer.OpenDoors(int.Parse(lattice.Channel), int.Parse(lattice.BoardId));
+            FormOperateTool formOperateTool = FormOperateTool.Instance(panel.Tag as string);
+            formOperateTool.ShowDialog();
+            ReloadData();
+            LoadPage(currentPage);
+        }
+
+        public void LoadPage(string cabinetNum = "")
+        {
+            if (string.IsNullOrEmpty(cabinetNum)) cabinetNum = currentPage;
+            IList<LatticeInfo> currentPageLatticeList = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
+            for (int i = 1; i <= 20; i++)
+            {
+                Color c = Color.White;
+                LatticeInfo lattice = currentPageLatticeList.FirstOrDefault(x => x.CabinetLatticeNum == i.ToString("D2"));
+                DoorInfo door = doorList.FirstOrDefault(x => x.Id.ToString() == lattice?.Channel && x.Nch.ToString() == lattice?.BoardId);
+                ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
+
+                UILabel lbl = lblList[i - 1];
+                Panel pnl = pnlList[i - 1];
+
+                if (lattice == null)
+                {
+                    SetLabel(lbl, false, "", Color.White);
+                    SetPanel(pnl, false, null);
+                    continue;
+                }
+
+                if (door == null)
+                {
+                    SetLabel(lbl, false, "", Color.White);
+                    SetPanel(pnl, false, null);
+                    continue;
+                }
+                SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
+
+                UILabel toolName = tbList[i - 1];
+                UILabel currentAmount = currentAmountlList[i - 1];
+                UILabel setAmount = setAmountlList[i - 1];
+                PictureBox pictureBox = pblList[i - 1];
+
+                if (tool == null)
+                {
+                    SetLabel(toolName, false, "", Color.White);
+                    SetLabel(currentAmount, false, "", Color.White);
+                    SetLabel(setAmount, false, "", Color.White);
+                    SetPicture(pictureBox, false);
+                    SetPanel(pnl, true, null);
+                    continue;
+                }
+                SetLabel(toolName, true, tool.ToolName, Color.White);
+                if (tool.CurrentCount != tool.ToolCount) c = notFullColor;
+                SetLabel(currentAmount, true, tool.CurrentCount.ToString(), c);
+                SetLabel(setAmount, true, tool.ToolCount.ToString(), Color.White);
+                SetPicture(pictureBox, true);
+                SetPanel(pnl, true, currentPage + i.ToString("D2") + "|" + tool.Id + "|" + lattice.Id);
+            }
+
+        }
+
+        #region ControlDelegate
+
+        private delegate void SetLableDelegate(UILabel label, bool visible, string labelText, Color foreColor);
+        private void SetLabel(UILabel label, bool visible, string labelText, Color foreColor)
+        {
+            if (label.InvokeRequired)
+            {
+                SetLableDelegate d = SetLabel;
+                label.Invoke(d, label, visible, labelText, foreColor);
+            }
+            else
+            {
+                label.Visible = visible;
+                label.Text = labelText;
+                label.ForeColor = foreColor;
+            }
+        }
+
+        private delegate void SetPanelDelegate(Panel panel, bool visible, string toolId);
+        private void SetPanel(Panel panel, bool visible, string toolId)
+        {
+            if (panel.InvokeRequired)
+            {
+                SetPanelDelegate d = SetPanel;
+                panel.Invoke(d, panel, visible, toolId);
+            }
+            else
+            {
+                panel.Visible = visible;
+                panel.Tag = toolId;
+            }
+        }
+        private delegate void SetPictureDelegate(PictureBox pictureBox, bool visible);
+        private void SetPicture(PictureBox pictureBox, bool visible)
+        {
+            if (pictureBox.InvokeRequired)
+            {
+                SetPictureDelegate d = SetPicture;
+                pictureBox.Invoke(d, pictureBox, visible);
+            }
+            else
+            {
+                pictureBox.Visible = visible;
+            }
+        }
+
+        #endregion
+
+        public void ReloadData()
+        {
+            doorList = CabinetServer.GetDoorList();
+            latticeList = BllLatticeInfo.SearchLatticeInfo(0, -1, null, out _);
+            toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
+        }
+        private void DoorStatusChange(int id, int nch)
+        {
+            DoorInfo di = doorList.First(x => x.Id == id && x.Nch == nch);
+            di.IsClosed = !di.IsClosed;
+            toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
+            LoadPage(currentPage);
+        }
+
+        private void uiLabelUserName_Click(object sender, EventArgs e)
+        {
+            AppRt.BackToLoginForm(true);
+        }
+
+        private void pictureBoxIcon_Click(object sender, EventArgs e)
+        {
+            AppRt.BackToLoginForm(false);
         }
     }
 }

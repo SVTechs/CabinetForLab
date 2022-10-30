@@ -58,7 +58,6 @@ namespace CabinetMgr
         {
             InitializeComponent();
             FpCallBack.OnUserRecognised = OnUserRecognised;
-            CabinetServerCallback.JsonStrParsed += JsonStrParsed;
             CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
             CabinetServerCallback.NewSessionConnected += NewSessionConnected;
             CabinetServerCallback.SessionClosed += SessionClosed;
@@ -117,7 +116,7 @@ namespace CabinetMgr
             }
             session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
             (_indexForm as FormIndexOld).ReloadData();
-            (_indexForm as FormIndexOld).LoadCurrentPage();
+            (_indexForm as FormIndexOld).LoadPage();
         }
 
         private int ExecuteCmd(string toolLocation, string cmdType)
@@ -640,10 +639,6 @@ namespace CabinetMgr
                 _userManageForm = new FormUserManageOld();
                 AddToPanel(_userManageForm);
 
-                if(AppConfig.DebugMode == 1)
-                {
-                    AppRt.FormLog.Show();
-                }
             }
             catch (Exception ex)
             {
