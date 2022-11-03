@@ -15,17 +15,17 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormIndex : Form
+    public partial class FormToolManage0 : Form
     {
         private static string currentPage;// = "A";
-        private static readonly Color notFullColor = Color.FromArgb(0, 188, 212);
 
-        private IList<DoorInfo> doorList;
         private static IList<LatticeInfo> latticeList;
         private static IList<ToolInfo> toolInfoList;
 
+
+
         private readonly float[,,] btnPositions =
-{
+    {
                 //1
                 { { 0.5f, 0.5f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f },
                 { 0f, 0f }, { 0f, 0f }, { 0f, 0f }, { 0f, 0f }  },
@@ -54,21 +54,10 @@ namespace CabinetMgr
 
         private readonly Label[] lblList = new Label[20];
         private readonly Panel[] pnlList = new Panel[20];
-        private readonly Label[] tbList = new Label[20];
-        private readonly Label[] currentAmountlList = new Label[20];
-        private readonly PictureBox[] pblList = new PictureBox[20];
-        private readonly Label[] setAmountlList = new Label[20];
 
-        public FormIndex()
+        public FormToolManage0()
         {
             InitializeComponent();
-            CabinetServerCallback.DoorStatusChange += DoorStatusChange;
-
-            for (int i = 1; i <= 20; i++)
-            {
-                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
-                panel.Click += Panel_Click;
-            }
 
             InitPageButton();
             InitControlAry();
@@ -118,27 +107,15 @@ namespace CabinetMgr
             {
                 Label lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as Label;
                 Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
-                Label toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as Label;
-                Label currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as Label;
-                Label setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as Label;
-                PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
+                pnl.Paint += PanelOnPaint;
+                pnl.Click += Panel_Click;
 
                 lblList[i - 1] = lbl;
                 pnlList[i - 1] = pnl;
-                tbList[i - 1] = toolName;
-                currentAmountlList[i - 1] = currentAmount;
-                setAmountlList[i - 1] = setAmount;
-                pblList[i - 1] = pictureBox;
-
             }
         }
 
-        private void FormIndex_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FormIndex_Shown(object sender, EventArgs e)
+        private void FormToolManage_Shown(object sender, EventArgs e)
         {
             ReloadData();
             LoadPage(currentPage);
@@ -155,19 +132,9 @@ namespace CabinetMgr
         private void Panel_Click(object sender, EventArgs e)
         {
             Panel panel = sender as Panel;
-            if (string.IsNullOrEmpty(panel.Tag as string)) return;
-            string toolId = (panel.Tag as string).Split('|')[1];
-            ToolInfo ti = AppRt.ToolList.FirstOrDefault(x => x.Id == toolId);
-            if(ti == null)
-            {
-                UIMessageBox.Show("您没有借取该工具的权限");
-                return;
-            }
-            long latticeId = long.Parse((panel.Tag as string).Split('|')[2]);
-            LatticeInfo lattice = latticeList.FirstOrDefault(x => x.Id == latticeId);
-            CabinetServer.OpenDoors(int.Parse(lattice.Channel), int.Parse(lattice.BoardId));
-            FormOperateTool formOperateTool = FormOperateTool.Instance(panel.Tag as string);
-            formOperateTool.ShowDialog();
+            (AppRt.FormLog as FormLog).AddLine(panel.Tag as string);
+            FormToolEdit formToolEdit = FormToolEdit.Instance(panel.Tag as string);
+            formToolEdit.ShowDialog();
             ReloadData();
             LoadPage(currentPage);
         }
@@ -175,13 +142,12 @@ namespace CabinetMgr
         public void LoadPage(string cabinetNum = "")
         {
             if (string.IsNullOrEmpty(cabinetNum)) cabinetNum = currentPage;
-            IList <LatticeInfo> currentPageLatticeList = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
-            for(int i = 1; i <= 20; i++)
+            IList<LatticeInfo> currentPageLatticeList = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
+            for (int i = 1; i <= 20; i++)
             {
-                Color c = Color.White;
                 LatticeInfo lattice = currentPageLatticeList.FirstOrDefault(x => x.CabinetLatticeNum == i.ToString("D2"));
-                DoorInfo door = doorList.FirstOrDefault(x => x.Id.ToString() == lattice?.Channel && x.Nch.ToString() == lattice?.BoardId);
                 ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
+
 
                 Label lbl = lblList[i - 1];
                 Panel pnl = pnlList[i - 1];
@@ -192,37 +158,50 @@ namespace CabinetMgr
                     SetPanel(pnl, false, null);
                     continue;
                 }
-                
-                if (door == null)
-                {
-                    SetLabel(lbl, false, "", Color.White);
-                    SetPanel(pnl, false, null);
-                    continue;
-                }
+
                 SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
 
-                Label toolName = tbList[i - 1];
-                Label currentAmount = currentAmountlList[i - 1];
-                Label setAmount = setAmountlList[i - 1];
-                PictureBox pictureBox = pblList[i - 1];
-                
-                if(tool == null)
+                if (tool == null)
                 {
-                    SetLabel(toolName, false, "", Color.White);
-                    SetLabel(currentAmount, false, "", Color.White);
-                    SetLabel(setAmount, false, "", Color.White);
-                    SetPicture(pictureBox, false);
                     SetPanel(pnl, true, null);
-                    continue;
                 }
-                SetLabel(toolName, true, tool.ToolName, Color.White);
-                if (tool.CurrentCount != tool.ToolCount) c = notFullColor;
-                SetLabel(currentAmount, true, tool.CurrentCount.ToString(), c);
-                SetLabel(setAmount, true, tool.ToolCount.ToString(), Color.White);
-                SetPicture(pictureBox, true);
-                SetPanel(pnl, true, currentPage + i.ToString("D2") + "|" + tool.Id + "|" + lattice.Id);
+                else
+                {
+                    SetPanel(pnl, true, currentPage + i.ToString("D2") + "|" + tool.Id + "|" + lattice.Id);
+                }
+                pnl.Refresh();
+
             }
-            
+        }
+
+        private void PanelOnPaint(object sender, PaintEventArgs e)
+        {
+            Panel pnl = sender as Panel;
+            if (pnl.Tag == null) return;
+            string toolId = (pnl.Tag as string).Split('|')[1];
+            if (string.IsNullOrEmpty(toolId)) return;
+            ToolInfo toolInfo = toolInfoList.FirstOrDefault(x => x.Id == toolId);
+            if (toolInfo == null) return;
+            Color defaultColor = Color.White;
+            Color notFullColor = Color.FromArgb(0, 188, 212);
+            string toolName = toolInfo.ToolName;
+            int currentCount = toolInfo.CurrentCount;
+            int count = toolInfo.ToolCount;
+            Font drawFont = new Font("HarmonyOS Sans SC", 20, FontStyle.Regular);
+            SolidBrush defaultBrush = new SolidBrush(defaultColor);
+            SolidBrush notFullBrush = new SolidBrush(notFullColor);
+            StringFormat drawFormat = new StringFormat();
+            SizeF textSize = e.Graphics.MeasureString(toolName, drawFont);//文本的矩形区域大小   
+            int fHeight = drawFont.Height;
+            float nameh = (pnl.Size.Height - fHeight) / 2;
+            float currentCounth = 20f;
+            float currentCountw = pnl.Size.Width - 60;
+
+            e.Graphics.DrawString(toolName, drawFont, defaultBrush, 0, nameh);
+            e.Graphics.DrawString(currentCount.ToString(), drawFont, currentCount < count ? notFullBrush : defaultBrush,
+                Convert.ToInt16(currentCountw), Convert.ToInt16(currentCounth), drawFormat);
+            e.Graphics.DrawString("___", drawFont, defaultBrush, Convert.ToInt16(currentCountw - 3), Convert.ToInt16(currentCounth + 5), drawFormat);
+            e.Graphics.DrawString(count.ToString(), drawFont, defaultBrush, Convert.ToInt16(currentCountw), Convert.ToInt16(currentCounth + FontHeight + 20), drawFormat);
         }
 
         #region ControlDelegate
@@ -233,13 +212,12 @@ namespace CabinetMgr
             if (label.InvokeRequired)
             {
                 SetLableDelegate d = SetLabel;
-                label.Invoke(d, label, visible, labelText, foreColor);
+                label.Invoke(d, label, visible, labelText);
             }
             else
             {
                 label.Visible = visible;
                 label.Text = labelText;
-                label.ForeColor = foreColor;
             }
         }
 
@@ -271,29 +249,13 @@ namespace CabinetMgr
             }
         }
 
-
         #endregion
 
         public void ReloadData()
         {
-            doorList = CabinetServer.GetDoorList();
             latticeList = BllLatticeInfo.SearchLatticeInfo(0, -1, null, out _);
             toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
         }
-        private void DoorStatusChange(int id, int nch)
-        {
-            DoorInfo di = doorList.First(x => x.Id == id && x.Nch == nch);
-            di.IsClosed = !di.IsClosed;
-            toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
-            LoadPage(currentPage);
-        }
 
-        private void FormIndex_VisibleChanged(object sender, EventArgs e)
-        {
-            ReloadData();
-            LoadPage(currentPage);
-            AppRt.FormMain.SetPicTitle(false);
-            AppRt.FormMain.SetUiLabelUserName(AppRt.CurUser.FullName + "  |  单击推出", true);
-        }
     }
 }

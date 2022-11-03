@@ -89,5 +89,10 @@ namespace CabinetMgr.DAL
             UserInfo userInfo = GetItemInfo<UserInfo>(critList, out exception);
             return userInfo;
         }
+
+        public static UserInfo GetUserInfoByCardNum(string cardNum, out Exception exception)
+        {
+            return GetItemInfo("CardNum", cardNum, out exception);
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace CabinetMgr
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private DataGridViewCellStyle _ctRed, _ctGreen;
         private bool _isPassed = true;
-        private bool _cameraPassed = false, _fpDevicePassed = false, _faceEnginePassed = false;
+        private bool _cameraPassed = false, _cardDevicePassed = false, _fpDevicePassed = false;
         public static ManualResetEvent InitManualEvent = new ManualResetEvent(false);
 
         private void FormDeviceLoad_Load(object sender, EventArgs e)
@@ -57,13 +57,14 @@ namespace CabinetMgr
         private async Task Init()
         {
             InitCamera();
+            InitCardDevice();
             InitFpDevice();
-            InitFaceEngine();
+
             while (true)
             {
                 Application.DoEvents();
                 Thread.Sleep(100);
-                if (_cameraPassed && _fpDevicePassed && _faceEnginePassed) break;
+                if (_cameraPassed && _fpDevicePassed && _cardDevicePassed) break;
             }
         }
 
@@ -88,7 +89,8 @@ namespace CabinetMgr
 
             var task = Task.Factory.StartNew(() => {
 
-                VideoCapture cap = VideoCapture.FromCamera(0);
+                //VideoCapture cap = VideoCapture.FromCamera(0);
+                VideoCapture cap = VideoCapture.FromCamera(AppConfig.CameraPort);
                 if (!cap.IsOpened())
                 {
                     UpdateStatus("初始化摄像头", "初始化失败", 2);
@@ -104,6 +106,46 @@ namespace CabinetMgr
                 _cameraPassed = true;
             }, TaskCreationOptions.LongRunning);
             return task;
+        }
+
+        private Task InitCardDevice()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化读卡器";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+
+            var task = Task.Factory.StartNew(() => {
+
+                try
+                {
+                    byte result = CardDevice.PcdDeep(50);
+                    AppRt.FormLog.AddLine("PcdBeepValue" + result);
+                    if (result != 0)
+                    {
+                        UpdateStatus("初始化读卡器", "初始化失败", 2);
+                        _isPassed = false;
+                        AppRt.HaveCardDevice = false;
+                    }
+                    else
+                    {
+                        AppRt.HaveCardDevice = true;
+                        UpdateStatus("初始化读卡器", "初始化成功", 1);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    UpdateStatus("初始化读卡器", "初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveCardDevice = false;
+                }
+                finally {
+                    _cardDevicePassed = true;
+                }
+
+            }, TaskCreationOptions.LongRunning);
+
+            return task;
+
         }
 
         private Task InitFpDevice()
@@ -127,68 +169,56 @@ namespace CabinetMgr
                     UpdateStatus("初始化指纹仪", "初始化成功", 1);
                 }
                 _fpDevicePassed = true;
-            }, TaskCreationOptions.LongRunning);
-
-            return task;
-        }
-
-        private Task InitFaceEngine()
-        {
-            int index = cStatusGrid.Rows.Add();
-            cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
-            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            var task = Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-                    int n = Face.sdk_init(null);
-                    if (n != 0)
-                    {
-                        UpdateStatus("初始化人脸识别", "初始化失败", 2);
-                        _isPassed = false;
-                        Logger.Error(n);
-                    }
-                    else
-                    {
-                        FaceAbilityLoad.load_all_ability();
-                        bool authed = Face.is_auth();
-                        UpdateStatus("初始化人脸识别", "初始化成功", 1);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    UpdateStatus("初始化人脸识别", "初始化失败", 2);
-                    _isPassed = false;
-                    Logger.Error(ex);
-                }
-                _faceEnginePassed = true;
                 InitManualEvent.Set();
-
-
             }, TaskCreationOptions.LongRunning);
+
             return task;
-
-
         }
 
 
-        private void InitCardDevice()
-        {
-            int index = cStatusGrid.Rows.Add();
-            cStatusGrid.Rows[index].Cells[0].Value = "初始化读卡器";
-            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            int result = FpDevice.Init(AppConfig.FpPort);
-            if (result != 0)
-            {
-                UpdateStatus("初始化读卡器", "初始化失败", 2);
-                _isPassed = false;
-                AppRt.HaveFpDevice = false;
-                return;
-            }
-            AppRt.HaveFpDevice = true;
-            UpdateStatus("初始化读卡器", "初始化成功", 1);
-        }
+
+        //private Task InitFaceEngine()
+        //{
+        //    int index = cStatusGrid.Rows.Add();
+        //    cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
+        //    cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+        //    var task = Task.Factory.StartNew(() =>
+        //    {
+        //        try
+        //        {
+        //            string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        //            int n = Face.sdk_init(null);
+        //            if (n != 0)
+        //            {
+        //                UpdateStatus("初始化人脸识别", "初始化失败", 2);
+        //                _isPassed = false;
+        //                Logger.Error(n);
+        //            }
+        //            else
+        //            {
+        //                FaceAbilityLoad.load_all_ability();
+        //                bool authed = Face.is_auth();
+        //                UpdateStatus("初始化人脸识别", "初始化成功", 1);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            UpdateStatus("初始化人脸识别", "初始化失败", 2);
+        //            _isPassed = false;
+        //            Logger.Error(ex);
+        //        }
+        //        _faceEnginePassed = true;
+        //        InitManualEvent.Set();
+
+
+        //    }, TaskCreationOptions.LongRunning);
+        //    return task;
+
+
+        //}
+
+
+
 
         private void InitSocketServer()
         {

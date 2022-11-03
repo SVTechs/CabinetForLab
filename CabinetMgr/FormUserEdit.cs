@@ -123,61 +123,71 @@ namespace CabinetMgr
 
         private void uiButtonFaceCap_Click(object sender, EventArgs e)
         {
-            Mat image = new Mat();
-            cap.Read(image); // same as cvQueryFrame
-            if (!image.Empty())
+
+            try
             {
-                int ilen = 40;//传入的人脸数
-                BDFaceBBox[] info = new BDFaceBBox[ilen];
+                Mat image = new Mat();
+                cap.Read(image); // same as cvQueryFrame
+                if (!image.Empty())
+                {
+                    int ilen = 40;//传入的人脸数
+                    BDFaceBBox[] info = new BDFaceBBox[ilen];
 
-                int sizeTrack = Marshal.SizeOf(typeof(BDFaceBBox));
-                IntPtr ptT = Marshal.AllocHGlobal(sizeTrack * ilen);
+                    int sizeTrack = Marshal.SizeOf(typeof(BDFaceBBox));
+                    IntPtr ptT = Marshal.AllocHGlobal(sizeTrack * ilen);
 
-                int faceSize = ilen;//返回人脸数  分配人脸数和检测到人脸数的最小值
-                int curSize = ilen;//当前人脸数 输入分配的人脸数，输出实际检测到的人脸数
-                int type = 0;
-                faceSize = FaceDetect.detect(ptT, image.CvPtr, type);
-                if (faceSize < 1)
-                { 
-                    UIMessageBox.Show("未识别到人脸");
+                    int faceSize = ilen;//返回人脸数  分配人脸数和检测到人脸数的最小值
+                    int curSize = ilen;//当前人脸数 输入分配的人脸数，输出实际检测到的人脸数
+                    int type = 0;
+                    faceSize = FaceDetect.detect(ptT, image.CvPtr, type);
+                    if (faceSize < 1)
+                    {
+                        UIMessageBox.Show("未识别到人脸");
+                        windowVideo.Dispose();
+                        windowVideo = new Window("windowVideo");
+                        windowVideo.Move(1, 1);
+                        return;
+                    }
+                    for (int index = 0; index < faceSize; index++)
+                    {
+                        IntPtr ptr = new IntPtr();
+                        if (8 == IntPtr.Size)
+                        {
+                            ptr = (IntPtr)(ptT.ToInt64() + sizeTrack * index);
+                        }
+                        else if (4 == IntPtr.Size)
+                        {
+                            ptr = (IntPtr)(ptT.ToInt32() + sizeTrack * index);
+                        }
+
+                        info[index] = (BDFaceBBox)Marshal.PtrToStructure(ptr, typeof(BDFaceBBox));
+                    }
+
+                    Marshal.FreeHGlobal(ptT);
+                    Cv2.WaitKey(1);
+                    enableVideo = false;
                     windowVideo.Dispose();
-                    windowVideo = new Window("windowVideo");
-                    windowVideo.Move(1, 1);
-                    return; 
-                }
-                for (int index = 0; index < faceSize; index++)
-                {
-                    IntPtr ptr = new IntPtr();
-                    if (8 == IntPtr.Size)
+
+                    FaceFeature faceFeature = new FaceFeature();
+                    BDFaceFeature[] ff = faceFeature.test_get_face_feature_by_path(image);
+                    BDFaceFeature bDFaceFeature = ff[0];
+                    byte[] faceByte = new byte[bDFaceFeature.data.Length * 4];
+                    int j = 0;
+                    for (int i = 0; i < bDFaceFeature.data.Length; i++)
                     {
-                        ptr = (IntPtr)(ptT.ToInt64() + sizeTrack * index);
+                        Buffer.BlockCopy(BitConverter.GetBytes(bDFaceFeature.data[i]), 0, faceByte, j, 4);
+                        j = j + 4;
                     }
-                    else if (4 == IntPtr.Size)
-                    {
-                        ptr = (IntPtr)(ptT.ToInt32() + sizeTrack * index);
-                    }
-
-                    info[index] = (BDFaceBBox)Marshal.PtrToStructure(ptr, typeof(BDFaceBBox));
+                    faceTemplate = faceByte;
+                    uiButtonFaceCap.Visible = false;
                 }
-
-                Marshal.FreeHGlobal(ptT);
-                Cv2.WaitKey(1);
-                enableVideo = false;
-                windowVideo.Dispose();
-
-                FaceFeature faceFeature = new FaceFeature();
-                BDFaceFeature[] ff = faceFeature.test_get_face_feature_by_path(image);
-                BDFaceFeature bDFaceFeature = ff[0];
-                byte[] faceByte = new byte[bDFaceFeature.data.Length * 4];
-                int j = 0;
-                for (int i = 0; i < bDFaceFeature.data.Length; i++)
-                {
-                    Buffer.BlockCopy(BitConverter.GetBytes(bDFaceFeature.data[i]), 0, faceByte, j, 4);
-                    j = j + 4;
-                }
-                faceTemplate = faceByte;
-                uiButtonFaceCap.Visible = false;
             }
+
+            catch(Exception ex)
+            {
+
+            }
+
         }
 
         private void uiButtonFinger_Click(object sender, EventArgs e)
@@ -190,8 +200,7 @@ namespace CabinetMgr
 
         private void uiButtonCancel_Click(object sender, EventArgs e)
         {
-            ClearInputData();
-            Hide();
+            Dispose();
         }
 
         private void uiButtonSave_Click(object sender, EventArgs e)
@@ -321,6 +330,7 @@ namespace CabinetMgr
             IList<RoleSettings> roleSettings = BllRoleSettings.SearchRoleSettings(_userId, 0, -1, null, out _);
             uiTextBoxUserName.Text = userInfo.UserName;
             uiTextBoxFullName.Text = userInfo.FullName;
+            uiTextBoxPassword.Text = "";
             foreach(TreeNode tn in uiComboTreeViewRole.Nodes)
             {
                 RoleSettings rs = roleSettings.FirstOrDefault(x => x.RoleId == (tn.Tag as string).Split('|')[0]);

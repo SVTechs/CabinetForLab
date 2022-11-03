@@ -38,6 +38,10 @@ namespace CabinetMgr.RtVars
 
         public static bool FpEnable = false;
 
+        public static bool HaveCardDevice = false;
+
+        public static bool CardEnable = false;
+
         //public static bool IsNeedAlarm = true;
 
         //public static bool IsAlarmed = false;
@@ -48,14 +52,16 @@ namespace CabinetMgr.RtVars
 
         public static FormLog FormLog;
 
+        public static FormFaceShow FormFaceShow;
+
         public static FormMain FormMain;
 
-        public static void BackToLoginForm(bool clearLoginState)
-        {
-            if (clearLoginState) ResetUserInfo();
-            (FormMain._loginForm as FormLogin).LoadInfo();
-            FormMain.ShowWindow(FormMain._loginForm);
-        }
+        //public static void BackToLoginForm(bool clearLoginState)
+        //{
+        //    if (clearLoginState) ResetUserInfo();
+        //    (FormMain._loginForm as FormLogin).LoadInfo();
+        //    FormMain.ShowWindow(FormMain._loginForm);
+        //}
 
         public static void ResetUserInfo()
         {

@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormRoleEdit : UIForm
+    public partial class FormRoleEdit : Form
     {
         public static FormRoleEdit formRoleEdit;
         public static FormRoleEdit Instance()

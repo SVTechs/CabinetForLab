@@ -79,5 +79,10 @@ namespace CabinetMgr.BLL
             string pwdHash = Md5Encode.Encode(userPwd, false);
             return DalUserInfo.Login(userName, pwdHash, out exception);
         }
+
+        public static UserInfo GetUserInfoByCardNum(string cardNum, out Exception exception)
+        {
+            return DalUserInfo.GetUserInfoByCardNum(cardNum, out exception);
+        }
     }
 }

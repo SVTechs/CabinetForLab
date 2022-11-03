@@ -24,7 +24,7 @@ using testface;
 
 namespace CabinetMgr
 {
-    public partial class FormMain : UIForm
+    public partial class FormMain : Form
     {
         private Form _curForm;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -34,8 +34,13 @@ namespace CabinetMgr
         public Form _manageForm;
         public Form _recordForm;
         public Form _systemManage;
+        public Form _toolManage;
+        public Form _userManage;
 
         SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
+
+        private int manageCount = 7;
+        private int currentCount = 1;
 
         public FormMain()
         {
@@ -80,7 +85,7 @@ namespace CabinetMgr
         {
             Face.sdk_destroy();
             CabinetServer.Stop();
-            AppRt.VideoCaptureDevice.Dispose();
+            AppRt.VideoCaptureDevice?.Dispose();
             FpDevice.CloseDeviceEx();
             Application.Exit();
         }
@@ -103,7 +108,7 @@ namespace CabinetMgr
                 BllToolType.DeleteAll(out ex);
                 BllUserInfo.DeleteAll(out ex);
                 //清除登录状态
-                AppRt.ResetUserInfo();
+                PerformManualLogin();
 
                 //窗口刷新
                 MessageBox.Show("重置完成");
@@ -113,6 +118,18 @@ namespace CabinetMgr
             {
                 FormLog formLog = AppRt.FormLog;
                 formLog.Show();
+                return;
+            }
+            if (e.Shift && e.Alt && e.KeyCode == Keys.O)
+            {
+                IList<DoorInfo> doorList = CabinetServer.GetDoorList();
+
+                foreach(DoorInfo di in doorList)
+                {
+
+                    CabinetServer.OpenDoors(di.Id, di.Nch);
+                    Thread.Sleep(100);
+                }
                 return;
             }
         }
@@ -166,8 +183,9 @@ namespace CabinetMgr
                     AppRt.RoleSettings = roleSettings;
                     AppRt.LatticeList = LatticeList;
                     AppRt.ToolList = ToolList;
-
-                    (_indexForm as FormIndex).DisplayUser((AppRt.CurUser.FullName ?? "") + " | 退出账号");
+                    //SetLabelText(uiLabelUserName, AppRt.CurUser.FullName ?? "" + " | 退出账号", true);
+                    //SetPictureBoxStatus(pictureBoxTitleE, false, null);
+                    //SetPictureBoxStatus(pictureBoxTitleC, false, null);
                     loginSuccess.Play();
                     ShowWindow(_indexForm);
                 }
@@ -209,18 +227,18 @@ namespace CabinetMgr
             }
         }
 
-        public delegate void SetLabelTextDelegate(Label label, string text);
-        public void SetLabelText(Label label, string text)
+        public delegate void SetLabelTextDelegate(Label label, string text, bool visible);
+        public void SetLabelText(Label label, string text, bool visible)
         {
             if (label.InvokeRequired)
             {
                 SetLabelTextDelegate d = SetLabelText;
-                label.Invoke(d, label, text);
+                label.Invoke(d, label, text, visible);
             }
             else
             {
                 label.Text = text;
-                label.Visible = true;
+                label.Visible = visible;
             }
         }
 
@@ -260,7 +278,7 @@ namespace CabinetMgr
                 _loginForm = new FormLogin();
                 AddToPanel(_loginForm);
 
-                _indexForm = new FormIndex();
+                _indexForm = new FormIndex0();
                 AddToPanel(_indexForm);
 
                 _manageForm = new FormManage();
@@ -271,6 +289,15 @@ namespace CabinetMgr
 
                 _systemManage = new FormSystemManage();
                 AddToPanel(_systemManage);
+
+                _toolManage = new FormToolManage0();
+                _userManage = new FormUserManage();
+                (_systemManage as FormSystemManage)._toolManageForm = _toolManage;
+                (_systemManage as FormSystemManage).AddToPanel(_toolManage);
+                (_systemManage as FormSystemManage)._userManageForm = _userManage;
+                (_systemManage as FormSystemManage).AddToPanel(_userManage);
+
+                AppRt.FormFaceShow = FormFaceShow.Instance();
 
             }
             catch (Exception ex)
@@ -310,7 +337,6 @@ namespace CabinetMgr
             AppRt.FormLog.AddLine(parseStr);
         }
 
-
         private void NewSessionConnected(AppSession session)
         {
             AppRt.FormLog.AddLine($"{session.RemoteEndPoint.Address}:{session.RemoteEndPoint.Port} Connected");
@@ -341,8 +367,8 @@ namespace CabinetMgr
                 if (result <= 0) success = false;
             }
             session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
-            (_indexForm as FormIndex).ReloadData();
-            (_indexForm as FormIndex).LoadPage();
+            (_indexForm as FormIndex0).ReloadData();
+            (_indexForm as FormIndex0).LoadPage();
         }
 
         private int ExecuteCmd(string toolLocation, string cmdType)
@@ -368,6 +394,49 @@ namespace CabinetMgr
                     return -1;
             }
 
+        }
+
+        private void pictureBoxIcon_Click(object sender, EventArgs e)
+        {
+            if (_curForm != _indexForm) PerformManualLogin();
+            ShowWindow(_loginForm);
+        }
+
+        private void pictureBoxTitleC_Click(object sender, EventArgs e)
+        {
+            currentCount += 1;
+            if (currentCount == manageCount)
+            {
+                currentCount = 1;
+                ShowWindow(_manageForm);
+            }
+        }
+
+        private void uiLabelUserName_Click(object sender, EventArgs e)
+        {
+            PerformManualLogin();
+        }
+
+        public void SetUiLabelUserName(string text, bool visible)
+        {
+            SetLabelText(uiLabelUserName, text, visible);
+        }
+
+        public void SetPicTitle(bool visible)
+        {
+            SetPictureBoxStatus(pictureBoxTitleE, visible, null);
+            SetPictureBoxStatus(pictureBoxTitleC, visible, null);
+        }
+
+        private void PerformManualLogin()
+        {
+            AppRt.ResetUserInfo();
+            (_loginForm as FormLogin).LoadInfo();
+            ShowWindow(_loginForm);
+
+            //SetLabelText(uiLabelUserName, "", false);
+            //SetPictureBoxStatus(pictureBoxTitleE, true, null);
+            //SetPictureBoxStatus(pictureBoxTitleC, true, null);
         }
 
     }

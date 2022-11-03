@@ -29,27 +29,19 @@ namespace CabinetMgr
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelButtonContainer = new System.Windows.Forms.Panel();
             this.uiImageButtonPassword = new Sunny.UI.UIImageButton();
             this.uiImageButtonCard = new Sunny.UI.UIImageButton();
             this.uiImageButtonFingerPrint = new Sunny.UI.UIImageButton();
             this.uiImageButtonFace = new Sunny.UI.UIImageButton();
-            this.pictureBoxBgPic = new System.Windows.Forms.PictureBox();
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.pictureBoxTitleE = new System.Windows.Forms.PictureBox();
-            this.pictureBoxTitleC = new System.Windows.Forms.PictureBox();
-            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.timerStopCrit = new System.Windows.Forms.Timer(this.components);
             this.panelButtonContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonFingerPrint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonFace)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBgPic)).BeginInit();
-            this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // panelButtonContainer
@@ -102,9 +94,9 @@ namespace CabinetMgr
             this.uiImageButtonFingerPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.uiImageButtonFingerPrint.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiImageButtonFingerPrint.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiImageButtonFingerPrint.Location = new System.Drawing.Point(263, 9);
+            this.uiImageButtonFingerPrint.Location = new System.Drawing.Point(258, 9);
             this.uiImageButtonFingerPrint.Name = "uiImageButtonFingerPrint";
-            this.uiImageButtonFingerPrint.Size = new System.Drawing.Size(220, 220);
+            this.uiImageButtonFingerPrint.Size = new System.Drawing.Size(225, 237);
             this.uiImageButtonFingerPrint.Style = Sunny.UI.UIStyle.Custom;
             this.uiImageButtonFingerPrint.TabIndex = 1;
             this.uiImageButtonFingerPrint.TabStop = false;
@@ -128,101 +120,41 @@ namespace CabinetMgr
             this.uiImageButtonFace.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiImageButtonFace.Click += new System.EventHandler(this.uiImageButtonFace_Click);
             // 
-            // pictureBoxBgPic
-            // 
-            this.pictureBoxBgPic.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxBgPic.BackgroundImage = global::CabinetMgr.Properties.Resources.BgPic;
-            this.pictureBoxBgPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBoxBgPic.Location = new System.Drawing.Point(68, 856);
-            this.pictureBoxBgPic.Name = "pictureBoxBgPic";
-            this.pictureBoxBgPic.Size = new System.Drawing.Size(940, 800);
-            this.pictureBoxBgPic.TabIndex = 3;
-            this.pictureBoxBgPic.TabStop = false;
-            // 
-            // panelTop
-            // 
-            this.panelTop.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleBg;
-            this.panelTop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panelTop.Controls.Add(this.pictureBoxTitleE);
-            this.panelTop.Controls.Add(this.pictureBoxTitleC);
-            this.panelTop.Controls.Add(this.pictureBoxIcon);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1080, 135);
-            this.panelTop.TabIndex = 6;
-            // 
-            // pictureBoxTitleE
-            // 
-            this.pictureBoxTitleE.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxTitleE.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleE;
-            this.pictureBoxTitleE.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBoxTitleE.Location = new System.Drawing.Point(653, 79);
-            this.pictureBoxTitleE.Name = "pictureBoxTitleE";
-            this.pictureBoxTitleE.Size = new System.Drawing.Size(260, 23);
-            this.pictureBoxTitleE.TabIndex = 2;
-            this.pictureBoxTitleE.TabStop = false;
-            // 
-            // pictureBoxTitleC
-            // 
-            this.pictureBoxTitleC.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxTitleC.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleC;
-            this.pictureBoxTitleC.Location = new System.Drawing.Point(653, 31);
-            this.pictureBoxTitleC.Name = "pictureBoxTitleC";
-            this.pictureBoxTitleC.Size = new System.Drawing.Size(290, 42);
-            this.pictureBoxTitleC.TabIndex = 1;
-            this.pictureBoxTitleC.TabStop = false;
-            this.pictureBoxTitleC.Click += new System.EventHandler(this.pictureBoxTitleC_Click);
-            // 
-            // pictureBoxIcon
-            // 
-            this.pictureBoxIcon.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxIcon.BackgroundImage = global::CabinetMgr.Properties.Resources.LOGO;
-            this.pictureBoxIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(52, 31);
-            this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(300, 75);
-            this.pictureBoxIcon.TabIndex = 0;
-            this.pictureBoxIcon.TabStop = false;
-            // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(131, 157);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(855, 387);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
+            // timerStopCrit
+            // 
+            this.timerStopCrit.Interval = 30000;
+            this.timerStopCrit.Tick += new System.EventHandler(this.timerStopCrit_Tick);
+            // 
             // FormLogin
             // 
-            this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.BackgroundImage = global::CabinetMgr.Properties.Resources.MainBg;
-            this.ClientSize = new System.Drawing.Size(1080, 1745);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = global::CabinetMgr.Properties.Resources.NewBg;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1080, 1785);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.panelTop);
             this.Controls.Add(this.panelButtonContainer);
-            this.Controls.Add(this.pictureBoxBgPic);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormLogin";
-            this.Padding = new System.Windows.Forms.Padding(0);
-            this.ShowTitle = false;
-            this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "FormLogin";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.Load += new System.EventHandler(this.FormLogin_Load);
             this.Shown += new System.EventHandler(this.FormLogin_Shown);
+            this.VisibleChanged += new System.EventHandler(this.FormLogin_VisibleChanged);
             this.Click += new System.EventHandler(this.FormLogin_Click);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormLogin_KeyDown);
             this.panelButtonContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonCard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonFingerPrint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonFace)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBgPic)).EndInit();
-            this.panelTop.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -234,11 +166,7 @@ namespace CabinetMgr
         private Sunny.UI.UIImageButton uiImageButtonCard;
         private Sunny.UI.UIImageButton uiImageButtonFingerPrint;
         private Sunny.UI.UIImageButton uiImageButtonFace;
-        private System.Windows.Forms.PictureBox pictureBoxBgPic;
-        private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.PictureBox pictureBoxTitleE;
-        private System.Windows.Forms.PictureBox pictureBoxTitleC;
-        private System.Windows.Forms.PictureBox pictureBoxIcon;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Timer timerStopCrit;
     }
 }

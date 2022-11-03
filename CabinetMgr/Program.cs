@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using testface;
 using Utilities.SysUtil;
 
 namespace CabinetMgr
@@ -20,6 +21,7 @@ namespace CabinetMgr
         [STAThread]
         static void Main()
         {
+            InitEngine();
             if (Environment.OSVersion.Version.Major >= 6)
             {
                 SysHelper.SetProcessDPIAware();
@@ -64,6 +66,27 @@ namespace CabinetMgr
 
         private static void ApplicationOnApplicationExit(object sender, EventArgs e)
         {
+            Face.sdk_destroy();
+        }
+
+        static void InitEngine()
+        {
+            try
+            {
+                string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                int n = Face.sdk_init(null);
+                if (n != 0)
+                {
+                    MessageBox.Show($"人脸识别引擎初始化失败，原因{n}");
+                    return;
+                }
+                FaceAbilityLoad.load_all_ability();
+                bool authed = Face.is_auth();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"人脸识别引擎初始化失败，原因{ex.Message}");
+            }
 
         }
 

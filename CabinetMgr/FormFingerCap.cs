@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormFingerCap : UIForm
+    public partial class FormFingerCap : Form
     {
         public static FormFingerCap formFingerCap;
         private static int capTimes = 3;
@@ -211,6 +211,13 @@ namespace CabinetMgr
             FormReset();
             CollectionThread = new Thread(new ThreadStart(FigerCollection));
             CollectionThread.Start();
+        }
+
+        private void uiButtonCancel_Click(object sender, EventArgs e)
+        {
+            FormReset();
+            Hide();
+
         }
     }
 }

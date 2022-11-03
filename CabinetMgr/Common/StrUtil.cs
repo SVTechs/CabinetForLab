@@ -30,5 +30,15 @@ namespace CabinetMgr.Common
             return strbaser64;
         }
 
+        public static string ByteToString(byte[] byteArray)
+        {
+            return Encoding.ASCII.GetString(byteArray);
+        }
+
+        public static byte[] StringToByte(string str)
+        {
+            return Encoding.ASCII.GetBytes(str);
+        }
+
     }
 }

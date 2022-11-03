@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormRecord : UIForm
+    public partial class FormRecord : Form
     {
         public FormRecord()
         {
@@ -61,9 +61,5 @@ namespace CabinetMgr
             Osk.ShowInputPanel();
         }
 
-        private void pictureBoxIcon_Click(object sender, EventArgs e)
-        {
-            AppRt.BackToLoginForm(true);
-        }
     }
 }

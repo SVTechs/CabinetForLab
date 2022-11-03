@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormOperateTool : UIForm
+    public partial class FormOperateTool : Form
     {
         private static FormOperateTool formOperateTool;
         private static string cabinetName;
@@ -103,7 +103,7 @@ namespace CabinetMgr
                 return;
             }
             (AppRt.FormMain._loginForm as FormLogin).LoadInfo();
-            (AppRt.FormMain._indexForm as FormIndex).ReloadData();
+            (AppRt.FormMain._indexForm as FormIndex0).ReloadData();
             Dispose();
 
         }

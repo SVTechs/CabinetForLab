@@ -218,7 +218,6 @@ namespace CabinetMgr
             // 
             // FormOperateTool
             // 
-            this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1007, 800);
@@ -232,12 +231,10 @@ namespace CabinetMgr
             this.Controls.Add(this.uiTextBoxAmount);
             this.Controls.Add(this.uiLabelAmount);
             this.Controls.Add(this.uiLabelCurrentSelect);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormOperateTool";
-            this.Padding = new System.Windows.Forms.Padding(0);
-            this.ShowTitle = false;
-            this.Style = Sunny.UI.UIStyle.Custom;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormOperateTool";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOperateTool_FormClosed);
             this.Shown += new System.EventHandler(this.FormOperateTool_Shown);
             this.ResumeLayout(false);

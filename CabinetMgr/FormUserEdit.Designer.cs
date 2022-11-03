@@ -120,7 +120,6 @@ namespace CabinetMgr
             this.uiTextBoxPassword.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxPassword.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBoxPassword.TabIndex = 4;
-            this.uiTextBoxPassword.Text = "0";
             this.uiTextBoxPassword.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxPassword.Type = Sunny.UI.UITextBox.UIEditType.Integer;
             this.uiTextBoxPassword.Watermark = "";

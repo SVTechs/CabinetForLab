@@ -1,4 +1,5 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.Common;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Hardware.DeviceInterface;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -17,17 +19,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using testface;
 
 namespace CabinetMgr
 {
-    public partial class FormLogin : UIForm
+    public partial class FormLogin : Form
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static IList<Info> infoList;
         private List<UserInfo> imagesFeatureList = new List<UserInfo>();
         private float threshold = 80f;
-        private Window windowVideo;
 
         public static ManualResetEvent FaceDataManualEvent = new ManualResetEvent(false);
         public static ManualResetEvent FingerDataManualEvent = new ManualResetEvent(false);
@@ -36,9 +38,6 @@ namespace CabinetMgr
         SoundPlayer pressFinger = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("PressFinger"));
         SoundPlayer swipeCard = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("SwipeCard"));
         SoundPlayer enterPassword = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("EnterPassword"));
-
-        private int manageCount = 7;
-        private int currentCount = 1;
 
         public FormLogin()
         {
@@ -50,13 +49,16 @@ namespace CabinetMgr
             if (AppRt.HaveFaceDevice)
             {
                 InitFaceData();
-                InitFaceShowThread();
                 InitFaceCricThread();
             }
             if (AppRt.HaveFpDevice)
             {
                 InitFpData();
                 InitFpCricThread();
+            }
+            if (AppRt.HaveCardDevice)
+            {
+                InitCardCricThread();
             }
         }
 
@@ -71,7 +73,7 @@ namespace CabinetMgr
             infoList = BllInfo.SearchInfo(0, 3, null, out _);
             foreach (Info info in infoList)
             {
-                AddInfo(info.InfoContent, info.InfoType);
+                AddInfo(info.InfoContent, info.InfoType, info.Id);
             }
             flowLayoutPanel1.Refresh();
         }
@@ -83,10 +85,11 @@ namespace CabinetMgr
                 UIMessageBox.Show("未检测到人脸识别设备");
                 return;
             }
-            windowVideo = new Window("面部识别");
-            windowVideo.Move(1, 1);
+
             AppRt.FaceEnable = true;
+            AppRt.FormFaceShow.FormVisible(true);
             showFace.Play();
+            timerStopCrit.Start();
         }
 
         private void uiImageButtonFingerPrint_Click(object sender, EventArgs e)
@@ -98,11 +101,14 @@ namespace CabinetMgr
             }
             AppRt.FpEnable = true;
             pressFinger.Play();
+            timerStopCrit.Start();
         }
 
         private void uiImageButtonCard_Click(object sender, EventArgs e)
         {
+            AppRt.CardEnable = true;
             swipeCard.Play();
+            timerStopCrit.Start();
         }
 
         private void uiImageButtonPassword_Click(object sender, EventArgs e)
@@ -119,12 +125,6 @@ namespace CabinetMgr
         }
 
         #region Face
-
-        private void InitFaceShowThread()
-        {
-            Thread t = new Thread(FaceShow) { IsBackground = true };
-            t.Start();
-        }
 
         private void InitFaceCricThread()
         {
@@ -236,7 +236,7 @@ namespace CabinetMgr
                             {
                                 FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 1);
                                 AppRt.FaceEnable = false;
-                                windowVideo?.Dispose();
+                                AppRt.FormFaceShow.FormVisible(false);
                             }
                         }
 
@@ -258,27 +258,9 @@ namespace CabinetMgr
             }
         }
 
-        private void FaceShow()
-        {
-            try
-            {
-                VideoCapture cap = AppRt.VideoCaptureDevice;
-                Mat image = new Mat();
-                while (!AppRt.IsInit)
-                {
-                    if (!AppRt.FaceEnable) continue;
-                    if (cap == null) continue;
-                    cap.Read(image);
-                    windowVideo?.ShowImage(image);
-                }
-            }
-            catch (SEHException e)
-            {
-                Logger.Error(e);
-            }
-        }
+       
 
-
+        
 
         #endregion
 
@@ -297,7 +279,12 @@ namespace CabinetMgr
                 ret = FpDevice.StoreChar((int)ui.TemplateId);
                 if (ret != DriveOpration.PS_OK) isAllSucceed = false;
             }
-            if (!isAllSucceed) AddInfo("指纹下发出错，部分指纹将不能使用", 2);
+            if (!isAllSucceed)
+            {
+                UIMessageBox.ShowError("指纹下发出错，部分指纹将不能使用");
+                //AddInfo("指纹下发出错，部分指纹将不能使用", 2, "");
+            }
+
         }
 
         private void InitFpCricThread()
@@ -323,6 +310,7 @@ namespace CabinetMgr
                     FpCallBack.OnUserRecognised?.Invoke(address, 2);
                     AppRt.FpEnable = false;
                 }
+
             }
         }
 
@@ -330,9 +318,41 @@ namespace CabinetMgr
 
         #endregion
 
+        #region Card
 
-        private delegate void AddInfoDelegate(string infoContent, int infoLevel);
-        private void AddInfo(string infoContent, int infoLevel)
+        private void InitCardCricThread()
+        {
+            Thread t = new Thread(CardCric) { IsBackground = true };
+            t.Start();
+        }
+
+        private void CardCric()
+        {
+            while (true)
+            {
+                Thread.Sleep(300);
+                if (!AppRt.CardEnable) continue;
+                byte[] mypiccdata = new byte[48];
+                byte result = CardDevice.PiccRequest(mypiccdata);
+                if (result == 0)
+                {
+                    CardDevice.PcdDeep(50);
+                    string cardNum = StrUtil.ByteToString(mypiccdata);
+                    AppRt.FormLog.AddLine(cardNum);
+                    UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
+                    FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
+                    AppRt.CardEnable = false;
+                }
+            }
+        }
+
+        #endregion
+
+
+
+
+        private delegate void AddInfoDelegate(string infoContent, int infoLevel, string id);
+        private void AddInfo(string infoContent, int infoLevel, string id)
         {
             if (flowLayoutPanel1.InvokeRequired)
             {
@@ -346,6 +366,8 @@ namespace CabinetMgr
                 button.Text = infoContent;
                 button.Width = flowLayoutPanel1.Width - 20;
                 button.Height = 75;
+                button.Click += InfoButtonClick;
+                button.Tag = id;
                 switch (infoLevel)
                 {
                     case 0:
@@ -365,6 +387,18 @@ namespace CabinetMgr
 
         }
 
+        private void InfoButtonClick(object sender, EventArgs e)
+        {
+            if(AppRt.CurUser == null)
+            {
+                UIMessageBox.ShowError("请登录后再进行操作");
+                return;
+            }
+            UIButton btn = sender as UIButton;
+            int result = BllInfo.DeleteInfo(btn.Tag as string, out _);
+            LoadInfo();
+        }
+
         private delegate void InfoClearDelegate();
         private void InfoClear()
         {
@@ -380,19 +414,19 @@ namespace CabinetMgr
             
         }
 
-        private void pictureBoxTitleC_Click(object sender, EventArgs e)
+        private void timerStopCrit_Tick(object sender, EventArgs e)
         {
-            currentCount += 1;
-            if (currentCount == manageCount)
-            {
-                currentCount = 1;
-                AppRt.FormMain.ShowWindow(AppRt.FormMain._manageForm);
-            }
+            AppRt.FormFaceShow.FormVisible(false);
+            AppRt.FaceEnable = false;
+            AppRt.FpEnable = false;
+            AppRt.CardEnable = false;
         }
 
-        private void FormLogin_KeyDown(object sender, KeyEventArgs e)
+        private void FormLogin_VisibleChanged(object sender, EventArgs e)
         {
-
+            LoadInfo();
+            AppRt.FormMain.SetPicTitle(true);
+            AppRt.FormMain.SetUiLabelUserName("", false);
         }
     }
 }

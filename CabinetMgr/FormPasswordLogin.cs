@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormPasswordLogin : UIForm
+    public partial class FormPasswordLogin : Form
     {
         public static FormPasswordLogin formPasswordLogin;
 

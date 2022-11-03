@@ -164,7 +164,6 @@ namespace CabinetMgr
             // 
             // FormPasswordLogin
             // 
-            this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(937, 709);
@@ -175,12 +174,11 @@ namespace CabinetMgr
             this.Controls.Add(this.uiLabelPassword);
             this.Controls.Add(this.uiTextBoxUserName);
             this.Controls.Add(this.uiLabelUserName);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormPasswordLogin";
-            this.Padding = new System.Windows.Forms.Padding(0);
-            this.ShowTitle = false;
-            this.Style = Sunny.UI.UIStyle.Custom;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormPasswordLogin";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormPasswordLogin_FormClosed);
             this.Shown += new System.EventHandler(this.FormPasswordLogin_Shown);
             this.Click += new System.EventHandler(this.FormPasswordLogin_Click);

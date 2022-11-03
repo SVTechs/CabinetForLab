@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormManage : UIForm
+    public partial class FormManage : Form
     {
         public FormManage()
         {
@@ -40,9 +40,5 @@ namespace CabinetMgr
             AppRt.FormMain.ShowWindow(AppRt.FormMain._systemManage);
         }
 
-        private void pictureBoxIcon_Click(object sender, EventArgs e)
-        {
-            AppRt.BackToLoginForm(false);
-        }
     }
 }

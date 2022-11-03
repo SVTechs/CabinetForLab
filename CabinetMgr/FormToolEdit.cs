@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormToolEdit : UIForm
+    public partial class FormToolEdit : Form
     {
         private static FormToolEdit formToolEdit;
         private static string _toolId;

@@ -41,6 +41,7 @@ namespace Hardware.DeviceInterface
                 serverConfig.MaxRequestLength = 102400;
                 serverConfig.Port = _serverPort;
                 serverConfig.Ip = _serverIP;
+                serverConfig.ReceiveBufferSize = 102400;
                 if (!Server.Setup(serverConfig))
                 {
                     CabinetServerCallback.OnInitDone?.Invoke($"Socket端口占用"); return;
@@ -50,6 +51,7 @@ namespace Hardware.DeviceInterface
                     CabinetServerCallback.OnInitDone?.Invoke($"Socket启动失败"); return;
                 }
                 BindEvents();
+                CabinetServerCallback.MsgReceived?.Invoke($"Server Start");
                 //Thread tParser = new Thread(JsonStrParser) { IsBackground = true };
                 //tParser.Start();
             }
@@ -111,6 +113,7 @@ namespace Hardware.DeviceInterface
 
         private static void appServer_NewSessionConnected(AppSession session)
         {
+            CabinetServerCallback.MsgReceived?.Invoke($"New Session Incoming {session.RemoteEndPoint.Address}");
             if (session.RemoteEndPoint.Address.ToString() == _canIP)
             {
                 canSession = session;
