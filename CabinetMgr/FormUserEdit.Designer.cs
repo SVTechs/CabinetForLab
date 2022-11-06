@@ -45,6 +45,7 @@ namespace CabinetMgr
             this.uiTextBoxUserName = new Sunny.UI.UITextBox();
             this.uiButtonFaceCap = new Sunny.UI.UIButton();
             this.uiComboTreeViewRole = new Sunny.UI.UIComboTreeView();
+            this.uiTextBoxCardNum = new Sunny.UI.UITextBox();
             this.SuspendLayout();
             // 
             // uiLabelTitle
@@ -120,6 +121,7 @@ namespace CabinetMgr
             this.uiTextBoxPassword.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxPassword.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBoxPassword.TabIndex = 4;
+            this.uiTextBoxPassword.Text = "0";
             this.uiTextBoxPassword.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxPassword.Type = Sunny.UI.UITextBox.UIEditType.Integer;
             this.uiTextBoxPassword.Watermark = "";
@@ -309,12 +311,33 @@ namespace CabinetMgr
             this.uiComboTreeViewRole.Watermark = "";
             this.uiComboTreeViewRole.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiTextBoxCardNum
+            // 
+            this.uiTextBoxCardNum.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.uiTextBoxCardNum.Font = new System.Drawing.Font("HarmonyOS Sans SC", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiTextBoxCardNum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.uiTextBoxCardNum.Location = new System.Drawing.Point(83, 637);
+            this.uiTextBoxCardNum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBoxCardNum.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBoxCardNum.Name = "uiTextBoxCardNum";
+            this.uiTextBoxCardNum.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.uiTextBoxCardNum.RectSize = 2;
+            this.uiTextBoxCardNum.ShowText = false;
+            this.uiTextBoxCardNum.Size = new System.Drawing.Size(334, 60);
+            this.uiTextBoxCardNum.Style = Sunny.UI.UIStyle.Custom;
+            this.uiTextBoxCardNum.TabIndex = 5;
+            this.uiTextBoxCardNum.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiTextBoxCardNum.Visible = false;
+            this.uiTextBoxCardNum.Watermark = "";
+            this.uiTextBoxCardNum.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
             // FormUserEdit
             // 
             this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1007, 895);
+            this.Controls.Add(this.uiTextBoxCardNum);
             this.Controls.Add(this.uiComboTreeViewRole);
             this.Controls.Add(this.uiButtonFaceCap);
             this.Controls.Add(this.uiTextBoxUserName);
@@ -360,5 +383,6 @@ namespace CabinetMgr
         private Sunny.UI.UITextBox uiTextBoxUserName;
         private Sunny.UI.UIButton uiButtonFaceCap;
         private Sunny.UI.UIComboTreeView uiComboTreeViewRole;
+        private Sunny.UI.UITextBox uiTextBoxCardNum;
     }
 }

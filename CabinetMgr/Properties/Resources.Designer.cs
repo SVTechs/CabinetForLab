@@ -101,6 +101,15 @@ namespace CabinetMgr.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream CardCatched {
+            get {
+                return ResourceManager.GetStream("CardCatched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap close {
@@ -152,6 +161,15 @@ namespace CabinetMgr.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream FaceCatched {
+            get {
+                return ResourceManager.GetStream("FaceCatched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream FaceCric {
             get {
                 return ResourceManager.GetStream("FaceCric", resourceCulture);
@@ -165,6 +183,15 @@ namespace CabinetMgr.Properties {
             get {
                 object obj = ResourceManager.GetObject("FingerPrint", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream FpCatched {
+            get {
+                return ResourceManager.GetStream("FpCatched", resourceCulture);
             }
         }
         

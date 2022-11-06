@@ -30,6 +30,7 @@ namespace CabinetMgr
         private static IList<Info> infoList;
         private List<UserInfo> imagesFeatureList = new List<UserInfo>();
         private float threshold = 80f;
+        private string lastCardNum = "";
 
         public static ManualResetEvent FaceDataManualEvent = new ManualResetEvent(false);
         public static ManualResetEvent FingerDataManualEvent = new ManualResetEvent(false);
@@ -106,8 +107,11 @@ namespace CabinetMgr
 
         private void uiImageButtonCard_Click(object sender, EventArgs e)
         {
+            textBoxCardNum.Text = "";
+            lastCardNum = "";
             AppRt.CardEnable = true;
             swipeCard.Play();
+            textBoxCardNum.Focus();
             timerStopCrit.Start();
         }
 
@@ -330,19 +334,41 @@ namespace CabinetMgr
         {
             while (true)
             {
-                Thread.Sleep(300);
-                if (!AppRt.CardEnable) continue;
-                byte[] mypiccdata = new byte[48];
-                byte result = CardDevice.PiccRequest(mypiccdata);
-                if (result == 0)
+                try
                 {
-                    CardDevice.PcdDeep(50);
-                    string cardNum = StrUtil.ByteToString(mypiccdata);
+                    Thread.Sleep(700);
+                    if (!AppRt.CardEnable) continue;
+                    if (string.IsNullOrEmpty(textBoxCardNum.Text)) continue;
+                    string cardNum = textBoxCardNum.Text;
+                    if (lastCardNum != cardNum)
+                    {
+                        lastCardNum = cardNum;
+                        continue;
+                    }
+                    ClearTextBox();
                     AppRt.FormLog.AddLine(cardNum);
                     UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
                     FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
                     AppRt.CardEnable = false;
+
+                    //CardDevice.PcdDeep(50);
+                    //byte[] piccserial = new byte[7];
+                    //byte result = CardDevice.PiccRequest(piccserial);
+                    //if (result == 0)
+                    //{
+                    //    CardDevice.PcdDeep(50);
+                    //    string cardNum = StrUtil.ByteToString(piccserial);
+                    //    AppRt.FormLog.AddLine(cardNum);
+                    //    UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
+                    //    FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
+                    //    AppRt.CardEnable = false;
+                    //}
                 }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                }
+
             }
         }
 
@@ -400,6 +426,20 @@ namespace CabinetMgr
         }
 
         private delegate void InfoClearDelegate();
+
+        private delegate void ClearTextBoxDelegate();
+        private void ClearTextBox()
+        {
+            if (textBoxCardNum.InvokeRequired)
+            {
+                ClearTextBoxDelegate d = ClearTextBox;
+                textBoxCardNum.Invoke(d);
+            }
+            else
+            {
+                textBoxCardNum.Text = "";
+            }
+        }
         private void InfoClear()
         {
             if (flowLayoutPanel1.InvokeRequired)
@@ -420,6 +460,8 @@ namespace CabinetMgr
             AppRt.FaceEnable = false;
             AppRt.FpEnable = false;
             AppRt.CardEnable = false;
+            ClearTextBox();
+            flowLayoutPanel1.Focus();
         }
 
         private void FormLogin_VisibleChanged(object sender, EventArgs e)

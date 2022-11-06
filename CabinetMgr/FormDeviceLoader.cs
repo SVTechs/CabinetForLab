@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -118,9 +120,7 @@ namespace CabinetMgr
 
                 try
                 {
-                    byte result = CardDevice.PcdDeep(50);
-                    AppRt.FormLog.AddLine("PcdBeepValue" + result);
-                    if (result != 0)
+                    if (!File.Exists(@"ReadCard.exe"))
                     {
                         UpdateStatus("初始化读卡器", "初始化失败", 2);
                         _isPassed = false;
@@ -128,9 +128,23 @@ namespace CabinetMgr
                     }
                     else
                     {
+                        Process.Start(@"ReadCard.exe");
                         AppRt.HaveCardDevice = true;
                         UpdateStatus("初始化读卡器", "初始化成功", 1);
                     }
+                    //byte result = CardDevice.PcdDeep(50);
+                    //AppRt.FormLog.AddLine("PcdBeepValue:" + result);
+                    //if (result != 0)
+                    //{
+                    //    UpdateStatus("初始化读卡器", "初始化失败", 2);
+                    //    _isPassed = false;
+                    //    AppRt.HaveCardDevice = false;
+                    //}
+                    //else
+                    //{
+                    //    AppRt.HaveCardDevice = true;
+                    //    UpdateStatus("初始化读卡器", "初始化成功", 1);
+                    //}
                 }
                 catch(Exception ex)
                 {

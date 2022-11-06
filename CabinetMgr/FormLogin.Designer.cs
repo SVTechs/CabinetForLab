@@ -37,6 +37,7 @@ namespace CabinetMgr
             this.uiImageButtonFace = new Sunny.UI.UIImageButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.timerStopCrit = new System.Windows.Forms.Timer(this.components);
+            this.textBoxCardNum = new System.Windows.Forms.TextBox();
             this.panelButtonContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonCard)).BeginInit();
@@ -133,6 +134,14 @@ namespace CabinetMgr
             this.timerStopCrit.Interval = 30000;
             this.timerStopCrit.Tick += new System.EventHandler(this.timerStopCrit_Tick);
             // 
+            // textBoxCardNum
+            // 
+            this.textBoxCardNum.Location = new System.Drawing.Point(564, 1095);
+            this.textBoxCardNum.Name = "textBoxCardNum";
+            this.textBoxCardNum.Size = new System.Drawing.Size(228, 21);
+            this.textBoxCardNum.TabIndex = 8;
+            this.textBoxCardNum.Visible = false;
+            // 
             // FormLogin
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -140,6 +149,7 @@ namespace CabinetMgr
             this.BackgroundImage = global::CabinetMgr.Properties.Resources.NewBg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1080, 1785);
+            this.Controls.Add(this.textBoxCardNum);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panelButtonContainer);
             this.DoubleBuffered = true;
@@ -156,6 +166,7 @@ namespace CabinetMgr
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonFingerPrint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonFace)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -168,5 +179,6 @@ namespace CabinetMgr
         private Sunny.UI.UIImageButton uiImageButtonFace;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Timer timerStopCrit;
+        private System.Windows.Forms.TextBox textBoxCardNum;
     }
 }

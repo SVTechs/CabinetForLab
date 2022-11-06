@@ -3,6 +3,8 @@ using CabinetMgr.Common;
 using CabinetMgr.Config;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
+using Hardware.DeviceInterface;
+using NLog;
 using OpenCvSharp;
 using Sunny.UI;
 using System;
@@ -11,8 +13,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using testface;
@@ -28,10 +32,17 @@ namespace CabinetMgr
         private static byte[] fingerTemplate;
         private static byte[] faceTemplate;
         private static string cardNum;
+        private static string lastCardNum;
 
         private VideoCapture cap;
         private Window windowVideo;
         private bool enableVideo = false;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        SoundPlayer cardCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("CardCatched"));
+        SoundPlayer faceCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FaceCatched"));
+        SoundPlayer fpCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FpCatched"));
+
 
         public static FormUserEdit Instance(string userId)
         {
@@ -65,7 +76,40 @@ namespace CabinetMgr
 
         private void uiButtonCard_Click(object sender, EventArgs e)
         {
+            uiTextBoxCardNum.Text = "";
+            lastCardNum = "";
+            cardNum = "";
+            uiTextBoxCardNum.Focus();
+            Thread t = new Thread(CatchCardNum) { IsBackground = true };
+            t.Start();
+         
+        }
 
+        private void CatchCardNum()
+        {
+            try
+            {
+                while (true)
+                {
+                    Thread.Sleep(700);
+                    if (string.IsNullOrEmpty(uiTextBoxCardNum.Text)) continue;
+                    cardNum = uiTextBoxCardNum.Text;
+                    if (lastCardNum != cardNum)
+                    {
+                        lastCardNum = cardNum;
+                        continue;
+                    }
+                    uiTextBoxUserName.Focus();
+                    ClearTextBox();
+                    AppRt.FormLog.AddLine(cardNum);
+                    cardCatched.Play();
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
 
         private void uiButtonFace_Click(object sender, EventArgs e)
@@ -180,6 +224,7 @@ namespace CabinetMgr
                     }
                     faceTemplate = faceByte;
                     uiButtonFaceCap.Visible = false;
+                    faceCatched.Play();
                 }
             }
 
@@ -196,6 +241,7 @@ namespace CabinetMgr
             formFingerCap.ShowDialog();
             fingerTemplate = formFingerCap.fingerTemplate;
             formFingerCap.FormReset();
+            fpCatched.Play();
         }
 
         private void uiButtonCancel_Click(object sender, EventArgs e)
@@ -357,6 +403,19 @@ namespace CabinetMgr
             cardNum = null;
         }
 
+        private delegate void ClearTextBoxDelegate();
+        private void ClearTextBox()
+        {
+            if (uiTextBoxCardNum.InvokeRequired)
+            {
+                ClearTextBoxDelegate d = ClearTextBox;
+                uiTextBoxCardNum.Invoke(d);
+            }
+            else
+            {
+                uiTextBoxCardNum.Text = "";
+            }
+        }
 
     }
 }

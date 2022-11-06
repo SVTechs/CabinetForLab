@@ -294,7 +294,7 @@ namespace CabinetMgr
             ReloadData();
             LoadPage(currentPage);
             AppRt.FormMain.SetPicTitle(false);
-            AppRt.FormMain.SetUiLabelUserName(AppRt.CurUser?.FullName + "  |  单击推出", true);
+            AppRt.FormMain.SetUiLabelUserName(AppRt.CurUser?.FullName + "  |  单击退出", true);
         }
     }
 }

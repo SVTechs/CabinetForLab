@@ -228,6 +228,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RtVars\AppRt.cs" />
+    <None Include="Res\Sound\FpCatched.wav" />
+    <None Include="Res\Sound\FaceCatched.wav" />
+    <None Include="Res\Sound\CardCatched.wav" />
     <None Include="Res\img\loginForm\NewLogo.png" />
     <None Include="Res\img\loginForm\NewBg.png" />
     <None Include="Res\img\recordForm\TextBoxSearch.png" />
