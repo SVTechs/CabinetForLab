@@ -140,6 +140,7 @@ namespace CabinetMgr
             this.textBoxCardNum.Name = "textBoxCardNum";
             this.textBoxCardNum.Size = new System.Drawing.Size(228, 21);
             this.textBoxCardNum.TabIndex = 8;
+            this.textBoxCardNum.Visible = false;
             // 
             // FormLogin
             // 

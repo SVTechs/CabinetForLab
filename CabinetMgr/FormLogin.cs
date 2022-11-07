@@ -107,11 +107,11 @@ namespace CabinetMgr
 
         private void uiImageButtonCard_Click(object sender, EventArgs e)
         {
-            textBoxCardNum.Text = "";
+            //textBoxCardNum.Text = "";
             //lastCardNum = "";
             AppRt.CardEnable = true;
             swipeCard.Play();
-            textBoxCardNum.Focus();
+            //textBoxCardNum.Focus();
             timerStopCrit.Start();
         }
 
@@ -354,9 +354,9 @@ namespace CabinetMgr
                     string cardNum = CardDevice.PiccRequest();
                     if (!string.IsNullOrEmpty(cardNum))
                     {
-                        SetTextBoxText(cardNum);
                         AppRt.FormLog.AddLine(cardNum);
                         UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
+                        if (ui == null) continue;
                         FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
                         AppRt.CardEnable = false;
                     }
@@ -448,20 +448,6 @@ namespace CabinetMgr
             else
             {
                 textBoxCardNum.Text = "";
-            }
-        }
-
-        private delegate void SetTextBoxTextDelegate(string text);
-        private void SetTextBoxText(string text)
-        {
-            if (textBoxCardNum.InvokeRequired)
-            {
-                SetTextBoxTextDelegate d = SetTextBoxText;
-                textBoxCardNum.Invoke(d);
-            }
-            else
-            {
-                textBoxCardNum.Text = text;
             }
         }
 

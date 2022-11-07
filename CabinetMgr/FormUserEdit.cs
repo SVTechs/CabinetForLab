@@ -77,10 +77,9 @@ namespace CabinetMgr
         private void uiButtonCard_Click(object sender, EventArgs e)
         {
             string tmpValue = CardDevice.PiccRequest();
-            if (!string.IsNullOrEmpty(cardNum))
+            if (!string.IsNullOrEmpty(tmpValue))
             {
                 cardNum = tmpValue;
-                SetTextBoxText(cardNum);
                 AppRt.FormLog.AddLine(cardNum);
                 cardCatched.Play();
             }
@@ -423,20 +422,6 @@ namespace CabinetMgr
             else
             {
                 uiTextBoxCardNum.Text = "";
-            }
-        }
-
-        private delegate void SetTextBoxTextDelegate(string text);
-        private void SetTextBoxText(string text)
-        {
-            if (uiTextBoxCardNum.InvokeRequired)
-            {
-                SetTextBoxTextDelegate d = SetTextBoxText;
-                uiTextBoxCardNum.Invoke(d);
-            }
-            else
-            {
-                uiTextBoxCardNum.Text = text;
             }
         }
 

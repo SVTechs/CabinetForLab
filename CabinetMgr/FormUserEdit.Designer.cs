@@ -327,6 +327,7 @@ namespace CabinetMgr
             this.uiTextBoxCardNum.Style = Sunny.UI.UIStyle.Custom;
             this.uiTextBoxCardNum.TabIndex = 5;
             this.uiTextBoxCardNum.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiTextBoxCardNum.Visible = false;
             this.uiTextBoxCardNum.Watermark = "";
             this.uiTextBoxCardNum.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
