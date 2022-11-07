@@ -136,7 +136,7 @@ namespace CabinetMgr
             // 
             // textBoxCardNum
             // 
-            this.textBoxCardNum.Location = new System.Drawing.Point(-400, 1095);
+            this.textBoxCardNum.Location = new System.Drawing.Point(541, 1074);
             this.textBoxCardNum.Name = "textBoxCardNum";
             this.textBoxCardNum.Size = new System.Drawing.Size(228, 21);
             this.textBoxCardNum.TabIndex = 8;

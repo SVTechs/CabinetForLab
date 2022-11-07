@@ -108,7 +108,7 @@ namespace CabinetMgr
         private void uiImageButtonCard_Click(object sender, EventArgs e)
         {
             textBoxCardNum.Text = "";
-            lastCardNum = "";
+            //lastCardNum = "";
             AppRt.CardEnable = true;
             swipeCard.Play();
             textBoxCardNum.Focus();
@@ -338,31 +338,28 @@ namespace CabinetMgr
                 {
                     Thread.Sleep(700);
                     if (!AppRt.CardEnable) continue;
-                    if (string.IsNullOrEmpty(textBoxCardNum.Text)) continue;
-                    string cardNum = textBoxCardNum.Text;
-                    if (lastCardNum != cardNum)
-                    {
-                        lastCardNum = cardNum;
-                        continue;
-                    }
-                    ClearTextBox();
-                    AppRt.FormLog.AddLine(cardNum);
-                    UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
-                    FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
-                    AppRt.CardEnable = false;
-
-                    //CardDevice.PcdDeep(50);
-                    //byte[] piccserial = new byte[7];
-                    //byte result = CardDevice.PiccRequest(piccserial);
-                    //if (result == 0)
+                    //if (string.IsNullOrEmpty(textBoxCardNum.Text)) continue;
+                    //string cardNum = textBoxCardNum.Text;
+                    //if (lastCardNum != cardNum)
                     //{
-                    //    CardDevice.PcdDeep(50);
-                    //    string cardNum = StrUtil.ByteToString(piccserial);
-                    //    AppRt.FormLog.AddLine(cardNum);
-                    //    UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
-                    //    FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
-                    //    AppRt.CardEnable = false;
+                    //    lastCardNum = cardNum;
+                    //    continue;
                     //}
+                    //ClearTextBox();
+                    //AppRt.FormLog.AddLine(cardNum);
+                    //UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
+                    //FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
+                    //AppRt.CardEnable = false;
+
+                    string cardNum = CardDevice.PiccRequest();
+                    if (!string.IsNullOrEmpty(cardNum))
+                    {
+                        SetTextBoxText(cardNum);
+                        AppRt.FormLog.AddLine(cardNum);
+                        UserInfo ui = BllUserInfo.GetUserInfoByCardNum(cardNum, out _);
+                        FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 3);
+                        AppRt.CardEnable = false;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -426,6 +423,19 @@ namespace CabinetMgr
         }
 
         private delegate void InfoClearDelegate();
+        private void InfoClear()
+        {
+            if (flowLayoutPanel1.InvokeRequired)
+            {
+                InfoClearDelegate d = InfoClear;
+                flowLayoutPanel1.Invoke(d);
+            }
+            else
+            {
+                flowLayoutPanel1.Controls.Clear();
+            }
+            
+        }
 
         private delegate void ClearTextBoxDelegate();
         private void ClearTextBox()
@@ -440,18 +450,19 @@ namespace CabinetMgr
                 textBoxCardNum.Text = "";
             }
         }
-        private void InfoClear()
+
+        private delegate void SetTextBoxTextDelegate(string text);
+        private void SetTextBoxText(string text)
         {
-            if (flowLayoutPanel1.InvokeRequired)
+            if (textBoxCardNum.InvokeRequired)
             {
-                InfoClearDelegate d = InfoClear;
-                flowLayoutPanel1.Invoke(d);
+                SetTextBoxTextDelegate d = SetTextBoxText;
+                textBoxCardNum.Invoke(d);
             }
             else
             {
-                flowLayoutPanel1.Controls.Clear();
+                textBoxCardNum.Text = text;
             }
-            
         }
 
         private void timerStopCrit_Tick(object sender, EventArgs e)

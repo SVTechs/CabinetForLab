@@ -13,22 +13,23 @@ namespace Hardware.DeviceInterface
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public const byte BLOCK0_EN = 0x01;//Operating 0 blocks
-        public const byte BLOCK1_EN = 0x02;//Operating 1 blocks
-        public const byte BLOCK2_EN = 0x04;//Operating 2 blocks
-        public const byte NEEDSERIAL = 0x08;//Only the specified serial number card operation
+        public const byte BLOCK0_EN = 0x01;//操作第0块
+        public const byte BLOCK1_EN = 0x02;//操作第1块
+        public const byte BLOCK2_EN = 0x04;//操作第2块
+        public const byte NEEDSERIAL = 0x08;//仅对指定序列号的卡操作
         public const byte EXTERNKEY = 0x10;
-        public const byte NEEDHALT = 0x20;//Read or write CARDS after dormancy card, by the way, after dormancy, leave induction card must take, return to active area, to carry out the second operation。
+        public const byte NEEDHALT = 0x20;//读卡或写卡后顺便休眠该卡，休眠后，卡必须拿离开感应区，再放回感应区，才能进行第二次操作。
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------
         //外部函数声明：让设备发出声响
         [DllImport("OUR_MIFARE.dll", EntryPoint = "pcdbeep", CallingConvention = CallingConvention.StdCall)]
-        static extern byte pcdbeep(UInt32 xms);//xms  milliseconds 
+        static extern byte pcdbeep(UInt32 xms);//xms单位为毫秒 
+
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------    
-        //Read card Serial Number only 
-        [DllImport("OUR_MIFARE.dll", EntryPoint = "piccrequest_ul", CallingConvention = CallingConvention.StdCall)]
-        public static extern byte piccrequest_ul(byte[] serial);// Serial Number 
+        //只读卡号
+        [DllImport("OUR_MIFARE.dll", EntryPoint = "piccrequest", CallingConvention = CallingConvention.StdCall)]
+        public static extern byte piccrequest(byte[] serial);//devicenumber用于返回编号 
 
 
 
@@ -37,9 +38,28 @@ namespace Hardware.DeviceInterface
             return pcdbeep(xms);
         }
 
-        public static byte PiccRequest(byte[] piccserial)
+        public static string PiccRequest()
         {
-            return piccrequest_ul(piccserial);
+            string cardstr;
+            byte status;//Store the return value
+            byte[] mypiccserial = new byte[4];//card serial
+            Int64 cardnumdec;
+            status = piccrequest(mypiccserial);
+            if (status == 0)
+            {
+                cardnumdec = mypiccserial[3];
+                cardnumdec = cardnumdec * 256;
+                cardnumdec = cardnumdec + mypiccserial[2];
+                cardnumdec = cardnumdec * 256;
+                cardnumdec = cardnumdec + mypiccserial[1];
+                cardnumdec = cardnumdec * 256;
+                cardnumdec = cardnumdec + mypiccserial[0];
+                cardstr = Convert.ToString(cardnumdec);
+                pcdbeep(38);
+                return cardstr;
+                
+            }
+            return "";
         }
 
     }

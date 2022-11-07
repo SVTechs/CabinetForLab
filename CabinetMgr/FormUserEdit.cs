@@ -76,13 +76,22 @@ namespace CabinetMgr
 
         private void uiButtonCard_Click(object sender, EventArgs e)
         {
-            uiTextBoxCardNum.Text = "";
-            lastCardNum = "";
-            cardNum = "";
-            uiTextBoxCardNum.Focus();
-            Thread t = new Thread(CatchCardNum) { IsBackground = true };
-            t.Start();
-         
+            string tmpValue = CardDevice.PiccRequest();
+            if (!string.IsNullOrEmpty(cardNum))
+            {
+                cardNum = tmpValue;
+                SetTextBoxText(cardNum);
+                AppRt.FormLog.AddLine(cardNum);
+                cardCatched.Play();
+            }
+
+            //uiTextBoxCardNum.Text = "";
+            //lastCardNum = "";
+            //cardNum = "";
+            //uiTextBoxCardNum.Focus();
+            //Thread t = new Thread(CatchCardNum) { IsBackground = true };
+            //t.Start();
+
         }
 
         private void CatchCardNum()
@@ -414,6 +423,20 @@ namespace CabinetMgr
             else
             {
                 uiTextBoxCardNum.Text = "";
+            }
+        }
+
+        private delegate void SetTextBoxTextDelegate(string text);
+        private void SetTextBoxText(string text)
+        {
+            if (uiTextBoxCardNum.InvokeRequired)
+            {
+                SetTextBoxTextDelegate d = SetTextBoxText;
+                uiTextBoxCardNum.Invoke(d);
+            }
+            else
+            {
+                uiTextBoxCardNum.Text = text;
             }
         }
 

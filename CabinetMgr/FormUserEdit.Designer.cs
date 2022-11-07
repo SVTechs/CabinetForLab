@@ -316,7 +316,7 @@ namespace CabinetMgr
             this.uiTextBoxCardNum.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.uiTextBoxCardNum.Font = new System.Drawing.Font("HarmonyOS Sans SC", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiTextBoxCardNum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
-            this.uiTextBoxCardNum.Location = new System.Drawing.Point(-400, 637);
+            this.uiTextBoxCardNum.Location = new System.Drawing.Point(83, 637);
             this.uiTextBoxCardNum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiTextBoxCardNum.MinimumSize = new System.Drawing.Size(1, 16);
             this.uiTextBoxCardNum.Name = "uiTextBoxCardNum";
