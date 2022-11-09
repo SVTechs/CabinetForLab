@@ -356,6 +356,7 @@ namespace CabinetMgr
             this.Controls.Add(this.uiLabelTitle);
             this.Name = "FormUserEdit";
             this.Padding = new System.Windows.Forms.Padding(0);
+            this.ShowInTaskbar = false;
             this.ShowTitle = false;
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "FormUserEdit";

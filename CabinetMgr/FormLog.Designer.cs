@@ -48,6 +48,7 @@ namespace CabinetMgr
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.richTextBox1);
             this.Name = "FormLog";
+            this.ShowInTaskbar = false;
             this.Text = "FormLog";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLog_FormClosed);
             this.ResumeLayout(false);

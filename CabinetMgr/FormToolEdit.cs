@@ -27,9 +27,12 @@ namespace CabinetMgr
         public static FormToolEdit Instance(string inputValue)
         {
             if (formToolEdit == null || formToolEdit.IsDisposed) formToolEdit = new FormToolEdit();
-            _toolId = inputValue?.Split('|')[1];
-            _position = inputValue?.Split('|')[0];
-            _latticeId = long.Parse(inputValue?.Split('|')[2]);
+            if (!string.IsNullOrEmpty(inputValue))
+            {
+                _toolId = inputValue?.Split('|')[1];
+                _position = inputValue?.Split('|')[0];
+                _latticeId = long.Parse(inputValue?.Split('|')[2]);
+            }
             return formToolEdit;
         }
 
@@ -99,6 +102,9 @@ namespace CabinetMgr
             uiComboTreeViewRole.Text = "";
             uiComboBoxWarnType.SelectedIndex = -1;
             uiTextBoxWarnValue.Text = "0";
+            _toolId = "";
+            _position = "";
+            _latticeId = -1;
         }
 
         private void uiButtonSave_Click(object sender, EventArgs e)

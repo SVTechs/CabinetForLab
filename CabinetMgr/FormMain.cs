@@ -85,9 +85,9 @@ namespace CabinetMgr
         {
             Face.sdk_destroy();
             CabinetServer.Stop();
-            AppRt.VideoCaptureDevice?.Dispose();
             FpDevice.CloseDeviceEx();
             Application.Exit();
+            //AppRt.VideoCaptureDevice?.Dispose();
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
@@ -126,10 +126,21 @@ namespace CabinetMgr
 
                 foreach(DoorInfo di in doorList)
                 {
-
                     CabinetServer.OpenDoors(di.Id, di.Nch);
+                    AppRt.FormLog.AddLine($"OpenDoor{di.Id}:{di.Nch}");
                     Thread.Sleep(100);
                 }
+                return;
+            }
+            if (e.Shift && e.Alt && e.KeyCode == Keys.D)
+            {
+                IList<DoorInfo> doorList = CabinetServer.GetDoorList();
+                StringBuilder sb = new StringBuilder();
+                foreach (DoorInfo di in doorList)
+                {
+                    sb.Append($"{di.Id}:{di.Nch};");
+                }
+                AppRt.FormLog.AddLine(sb.ToString());
                 return;
             }
         }
@@ -366,7 +377,7 @@ namespace CabinetMgr
                 int result = ExecuteCmd(toolLocation, cmdType);
                 if (result <= 0) success = false;
             }
-            session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
+            //session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
             (_indexForm as FormIndex0).ReloadData();
             (_indexForm as FormIndex0).LoadPage();
         }

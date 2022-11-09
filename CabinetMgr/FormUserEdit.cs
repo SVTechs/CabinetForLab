@@ -254,6 +254,8 @@ namespace CabinetMgr
 
         private void uiButtonCancel_Click(object sender, EventArgs e)
         {
+            enableVideo = false;
+            windowVideo?.Dispose();
             Dispose();
         }
 

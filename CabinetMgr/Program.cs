@@ -21,7 +21,7 @@ namespace CabinetMgr
         [STAThread]
         static void Main()
         {
-            InitEngine();
+            //InitEngine();
             if (Environment.OSVersion.Version.Major >= 6)
             {
                 SysHelper.SetProcessDPIAware();

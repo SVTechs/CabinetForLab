@@ -257,6 +257,7 @@ namespace CabinetMgr
             this.Controls.Add(this.uiLabelRoleManage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormRoleEdit";
+            this.ShowInTaskbar = false;
             this.Text = "FormRoleEdit";
             this.Shown += new System.EventHandler(this.FormRoleEdit_Shown);
             this.Click += new System.EventHandler(this.FormRoleEdit_Click);

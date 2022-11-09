@@ -26,7 +26,7 @@ namespace CabinetMgr
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private DataGridViewCellStyle _ctRed, _ctGreen;
         private bool _isPassed = true;
-        private bool _cameraPassed = false, _cardDevicePassed = false, _fpDevicePassed = false;
+        private bool _cameraPassed = false, _cardDevicePassed = false, _fpDevicePassed = false, _faceEnginePassed = false;
         public static ManualResetEvent InitManualEvent = new ManualResetEvent(false);
 
         private void FormDeviceLoad_Load(object sender, EventArgs e)
@@ -51,7 +51,6 @@ namespace CabinetMgr
             Init();
             //InitCamera();
             //InitFpDevice();
-            //InitFaceEngine();
             //InitCardDevice();
             InitSocketServer();
         }
@@ -61,12 +60,12 @@ namespace CabinetMgr
             InitCamera();
             InitCardDevice();
             InitFpDevice();
-
+            InitFaceEngine();
             while (true)
             {
                 Application.DoEvents();
                 Thread.Sleep(100);
-                if (_cameraPassed && _fpDevicePassed && _cardDevicePassed) break;
+                if (_cameraPassed && _fpDevicePassed && _cardDevicePassed && _faceEnginePassed) break;
             }
         }
 
@@ -120,18 +119,6 @@ namespace CabinetMgr
 
                 try
                 {
-                    //if (!File.Exists(@"ReadCard.exe"))
-                    //{
-                    //    UpdateStatus("初始化读卡器", "初始化失败", 2);
-                    //    _isPassed = false;
-                    //    AppRt.HaveCardDevice = false;
-                    //}
-                    //else
-                    //{
-                    //    Process.Start(@"ReadCard.exe");
-                    //    AppRt.HaveCardDevice = true;
-                    //    UpdateStatus("初始化读卡器", "初始化成功", 1);
-                    //}
                     byte result = CardDevice.PcdDeep(50);
                     AppRt.FormLog.AddLine("PcdBeepValue:" + result);
                     if (result != 0)
@@ -183,56 +170,50 @@ namespace CabinetMgr
                     UpdateStatus("初始化指纹仪", "初始化成功", 1);
                 }
                 _fpDevicePassed = true;
-                InitManualEvent.Set();
             }, TaskCreationOptions.LongRunning);
 
             return task;
         }
 
+        private Task InitFaceEngine()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+
+            var task = Task.Factory.StartNew(() => {
 
 
-        //private Task InitFaceEngine()
-        //{
-        //    int index = cStatusGrid.Rows.Add();
-        //    cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
-        //    cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-        //    var task = Task.Factory.StartNew(() =>
-        //    {
-        //        try
-        //        {
-        //            string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-        //            int n = Face.sdk_init(null);
-        //            if (n != 0)
-        //            {
-        //                UpdateStatus("初始化人脸识别", "初始化失败", 2);
-        //                _isPassed = false;
-        //                Logger.Error(n);
-        //            }
-        //            else
-        //            {
-        //                FaceAbilityLoad.load_all_ability();
-        //                bool authed = Face.is_auth();
-        //                UpdateStatus("初始化人脸识别", "初始化成功", 1);
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            UpdateStatus("初始化人脸识别", "初始化失败", 2);
-        //            _isPassed = false;
-        //            Logger.Error(ex);
-        //        }
-        //        _faceEnginePassed = true;
-        //        InitManualEvent.Set();
+                try
+                {
+                    string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    int n = Face.sdk_init(null);
+                    if (n != 0)
+                    {
+                        UpdateStatus("初始化人脸识别", $"初始化失败{n}", 2);
+                        _isPassed = false;
+                    }
+                    else
+                    {
+                        FaceAbilityLoad.load_all_ability();
+                        bool authed = Face.is_auth();
+                        UpdateStatus("初始化人脸识别", "初始化成功", 1);
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"人脸识别引擎初始化失败，原因{ex.Message}");
+                }
+                _faceEnginePassed = true;
+                InitManualEvent.Set();
+            }, TaskCreationOptions.LongRunning);
 
-        //    }, TaskCreationOptions.LongRunning);
-        //    return task;
-
-
-        //}
+            return task;
 
 
 
+        }
 
         private void InitSocketServer()
         {
@@ -240,6 +221,12 @@ namespace CabinetMgr
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            Thread t = new Thread(InitServer);
+            t.Start();
+        }
+
+        private void InitServer()
+        {
             CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP);
         }
 

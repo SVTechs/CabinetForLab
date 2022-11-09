@@ -199,7 +199,7 @@ namespace CabinetMgr
         private void PanelOnPaint(object sender, PaintEventArgs e)
         {
             Panel pnl = sender as Panel;
-            if (pnl.Tag == null) return;
+            if (string.IsNullOrEmpty(pnl.Tag as string)) return;
             string toolId = (pnl.Tag as string).Split('|')[1];
             if (string.IsNullOrEmpty(toolId)) return;
             ToolInfo toolInfo = toolInfoList.FirstOrDefault(x => x.Id == toolId);

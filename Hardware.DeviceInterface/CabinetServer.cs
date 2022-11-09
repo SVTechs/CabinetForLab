@@ -24,10 +24,12 @@ namespace Hardware.DeviceInterface
         //private static bool _initDone = false;
         public static MyServer Server;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static string openStr = $"{{\"cmd\":\"ctrl_one\",\"msgid\":\"string\",\"id\":_id,\"nch\":_nch}}";
+        private static string openStr = $"{{\"cmd\":\"ctrl_one\",\"msgid\":\"_msgId\",\"id\":_id,\"nch\":_nch}}";
         private static readonly List<DoorInfo> DoorList = new List<DoorInfo>();
         private static AppSession canSession;
-        private static Hashtable htCanValue = new Hashtable();
+        private static Hashtable ht = new Hashtable();
+        private static Queue<string> canQueue = new Queue<string>();
+
 
         public static void Init(string serverIP, int serverPort, string canIP)
         {
@@ -41,7 +43,7 @@ namespace Hardware.DeviceInterface
                 serverConfig.MaxRequestLength = 102400;
                 serverConfig.Port = _serverPort;
                 serverConfig.Ip = _serverIP;
-                serverConfig.ReceiveBufferSize = 102400;
+                serverConfig.ReceiveBufferSize = 43690;
                 if (!Server.Setup(serverConfig))
                 {
                     CabinetServerCallback.OnInitDone?.Invoke($"Socket端口占用"); return;
@@ -52,14 +54,40 @@ namespace Hardware.DeviceInterface
                 }
                 BindEvents();
                 CabinetServerCallback.MsgReceived?.Invoke($"Server Start");
-                //Thread tParser = new Thread(JsonStrParser) { IsBackground = true };
-                //tParser.Start();
+                Thread tParser = new Thread(StrParser) { IsBackground = true };
+                tParser.Start();
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 CabinetServerCallback.OnInitDone?.Invoke($"Socket监听失败 {ex.Message}");
                 return;
+            }
+        }
+
+        private static void StrParser()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (canQueue.Count == 0) continue;
+                    string canStr = canQueue.Dequeue();
+                    StatusJObject s = ConvertJson.JsonToObject<StatusJObject>(canStr);
+                    if (!ht.ContainsKey(s.Id)) 
+                    {
+                        ht.Add(s.Id, canStr);
+                        UpdateStatus(s);
+                        continue; 
+                    }
+                    if (ht[s.Id] as string == canStr) continue;
+                    ht[s.Id] = canStr;
+                    UpdateStatus(s);
+                }
+                catch(Exception ex)
+                {
+                    Logger.Error(ex);
+                }
             }
         }
 
@@ -88,20 +116,27 @@ namespace Hardware.DeviceInterface
         private static void UpdateStatus(StatusJObject s)
         {
             //if (!_initDone) return;
-            
-            foreach (JProperty property in s.ChildList as JToken)
+            try
             {
-                int doorIdx = int.Parse(property.Name.Replace("bit", ""));
-                var currentDoorState = (int)property.Value == 1;
-                var door = DoorList.FirstOrDefault(x => x.Id == s.Id && x.Nch == doorIdx);
-                if (door == null)
+                foreach (JProperty property in s.ChildList as JToken)
                 {
-                    DoorList.Add(new DoorInfo() { Id = s.Id, Nch = doorIdx, IsClosed = currentDoorState });
-                    continue;
+                    int doorIdx = int.Parse(property.Name.Replace("bit", ""));
+                    var currentDoorState = (int)property.Value == 1;
+                    var door = DoorList.FirstOrDefault(x => x.Id == s.Id && x.Nch == doorIdx);
+                    if (door == null)
+                    {
+                        DoorList.Add(new DoorInfo() { Id = s.Id, Nch = doorIdx, IsClosed = currentDoorState });
+                        continue;
+                    }
+                    if (door.IsClosed != currentDoorState) CabinetServerCallback.DoorStatusChange?.Invoke(s.Id, doorIdx);
+                    door.IsClosed = currentDoorState;
                 }
-                if (door.IsClosed != currentDoorState) CabinetServerCallback.DoorStatusChange?.Invoke(s.Id, doorIdx);
-                door.IsClosed = currentDoorState;
             }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+            }
+
         }
 
         private static void BindEvents()
@@ -129,22 +164,22 @@ namespace Hardware.DeviceInterface
             {
                 string receivedStr = requestInfo.Key;
 
-                //if (htCanValue.ContainsKey(receivedStr)) return;
-                //else htCanValue.Add(receivedStr, 1);
 
-                int checkIdx = receivedStr.IndexOf($"check");
+                //int checkIdx = receivedStr.IndexOf($"check");
 
                 int sensorIdx = receivedStr.IndexOf($"sensor");
-                if (checkIdx > 0)
-                {
-                    var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
-                    UpdateCheck(c);
-                }
-                else if (sensorIdx > 0)
-                {
-                    var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
-                    UpdateStatus(s);
-                }
+                if (sensorIdx < 0) return;
+                canQueue.Enqueue(receivedStr);
+                //if (checkIdx > 0)
+                //{
+                //    var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
+                //    UpdateCheck(c);
+                //}
+                //else if (sensorIdx > 0)
+                //{
+                //    var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
+                //    UpdateStatus(s);
+                //}
             }
             else
             {
@@ -187,10 +222,8 @@ namespace Hardware.DeviceInterface
 
         public static void OpenDoors(int id, int nch)
         {
-            string cmd = openStr.Replace("_id", id.ToString()).Replace("_nch", nch.ToString());
+            string cmd = openStr.Replace("_id", id.ToString()).Replace("_msgId",Guid.NewGuid().ToString()).Replace("_nch", nch.ToString());
             Send(cmd, canSession);
-
-
         }
 
     }
