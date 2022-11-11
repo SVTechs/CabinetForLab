@@ -54,6 +54,8 @@ namespace CabinetMgr.RtVars
 
         public static FormFaceShow FormFaceShow;
 
+        public static FormFingerShow FormFingerShow;
+
         public static FormMain FormMain;
 
         //public static void BackToLoginForm(bool clearLoginState)

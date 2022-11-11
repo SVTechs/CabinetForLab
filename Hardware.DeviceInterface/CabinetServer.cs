@@ -71,8 +71,10 @@ namespace Hardware.DeviceInterface
             {
                 try
                 {
+                    if (canQueue.Count > 100) canQueue.Clear();
                     if (canQueue.Count == 0) continue;
                     string canStr = canQueue.Dequeue();
+                    if (string.IsNullOrEmpty(canStr)) continue;
                     StatusJObject s = ConvertJson.JsonToObject<StatusJObject>(canStr);
                     if (!ht.ContainsKey(s.Id)) 
                     {

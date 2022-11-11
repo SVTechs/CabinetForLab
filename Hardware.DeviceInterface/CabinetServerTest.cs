@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Utilities.Json;
 
 namespace Hardware.DeviceInterface
@@ -18,28 +18,30 @@ namespace Hardware.DeviceInterface
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private static string openStr = $"{{\"cmd\":\"ctrl_one\",\"msgid\":\"string\",\"id\":_id,\"nch\":_nch}}";
+        private static string openStr = $"{{\"cmd\":\"ctrl_one\",\"msgid\":\"_msgId\",\"id\":_id,\"nch\":_nch}}";
         private static readonly List<DoorInfo> DoorList = new List<DoorInfo>();
 
         private static TcpListener _server;
         private static int _serverPort;
         private static string _serverIP, _canIP;
-        private static bool _initDone = false, _debugMode = false;
+        private static bool _initDone = false;
         private static StreamWriter canWriteStream;
-        private static StringBuilder sb = new StringBuilder();
-        private static Queue<SocketCmd> cmdQueue = new Queue<SocketCmd>();
+        private static Hashtable ht = new Hashtable();
+        private static Queue<string> canQueue = new Queue<string>();
 
-        public static void Init(string serverIP, int serverPort, string canIP, bool debugMode = false)
+        public static void Init(string serverIP, int serverPort, string canIP)
         {
             _serverPort = serverPort;
             _serverIP = serverIP;
             _canIP = canIP;
-            _debugMode = debugMode;
             try
             {
                 _server = new TcpListener(IPAddress.Parse(_serverIP), _serverPort);
+                _server.Server.ReceiveBufferSize = 43690;
                 _server.Start();
                 _initDone = true;
+                //Thread tParser = new Thread(StrParser) { IsBackground = true };
+                //tParser.Start();
                 LoopClients();
                 //CabinetServerCallback.MsgReceived?.Invoke($"ServerStart");
             }
@@ -55,19 +57,25 @@ namespace Hardware.DeviceInterface
         {
             while (_initDone)
             {
-                //CabinetServerCallback.MsgReceived?.Invoke($"StartListening");
-                Logger.Info($"StartListening");
+                Logger.Info("StartListening");
                 TcpClient newClient = _server.AcceptTcpClient();
-                //if ((newClient.Client.RemoteEndPoint as IPEndPoint).Address.ToString() == _canIP)
-                //{
-                //    canClient = newClient;
-                //    CabinetServerCallback.MsgReceived?.Invoke($"Can Session Catched");
-                CabinetServerCallback.OnInitDone?.Invoke("成功");
-                //}
-                //CabinetServerCallback.MsgReceived?.Invoke("NewClient:" + newClient.Client.RemoteEndPoint);
                 Logger.Info("NewClient:" + newClient.Client.RemoteEndPoint);
                 Thread t = new Thread(new ParameterizedThreadStart(HandleClient));
                 t.Start(newClient);
+
+                ////CabinetServerCallback.MsgReceived?.Invoke($"StartListening");
+                //Logger.Info($"StartListening");
+                //TcpClient newClient = _server.AcceptTcpClient();
+                ////if ((newClient.Client.RemoteEndPoint as IPEndPoint).Address.ToString() == _canIP)
+                ////{
+                ////    canClient = newClient;
+                ////    CabinetServerCallback.MsgReceived?.Invoke($"Can Session Catched");
+                ////CabinetServerCallback.OnInitDone?.Invoke("成功");
+                ////}
+                ////CabinetServerCallback.MsgReceived?.Invoke("NewClient:" + newClient.Client.RemoteEndPoint);
+                //Logger.Info("NewClient:" + newClient.Client.RemoteEndPoint);
+                //Thread t = new Thread(new ParameterizedThreadStart(HandleClient));
+                //t.Start(newClient);
             }
         }
 
@@ -77,16 +85,11 @@ namespace Hardware.DeviceInterface
             {
                 TcpClient client = (TcpClient)obj;
                 StreamReader sReader = new StreamReader(client.GetStream(), Encoding.ASCII);
-                if ((client.Client.RemoteEndPoint as IPEndPoint).Address.ToString() == _canIP)
-                {
-                    canWriteStream = new StreamWriter(client.GetStream(), Encoding.ASCII);
-                }
                 Boolean bClientConnected = true;
+                StringBuilder sb = new StringBuilder();
                 String sData = null;
-
                 while (bClientConnected)
                 {
-                    //if (_debugMode) CabinetServerCallback.MsgReceived?.Invoke("CanValue");
                     char[] data = new char[256];
                     int length = sReader.Read(data, 0, 256);
                     //sb.Append(data, 0, data.Length);
@@ -94,85 +97,133 @@ namespace Hardware.DeviceInterface
                     //sb.Clear();
                 }
 
-
-                //if (client == canClient)
-                //{
-                //    while (bClientConnected)
-                //    {
-                //        //if (_debugMode) CabinetServerCallback.MsgReceived?.Invoke("CanValue");
-                //        char[] data = new char[256];
-                //        int length = sReader.Read(data, 0, 256);
-                //        sb.Append(data, 0, data.Length);
-                //        CabinetServerCallback.MsgReceived?.Invoke(sb.ToString());
-                //        string receivedStr = sb.ToString();
-                //        int endIdx = receivedStr.IndexOf("\n");
-                //        if (endIdx < 0) continue;
-                //        string currentStr = receivedStr.Substring(0, endIdx);
-                //        CabinetServerCallback.MsgReceived?.Invoke(currentStr);
-                //        int checkIdx = currentStr.IndexOf($"check");
-                //        int sensorIdx = currentStr.IndexOf($"sensor");
-                //        if (checkIdx > 0)
-                //        {
-                //            var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
-                //            UpdateCheck(c);
-                //        }
-                //        else if (sensorIdx > 0)
-                //        {
-                //            var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
-                //            UpdateStatus(s);
-                //        }
-                //        sb.Remove(0, endIdx);
-                //    }
-                //}
-                //else
-                //{
-                //    while (bClientConnected)
-                //    {
-                //        if(_debugMode) CabinetServerCallback.MsgReceived?.Invoke("OtherValue");
-                //        sData = sReader.ReadLine();
-                //        if(sData.IndexOf("{") < 0)
-                //        {
-                //            if (_debugMode) CabinetServerCallback.MsgReceived?.Invoke("ErrorValue");
-                //            return;
-                //        }
-                //        string cmd = sData.Substring(sData.IndexOf('{'));
-                //        CabinetServerCallback.MsgReceived?.Invoke(cmd);
-                //        if (_debugMode) Logger.Info(cmd);
-                //        CabinetServerCallback.BorrowReturnCmd?.Invoke(cmd);
-                //    }
-                //}
-
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Logger.Error(ex);
+
             }
-         
+
+            //try
+            //{
+            //    TcpClient client = (TcpClient)obj;
+            //    StreamReader sReader = new StreamReader(client.GetStream(), Encoding.ASCII);
+            //    //if ((client.Client.RemoteEndPoint as IPEndPoint).Address.ToString() == _canIP)
+            //    //{
+            //    //    canWriteStream = new StreamWriter(client.GetStream(), Encoding.ASCII);
+            //    //    Logger.Info("CanWriteStreanCatched");
+            //    //}
+            //    Boolean bClientConnected = true;
+            //    //String sData = null;
+
+            //    while (bClientConnected)
+            //    {
+            //        //if (_debugMode) CabinetServerCallback.MsgReceived?.Invoke("CanValue");
+            //        char[] data = new char[256];
+            //        int length = sReader.Read(data, 0, 256);
+
+            //        //sb.Append(data, 0, data.Length);
+
+            //        //string receivedStr = new string(data);
+            //        //CabinetServerCallback.MsgReceived?.Invoke(receivedStr);
+            //        //int checkIdx = receivedStr.IndexOf($"check");
+            //        //if (checkIdx > 0) continue;
+            //        //int sensorIdx = receivedStr.IndexOf($"sensor");
+            //        //if (sensorIdx < 0)
+            //        //{
+            //        //    string cmd = receivedStr.Substring(receivedStr.IndexOf('{'));
+            //        //    CabinetServerCallback.BorrowReturnCmd?.Invoke(cmd);
+            //        //}
+            //        //else
+            //        //{
+            //        //    canQueue.Enqueue(receivedStr);
+            //        //}
+            //        Logger.Info(new string(data));
+            //        //sb.Clear();
+            //    }
+
+
+            //    //if (client == canClient)
+            //    //{
+            //    //    while (bClientConnected)
+            //    //    {
+            //    //        //if (_debugMode) CabinetServerCallback.MsgReceived?.Invoke("CanValue");
+            //    //        char[] data = new char[256];
+            //    //        int length = sReader.Read(data, 0, 256);
+            //    //        sb.Append(data, 0, data.Length);
+            //    //        CabinetServerCallback.MsgReceived?.Invoke(sb.ToString());
+            //    //        string receivedStr = sb.ToString();
+            //    //        int endIdx = receivedStr.IndexOf("\n");
+            //    //        if (endIdx < 0) continue;
+            //    //        string currentStr = receivedStr.Substring(0, endIdx);
+            //    //        CabinetServerCallback.MsgReceived?.Invoke(currentStr);
+            //    //        int checkIdx = currentStr.IndexOf($"check");
+            //    //        int sensorIdx = currentStr.IndexOf($"sensor");
+            //    //        if (checkIdx > 0)
+            //    //        {
+            //    //            var c = ConvertJson.JsonToObject<CheckJObject>(receivedStr);
+            //    //            UpdateCheck(c);
+            //    //        }
+            //    //        else if (sensorIdx > 0)
+            //    //        {
+            //    //            var s = ConvertJson.JsonToObject<StatusJObject>(receivedStr);
+            //    //            UpdateStatus(s);
+            //    //        }
+            //    //        sb.Remove(0, endIdx);
+            //    //    }
+            //    //}
+            //    //else
+            //    //{
+            //    //    while (bClientConnected)
+            //    //    {
+            //    //        if(_debugMode) CabinetServerCallback.MsgReceived?.Invoke("OtherValue");
+            //    //        sData = sReader.ReadLine();
+            //    //        if(sData.IndexOf("{") < 0)
+            //    //        {
+            //    //            if (_debugMode) CabinetServerCallback.MsgReceived?.Invoke("ErrorValue");
+            //    //            return;
+            //    //        }
+            //    //        string cmd = sData.Substring(sData.IndexOf('{'));
+            //    //        CabinetServerCallback.MsgReceived?.Invoke(cmd);
+            //    //        if (_debugMode) Logger.Info(cmd);
+            //    //        CabinetServerCallback.BorrowReturnCmd?.Invoke(cmd);
+            //    //    }
+            //    //}
+
+            //}
+
+            //catch(Exception ex)
+            //{
+            //    Logger.Error(ex);
+            //}
+
         }
 
-        public static void HandleSocketCmd()
+        public static void StrParser()
         {
             while (true)
             {
-                if (!_initDone) continue;
-                if (cmdQueue.Count == 0) continue;
-
-                SocketCmd sc = cmdQueue.Dequeue();
-
-                if(sc.Ip == _canIP)
+                try
                 {
-
+                    if (canQueue.Count == 0) continue;
+                    string canStr = canQueue.Dequeue();
+                    StatusJObject s = ConvertJson.JsonToObject<StatusJObject>(canStr);
+                    if (!ht.ContainsKey(s.Id))
+                    {
+                        ht.Add(s.Id, canStr);
+                        UpdateStatus(s);
+                        continue;
+                    }
+                    if (ht[s.Id] as string == canStr) continue;
+                    ht[s.Id] = canStr;
+                    UpdateStatus(s);
                 }
-                else
+                catch (Exception ex)
                 {
-
+                    Logger.Error(ex);
                 }
-
-
-
             }
-            
+
         }
 
         private static void UpdateCheck(CheckJObject c)
@@ -212,8 +263,8 @@ namespace Hardware.DeviceInterface
 
         public static void OpenDoors(int id, int nch)
         {
-            char[] cmd = openStr.Replace("_id", id.ToString()).Replace("_nch", nch.ToString()).ToCharArray();
-            canWriteStream.Write(cmd, 0, cmd.Length);
+            string cmd = openStr.Replace("_id", id.ToString()).Replace("_msgId", Guid.NewGuid().ToString()).Replace("_nch", nch.ToString());
+            canWriteStream.Write(cmd);
             canWriteStream.Flush();
         }
 

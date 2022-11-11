@@ -101,6 +101,7 @@ namespace CabinetMgr
                 return;
             }
             AppRt.FpEnable = true;
+            AppRt.FormFingerShow.FormVisible(true);
             pressFinger.Play();
             timerStopCrit.Start();
         }
@@ -300,19 +301,39 @@ namespace CabinetMgr
         private void FpCric()
         {
             int address = -1, score = 0;
+            byte[] imageData = new byte[192 * 192];
+            ushort templateLength = 0;
             while (true)
             {
                 Thread.Sleep(300);
                 if (!AppRt.FpEnable) continue;
                 int ret = FpDevice.GetImage();
                 if (ret != DriveOpration.PS_OK) continue;
+                ret = FpDevice.UpImage(out imageData, ref templateLength);
+                if (ret != DriveOpration.PS_OK) 
+                { 
+                    AppRt.FormFingerShow.SetResultLabelValue("获取指纹图像失败"); 
+                    continue; 
+                };
+                AppRt.FormFingerShow.ShowFingerPrint(imageData);
                 ret = FpDevice.GenChar(1);
-                if (ret != DriveOpration.PS_OK) continue;
+                if (ret != DriveOpration.PS_OK) 
+                { 
+                    AppRt.FormFingerShow.SetResultLabelValue("生成特征失败");
+                    continue; 
+                };
                 ret = FpDevice.SearchFeature(ref address, ref score);
                 if (ret == DriveOpration.PS_OK)
                 {
+                    AppRt.FormFingerShow.SetResultLabelValue("登录成功");
                     FpCallBack.OnUserRecognised?.Invoke(address, 2);
                     AppRt.FpEnable = false;
+                    AppRt.FormFingerShow.FormVisible(false);
+                }
+                else
+                {
+                    AppRt.FormFingerShow.SetResultLabelValue("特征比对失败");
+                    continue; 
                 }
 
             }
@@ -454,6 +475,7 @@ namespace CabinetMgr
         private void timerStopCrit_Tick(object sender, EventArgs e)
         {
             AppRt.FormFaceShow.FormVisible(false);
+            AppRt.FormFingerShow.FormVisible(false);
             AppRt.FaceEnable = false;
             AppRt.FpEnable = false;
             AppRt.CardEnable = false;

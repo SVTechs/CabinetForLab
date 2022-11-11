@@ -69,6 +69,7 @@ namespace CabinetMgr
             {
                 case "Borrow":
                     result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, 0, toolCount);
+                    if (toolInfo.WarnType == 1 && toolCount > toolInfo.WarnValue) BllInfo.SaveInfo(new Info() { Id = Guid.NewGuid().ToString(), InfoContent = $"{toolInfo.ToolName}借用超量", InfoType = 1, CreateTime = DateTime.Now, IsTop = 0 }, out _);
                     break;
                 case "Return":
                     result = BllReturnRecord.AddReturnRecord(toolInfo, AppRt.CurUser, out ex, toolCount);

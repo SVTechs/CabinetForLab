@@ -46,6 +46,8 @@ namespace Domain.Main.Domain
                         return "报修";
                     case -20:
                         return "缺料";
+                    case -30:
+                        return "超时未还";
                     default:
                         return "";
                 }
@@ -56,7 +58,7 @@ namespace Domain.Main.Domain
         {
             get
             {
-                return ReturnTime == Env.MinTime ? "" : ReturnTime.ToString("yyyy-MM-dd HH:mm:ss");
+                return ReturnTime == Env.MinTime ? "" : ReturnTime.ToString("yyyy-MM-dd HH:mm");
             }
         }
 

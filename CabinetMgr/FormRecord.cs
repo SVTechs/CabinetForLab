@@ -24,8 +24,7 @@ namespace CabinetMgr
 
         private void FormRecord_Shown(object sender, EventArgs e)
         {
-            uiTextBoxSeachToolName.Text = "";
-            LoadData();
+
         }
 
         private void LoadData()
@@ -33,8 +32,13 @@ namespace CabinetMgr
             DateTime startDate = DateTime.Today.AddDays(-3);
             DateTime endDate = DateTime.Today.AddDays(1);
             string searchName = uiTextBoxSeachToolName.Text;
-            IList<BorrowRecord> list = BllBorrowRecord.SearchBorrowRecord(startDate, endDate, searchName, 0, 15, null, out Exception ex);
+            int page = uiPagination.ActivePage;
+            int pageSize = uiPagination.PageSize;
+            IList<BorrowRecord> list = BllBorrowRecord.SearchBorrowRecord(startDate, endDate, searchName
+                ,  (page-1)*pageSize, pageSize, null, out Exception ex);
+            int recordCount = BllBorrowRecord.GetBorrowRecordCount(startDate, endDate, searchName, out ex);
             uiDataGridView.DataSource = list;
+            uiPagination.TotalCount = recordCount;
 
             uiDataGridView.Columns["Id"].Visible = false;
             uiDataGridView.Columns["ToolId"].Visible = false;
@@ -43,16 +47,24 @@ namespace CabinetMgr
             uiDataGridView.Columns["ReturnTime"].Visible = false;
 
             uiDataGridView.Columns["ToolName"].HeaderText = "物资名称";
+            uiDataGridView.Columns["ToolName"].Width = 120;
             uiDataGridView.Columns["ToolPosition"].HeaderText = "物资位置";
+            uiDataGridView.Columns["ToolPosition"].Width = 120;
             uiDataGridView.Columns["WorkerName"].HeaderText = "人员名称";
+            uiDataGridView.Columns["WorkerName"].Width = 120;
             uiDataGridView.Columns["StatusResult"].HeaderText = "操作";
+            uiDataGridView.Columns["StatusResult"].Width = 120;
             uiDataGridView.Columns["EventTIme"].HeaderText = "操作时间";
+            uiDataGridView.Columns["EventTIme"].Width = 180;
             uiDataGridView.Columns["ToolCount"].HeaderText = "数量";
+            uiDataGridView.Columns["ToolCount"].Width = 100;
             uiDataGridView.Columns["ReturnTimeValue"].HeaderText = "归还时间";
+            uiDataGridView.Columns["ReturnTimeValue"].Width = 180;
         }
 
         private void uiTextBoxSeachToolName_TextChanged(object sender, EventArgs e)
         {
+            uiPagination.ActivePage = 1;
             LoadData();
         }
 
@@ -61,5 +73,16 @@ namespace CabinetMgr
             Osk.ShowInputPanel();
         }
 
+        private void uiPagination_PageChanged(object sender, object pagingSource, int pageIndex, int count)
+        {
+            LoadData();
+        }
+
+        private void FormRecord_VisibleChanged(object sender, EventArgs e)
+        {
+            uiTextBoxSeachToolName.Text = "";
+            //LoadData();
+            uiPagination.ActivePage = 1;
+        }
     }
 }

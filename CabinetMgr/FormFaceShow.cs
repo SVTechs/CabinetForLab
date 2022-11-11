@@ -97,5 +97,9 @@ namespace CabinetMgr
             }
         }
 
+        private void FormFaceShow_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible) Location = new System.Drawing.Point(1, 1);
+        }
     }
 }

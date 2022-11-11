@@ -90,21 +90,35 @@ namespace CabinetMgr
 
             var task = Task.Factory.StartNew(() => {
 
-                //VideoCapture cap = VideoCapture.FromCamera(0);
-                VideoCapture cap = VideoCapture.FromCamera(AppConfig.CameraPort);
-                if (!cap.IsOpened())
+                try
+                {
+                    //VideoCapture cap = VideoCapture.FromCamera(0);
+                    VideoCapture cap = VideoCapture.FromCamera(AppConfig.CameraPort);
+                    if (!cap.IsOpened())
+                    {
+                        UpdateStatus("初始化摄像头", "初始化失败", 2);
+                        _isPassed = false;
+                        AppRt.HaveFaceDevice = false;
+                    }
+                    else
+                    {
+                        AppRt.VideoCaptureDevice = cap;
+                        AppRt.HaveFaceDevice = true;
+                        UpdateStatus("初始化摄像头", "初始化成功", 1);
+                    }
+                }
+                catch(Exception ex)
                 {
                     UpdateStatus("初始化摄像头", "初始化失败", 2);
                     _isPassed = false;
                     AppRt.HaveFaceDevice = false;
+                    Logger.Error(ex);
                 }
-                else
+                finally
                 {
-                    AppRt.VideoCaptureDevice = cap;
-                    AppRt.HaveFaceDevice = true;
-                    UpdateStatus("初始化摄像头", "初始化成功", 1);
+                    _cameraPassed = true;
                 }
-                _cameraPassed = true;
+
             }, TaskCreationOptions.LongRunning);
             return task;
         }
@@ -138,6 +152,7 @@ namespace CabinetMgr
                     UpdateStatus("初始化读卡器", "初始化失败", 2);
                     _isPassed = false;
                     AppRt.HaveCardDevice = false;
+                    Logger.Error(ex);
                 }
                 finally {
                     _cardDevicePassed = true;
@@ -157,19 +172,35 @@ namespace CabinetMgr
 
             var task = Task.Factory.StartNew(() => {
 
-                int result = FpDevice.Init(AppConfig.FpPort);
-                if (result != 0)
+                try
+                {
+
+                    int result = FpDevice.Init(AppConfig.FpPort);
+                    if (result != 0)
+                    {
+                        UpdateStatus("初始化指纹仪", "初始化失败", 2);
+                        _isPassed = false;
+                        AppRt.HaveFpDevice = false;
+                    }
+                    else
+                    {
+                        AppRt.HaveFpDevice = true;
+                        UpdateStatus("初始化指纹仪", "初始化成功", 1);
+                    }
+                }
+                catch(Exception ex)
                 {
                     UpdateStatus("初始化指纹仪", "初始化失败", 2);
                     _isPassed = false;
                     AppRt.HaveFpDevice = false;
+                    Logger.Error(ex);
                 }
-                else
+                finally
                 {
-                    AppRt.HaveFpDevice = true;
-                    UpdateStatus("初始化指纹仪", "初始化成功", 1);
+                    _fpDevicePassed = true;
                 }
-                _fpDevicePassed = true;
+
+
             }, TaskCreationOptions.LongRunning);
 
             return task;

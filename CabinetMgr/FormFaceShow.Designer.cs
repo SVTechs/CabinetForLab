@@ -56,6 +56,7 @@ namespace CabinetMgr
             this.Name = "FormFaceShow";
             this.Text = "FormFaceShow";
             this.TopMost = true;
+            this.VisibleChanged += new System.EventHandler(this.FormFaceShow_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCapImg)).EndInit();
             this.ResumeLayout(false);
 

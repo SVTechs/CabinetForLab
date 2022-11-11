@@ -50,7 +50,7 @@ namespace CabinetMgr
             this.uiLabelRole.Location = new System.Drawing.Point(81, 400);
             this.uiLabelRole.Name = "uiLabelRole";
             this.uiLabelRole.Size = new System.Drawing.Size(150, 63);
-            this.uiLabelRole.TabIndex = 7;
+            this.uiLabelRole.TabIndex = 28;
             this.uiLabelRole.Text = "领用权限：";
             this.uiLabelRole.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -79,7 +79,7 @@ namespace CabinetMgr
             this.uiTextBoxToolName.ShowText = false;
             this.uiTextBoxToolName.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxToolName.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxToolName.TabIndex = 14;
+            this.uiTextBoxToolName.TabIndex = 1;
             this.uiTextBoxToolName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxToolName.Watermark = "";
             this.uiTextBoxToolName.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -91,7 +91,7 @@ namespace CabinetMgr
             this.uiLabelToolName.Location = new System.Drawing.Point(81, 160);
             this.uiLabelToolName.Name = "uiLabelToolName";
             this.uiLabelToolName.Size = new System.Drawing.Size(150, 63);
-            this.uiLabelToolName.TabIndex = 15;
+            this.uiLabelToolName.TabIndex = 26;
             this.uiLabelToolName.Text = "物资规格：";
             this.uiLabelToolName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -109,7 +109,7 @@ namespace CabinetMgr
             this.uiTextBoxToolCount.ShowText = false;
             this.uiTextBoxToolCount.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxToolCount.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxToolCount.TabIndex = 6;
+            this.uiTextBoxToolCount.TabIndex = 2;
             this.uiTextBoxToolCount.Text = "0";
             this.uiTextBoxToolCount.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxToolCount.Type = Sunny.UI.UITextBox.UIEditType.Integer;
@@ -123,7 +123,7 @@ namespace CabinetMgr
             this.uiLabelToolCount.Location = new System.Drawing.Point(81, 272);
             this.uiLabelToolCount.Name = "uiLabelToolCount";
             this.uiLabelToolCount.Size = new System.Drawing.Size(150, 63);
-            this.uiLabelToolCount.TabIndex = 5;
+            this.uiLabelToolCount.TabIndex = 27;
             this.uiLabelToolCount.Text = "库存数量：";
             this.uiLabelToolCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -137,7 +137,7 @@ namespace CabinetMgr
             this.uiButtonSave.Name = "uiButtonSave";
             this.uiButtonSave.Size = new System.Drawing.Size(403, 91);
             this.uiButtonSave.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonSave.TabIndex = 17;
+            this.uiButtonSave.TabIndex = 7;
             this.uiButtonSave.Text = "确认";
             this.uiButtonSave.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonSave.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -153,7 +153,7 @@ namespace CabinetMgr
             this.uiButtonCancel.Name = "uiButtonCancel";
             this.uiButtonCancel.Size = new System.Drawing.Size(403, 91);
             this.uiButtonCancel.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonCancel.TabIndex = 16;
+            this.uiButtonCancel.TabIndex = 6;
             this.uiButtonCancel.Text = "取消";
             this.uiButtonCancel.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonCancel.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -174,7 +174,7 @@ namespace CabinetMgr
             this.uiComboBoxWarnType.RectSize = 2;
             this.uiComboBoxWarnType.Size = new System.Drawing.Size(283, 63);
             this.uiComboBoxWarnType.Style = Sunny.UI.UIStyle.Custom;
-            this.uiComboBoxWarnType.TabIndex = 10;
+            this.uiComboBoxWarnType.TabIndex = 4;
             this.uiComboBoxWarnType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiComboBoxWarnType.Watermark = "";
             this.uiComboBoxWarnType.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -186,7 +186,7 @@ namespace CabinetMgr
             this.uiLabelWarn.Location = new System.Drawing.Point(81, 553);
             this.uiLabelWarn.Name = "uiLabelWarn";
             this.uiLabelWarn.Size = new System.Drawing.Size(150, 63);
-            this.uiLabelWarn.TabIndex = 9;
+            this.uiLabelWarn.TabIndex = 29;
             this.uiLabelWarn.Text = "告警阈值：";
             this.uiLabelWarn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -204,7 +204,7 @@ namespace CabinetMgr
             this.uiTextBoxWarnValue.ShowText = false;
             this.uiTextBoxWarnValue.Size = new System.Drawing.Size(327, 60);
             this.uiTextBoxWarnValue.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxWarnValue.TabIndex = 15;
+            this.uiTextBoxWarnValue.TabIndex = 5;
             this.uiTextBoxWarnValue.Text = "0";
             this.uiTextBoxWarnValue.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxWarnValue.Type = Sunny.UI.UITextBox.UIEditType.Integer;
@@ -227,7 +227,7 @@ namespace CabinetMgr
             this.uiComboTreeViewRole.RectSize = 2;
             this.uiComboTreeViewRole.Size = new System.Drawing.Size(648, 60);
             this.uiComboTreeViewRole.Style = Sunny.UI.UIStyle.Custom;
-            this.uiComboTreeViewRole.TabIndex = 16;
+            this.uiComboTreeViewRole.TabIndex = 3;
             this.uiComboTreeViewRole.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiComboTreeViewRole.Watermark = "";
             this.uiComboTreeViewRole.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -251,7 +251,7 @@ namespace CabinetMgr
             this.Controls.Add(this.uiLabelRole);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormToolEdit";
-            this.Text = "FormToolEdit";
+            this.Text = "25";
             this.Shown += new System.EventHandler(this.FormToolEdit_Shown);
             this.ResumeLayout(false);
 

@@ -18,9 +18,9 @@ namespace CabinetMgr.BLL
             return DalBorrowRecord.SearchBorrowRecord(startDate, endDate, toolName, dataStart, dataCount, orderList, out exception);
         }
 
-        public static int GetBorrowRecordCount(out Exception exception)
+        public static int GetBorrowRecordCount(DateTime startDate, DateTime endDate, string toolName, out Exception exception)
         {
-            return DalBorrowRecord.GetBorrowRecordCount(out exception);
+            return DalBorrowRecord.GetBorrowRecordCount(startDate, endDate, toolName, out exception);
         }
 
         public static BorrowRecord GetBorrowRecord(string id, out Exception exception)
@@ -71,6 +71,11 @@ namespace CabinetMgr.BLL
         public static int AddBorrowRecord(ToolInfo toolInfo, UserInfo ui, out Exception exception, int status = 0, int toolCount = 0)
         {
             return DalBorrowRecord.AddBorrowRecord(toolInfo, ui, status, toolCount, out exception);
+        }
+
+        public static IList<BorrowRecord> NotReturnRecord(out Exception exception)
+        {
+            return DalBorrowRecord.NotReturnRecord(out exception);
         }
     }
 }

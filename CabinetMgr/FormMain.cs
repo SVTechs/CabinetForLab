@@ -79,6 +79,33 @@ namespace CabinetMgr
             InitForm();
 
             ShowWindow(_loginForm);
+
+            Thread t = new Thread(AlertOutDate) { IsBackground = true };
+            t.Start();
+        }
+
+        private void AlertOutDate()
+        {
+
+            while (true)
+            {
+                IList<BorrowRecord> outDateList = BllBorrowRecord.NotReturnRecord(out _);
+                foreach(BorrowRecord br in outDateList)
+                {
+                    ToolInfo ti = BllToolInfo.GetToolInfo(br?.ToolId, out _);
+                    if (ti == null) continue;
+                    if (ti.WarnType == 1) continue;
+                    TimeSpan ts = DateTime.Now - br.EventTime;
+                    if(ts.TotalHours > ti.WarnValue)
+                    {
+                        br.Status = -30;
+                        BllBorrowRecord.UpdateBorrowRecord(br, out _);
+                    }
+                }
+                Thread.Sleep(60000 * 5);
+            }
+            
+
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -138,7 +165,7 @@ namespace CabinetMgr
                 StringBuilder sb = new StringBuilder();
                 foreach (DoorInfo di in doorList)
                 {
-                    sb.Append($"{di.Id}:{di.Nch};");
+                    sb.Append($"{di.Id}:{di.Nch}_{di.IsClosed};");
                 }
                 AppRt.FormLog.AddLine(sb.ToString());
                 return;
@@ -309,6 +336,7 @@ namespace CabinetMgr
                 (_systemManage as FormSystemManage).AddToPanel(_userManage);
 
                 AppRt.FormFaceShow = FormFaceShow.Instance();
+                AppRt.FormFingerShow = FormFingerShow.Instance();
 
             }
             catch (Exception ex)
@@ -360,6 +388,7 @@ namespace CabinetMgr
         }
 
         private void BorrowReturnCmd(AppSession session, string cmd)
+        //private void BorrowReturnCmd(string cmd)
         {
             if (AppRt.CurUser == null)
             {

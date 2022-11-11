@@ -118,6 +118,12 @@
     <Compile Include="FormFaceShow.Designer.cs">
       <DependentUpon>FormFaceShow.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormFingerShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFingerShow.Designer.cs">
+      <DependentUpon>FormFingerShow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormFingerCap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +234,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RtVars\AppRt.cs" />
+    <Content Include="ToDo.txt" />
     <None Include="Res\Sound\FpCatched.wav" />
     <None Include="Res\Sound\FaceCatched.wav" />
     <None Include="Res\Sound\CardCatched.wav" />
@@ -290,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormFaceShow.resx">
       <DependentUpon>FormFaceShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFingerShow.resx">
+      <DependentUpon>FormFingerShow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormFingerCap.resx">
       <DependentUpon>FormFingerCap.cs</DependentUpon>
