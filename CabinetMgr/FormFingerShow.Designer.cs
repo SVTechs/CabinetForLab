@@ -49,18 +49,19 @@ namespace CabinetMgr
             this.uiLabelPressResult.Name = "uiLabelPressResult";
             this.uiLabelPressResult.Size = new System.Drawing.Size(189, 29);
             this.uiLabelPressResult.TabIndex = 5;
-            this.uiLabelPressResult.Text = "11";
+            this.uiLabelPressResult.Text = "请按压指纹";
             this.uiLabelPressResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormFingerShow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
             this.ClientSize = new System.Drawing.Size(284, 329);
             this.Controls.Add(this.uiLabelPressResult);
             this.Controls.Add(this.pictureBoxFingerBmp);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormFingerShow";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormFingerCap";
             this.VisibleChanged += new System.EventHandler(this.FormFingerShow_VisibleChanged);

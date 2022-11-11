@@ -109,7 +109,7 @@ namespace CabinetMgr
             else
             {
                 SetPicBg(pictureBoxFingerBmp, new Bitmap(192, 192));
-                SetLableText(uiLabelPressResult, "");
+                SetLableText(uiLabelPressResult, "请按压指纹");
             }
         }
     }

@@ -230,7 +230,7 @@ namespace CabinetMgr
             }
             catch (Exception ex)
             {
-
+                Logger.Error(ex);
             }
 
         }

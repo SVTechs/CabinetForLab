@@ -276,6 +276,8 @@ namespace CabinetMgr
             IList<UserInfo> listUserInfo = BllUserInfo.SearchUserInfo(0, -1, null, out _);
             if (listUserInfo == null || listUserInfo.Count == 0) return;
             bool isAllSucceed = true;
+            int delRet = FpDevice.DelFeature(199);
+            Logger.Info("DelTmpChar" + delRet);
             foreach (UserInfo ui in listUserInfo)
             {
                 if (!ui.HasFingerFeature) continue;
@@ -326,9 +328,10 @@ namespace CabinetMgr
                 if (ret == DriveOpration.PS_OK)
                 {
                     AppRt.FormFingerShow.SetResultLabelValue("登录成功");
+                    AppRt.FormFingerShow.FormVisible(false);
                     FpCallBack.OnUserRecognised?.Invoke(address, 2);
                     AppRt.FpEnable = false;
-                    AppRt.FormFingerShow.FormVisible(false);
+
                 }
                 else
                 {
