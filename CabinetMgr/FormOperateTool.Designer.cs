@@ -236,6 +236,7 @@ namespace CabinetMgr
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormOperateTool";
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOperateTool_FormClosed);
             this.Shown += new System.EventHandler(this.FormOperateTool_Shown);
             this.ResumeLayout(false);

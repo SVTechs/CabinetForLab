@@ -101,6 +101,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\FormCallback.cs" />
     <Compile Include="Common\Osk.cs" />
     <Compile Include="Common\PresetRole.cs" />
     <Compile Include="Common\StrUtil.cs" />
@@ -130,11 +131,11 @@
     <Compile Include="FormFingerCap.Designer.cs">
       <DependentUpon>FormFingerCap.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormIndex0.cs">
+    <Compile Include="FormIndex1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormIndex0.Designer.cs">
-      <DependentUpon>FormIndex0.cs</DependentUpon>
+    <Compile Include="FormIndex1.Designer.cs">
+      <DependentUpon>FormIndex1.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLog.cs">
       <SubType>Form</SubType>
@@ -202,11 +203,11 @@
     <Compile Include="FormToolManage.Designer.cs">
       <DependentUpon>FormToolManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormToolManage0.cs">
+    <Compile Include="FormToolManage1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormToolManage0.Designer.cs">
-      <DependentUpon>FormToolManage0.cs</DependentUpon>
+    <Compile Include="FormToolManage1.Designer.cs">
+      <DependentUpon>FormToolManage1.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUserEdit.cs">
       <SubType>Form</SubType>
@@ -304,8 +305,8 @@
     <EmbeddedResource Include="FormFingerCap.resx">
       <DependentUpon>FormFingerCap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormIndex0.resx">
-      <DependentUpon>FormIndex0.cs</DependentUpon>
+    <EmbeddedResource Include="FormIndex1.resx">
+      <DependentUpon>FormIndex1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLog.resx">
       <DependentUpon>FormLog.cs</DependentUpon>
@@ -341,8 +342,8 @@
     <EmbeddedResource Include="FormToolManage.resx">
       <DependentUpon>FormToolManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormToolManage0.resx">
-      <DependentUpon>FormToolManage0.cs</DependentUpon>
+    <EmbeddedResource Include="FormToolManage1.resx">
+      <DependentUpon>FormToolManage1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUserEdit.resx">
       <DependentUpon>FormUserEdit.cs</DependentUpon>

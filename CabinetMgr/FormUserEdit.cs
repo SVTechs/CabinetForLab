@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using testface;
 using Utilities.Encryption;
+//using WavPlayer = CabinetMgr.Common.WavPlayer;
 
 namespace CabinetMgr
 {
@@ -32,7 +33,7 @@ namespace CabinetMgr
         private static byte[] fingerTemplate;
         private static byte[] faceTemplate;
         private static string cardNum;
-        private static string lastCardNum;
+        //private static string lastCardNum;
 
         private VideoCapture cap;
         private Window windowVideo;
@@ -54,6 +55,9 @@ namespace CabinetMgr
         {
             InitializeComponent();
             LoadRoleData();
+            cardCatched.Load();
+            faceCatched.Load();
+            fpCatched.Load();
         }
 
         private void LoadRoleData()
@@ -82,6 +86,7 @@ namespace CabinetMgr
                 cardNum = tmpValue;
                 AppRt.FormLog.AddLine(cardNum);
                 cardCatched.Play();
+                //WavPlayer.Play("CardCatched.wav");
             }
 
             //uiTextBoxCardNum.Text = "";
@@ -93,35 +98,37 @@ namespace CabinetMgr
 
         }
 
-        private void CatchCardNum()
-        {
-            try
-            {
-                while (true)
-                {
-                    Thread.Sleep(700);
-                    if (string.IsNullOrEmpty(uiTextBoxCardNum.Text)) continue;
-                    cardNum = uiTextBoxCardNum.Text;
-                    if (lastCardNum != cardNum)
-                    {
-                        lastCardNum = cardNum;
-                        continue;
-                    }
-                    uiTextBoxUserName.Focus();
-                    ClearTextBox();
-                    AppRt.FormLog.AddLine(cardNum);
-                    cardCatched.Play();
-                    break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-            }
-        }
+        //private void CatchCardNum()
+        //{
+        //    try
+        //    {
+        //        while (true)
+        //        {
+        //            Thread.Sleep(700);
+        //            if (string.IsNullOrEmpty(uiTextBoxCardNum.Text)) continue;
+        //            cardNum = uiTextBoxCardNum.Text;
+        //            if (lastCardNum != cardNum)
+        //            {
+        //                lastCardNum = cardNum;
+        //                continue;
+        //            }
+        //            uiTextBoxUserName.Focus();
+        //            ClearTextBox();
+        //            AppRt.FormLog.AddLine(cardNum);
+        //            cardCatched.Play();
+        //            break;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error(ex);
+        //    }
+        //}
 
         private void uiButtonFace_Click(object sender, EventArgs e)
         {
+            AppRt.FormMain.TopMost = false;
+            TopMost = false;
             windowVideo = new Window("windowVideo");
             windowVideo.Move(1, 1);
             //WindowHelper.SetWindowTopMost(handle);
@@ -233,6 +240,9 @@ namespace CabinetMgr
                     faceTemplate = faceByte;
                     uiButtonFaceCap.Visible = false;
                     faceCatched.Play();
+                    //WavPlayer.Play("FaceCatched.wav");
+                    AppRt.FormMain.TopMost = true;
+                    TopMost = true;
                 }
             }
 
@@ -250,6 +260,7 @@ namespace CabinetMgr
             fingerTemplate = formFingerCap.fingerTemplate;
             formFingerCap.FormReset();
             fpCatched.Play();
+            //WavPlayer.Play("FpCatched.wav");
         }
 
         private void uiButtonCancel_Click(object sender, EventArgs e)
@@ -261,7 +272,7 @@ namespace CabinetMgr
 
         private void uiButtonSave_Click(object sender, EventArgs e)
         {
-            UserInfo result = null;
+
             if (string.IsNullOrEmpty(uiTextBoxUserName.Text))
             {
                 UIMessageBox.ShowError("请填写工号");
@@ -277,43 +288,20 @@ namespace CabinetMgr
                 UIMessageBox.ShowError("请填写密码");
                 return;
             }
-            if (string.IsNullOrEmpty(_userId)) result = InsertUserInfo();
-            else result = UpdateUserInfo();
-            if (result == null)
-            {
-                UIMessageBox.ShowError("保存失败");
-                return;
-            }
-            if (faceTemplate != null) result.FaceFeature = faceTemplate;
-            if (fingerTemplate != null) result.FingerFeature = fingerTemplate;
-            if (!string.IsNullOrEmpty(cardNum)) result.CardNum = cardNum;
-            int i = BllUserInfo.UpdateUserInfo(result, out Exception ex);
-            if(i < 0) return;
-            ClearInputData();
-            Hide();
-        }
 
-        private UserInfo InsertUserInfo()
-        {
-            UserInfo userinfo = BllUserInfo.GetUserInfoByUserName(uiTextBoxUserName.Text, out _);
-            if(userinfo != null)
-            {
-                UIMessageBox.ShowError($"该工号已被使用");
-                return null;
-            }
             UserInfo ui = new UserInfo()
             {
                 ID = Guid.NewGuid().ToString(),
                 UserName = uiTextBoxUserName.Text.Trim(),
-                Password = Md5Encode.Encode(uiTextBoxPassword.Text, false),
+                Password = string.IsNullOrEmpty(uiTextBoxPassword.Text) ? "" : Md5Encode.Encode(uiTextBoxPassword.Text, false),
                 FullName = uiTextBoxFullName.Text,
                 Createtime = DateTime.Now,
                 CreateUser = AppRt.CurUser.FullName,
                 Updatetime = Env.MinTime,
             };
-            int result = BllUserInfo.SaveUserInfo(ui, out Exception ex);
+
             IList<RoleSettings> roleSettings = new List<RoleSettings>();
-            foreach(TreeNode tn in uiComboTreeViewRole.Nodes)
+            foreach (TreeNode tn in uiComboTreeViewRole.Nodes)
             {
                 if (!tn.Checked) continue;
                 RoleSettings rs = new RoleSettings()
@@ -325,6 +313,56 @@ namespace CabinetMgr
                 };
                 roleSettings.Add(rs);
             }
+
+            AppRt.Tasks.Add(DbExecute(_userId, faceTemplate, fingerTemplate, cardNum, ui, roleSettings));
+            Hide();
+        }
+
+        private Task DbExecute(string userId, byte[] faceTemplate, byte[] fingerTemplate, string cardNum, UserInfo ui, IList<RoleSettings> roleSettings)
+        {
+            var task = Task.Factory.StartNew(() => {
+
+                UserInfo result = null;
+                if (string.IsNullOrEmpty(userId)) result = InsertUserInfo(ui, roleSettings);
+                else result = UpdateUserInfo(userId, ui, roleSettings);
+                if (result == null)
+                {
+                    UIMessageBox.ShowError("保存失败");
+                    return;
+                }
+                if (faceTemplate != null) result.FaceFeature = faceTemplate;
+                if (fingerTemplate != null) result.FingerFeature = fingerTemplate;
+                if (!string.IsNullOrEmpty(cardNum)) result.CardNum = cardNum;
+                int i = BllUserInfo.UpdateUserInfo(result, out Exception ex);
+                if (i < 0) return;
+
+                FormCallback.FormUserManageRefresh.Invoke();
+
+            }, TaskCreationOptions.LongRunning);
+            return task;
+        }
+
+
+        private UserInfo InsertUserInfo(UserInfo ui, IList<RoleSettings> roleSettings)
+        {
+            UserInfo userinfo = BllUserInfo.GetUserInfoByUserName(ui.UserName, out _);
+            if(userinfo != null)
+            {
+                UIMessageBox.ShowError($"该工号已被使用");
+                return null;
+            }
+            //UserInfo ui = new UserInfo()
+            //{
+            //    ID = Guid.NewGuid().ToString(),
+            //    UserName = uiTextBoxUserName.Text.Trim(),
+            //    Password = Md5Encode.Encode(uiTextBoxPassword.Text, false),
+            //    FullName = uiTextBoxFullName.Text,
+            //    Createtime = DateTime.Now,
+            //    CreateUser = AppRt.CurUser.FullName,
+            //    Updatetime = Env.MinTime,
+            //};
+            int result = BllUserInfo.SaveUserInfo(ui, out Exception ex);
+         
             BllRoleSettings.BatchSaveRoleSettings(ui.ID, roleSettings, out _);
 
             if (result < 0)
@@ -332,40 +370,46 @@ namespace CabinetMgr
                 UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
                 return null;
             }
-            return BllUserInfo.GetUserInfoByUserName(uiTextBoxUserName.Text, out _);
+            return BllUserInfo.GetUserInfoByUserName(ui.UserName, out _);
         }
 
-        private UserInfo UpdateUserInfo()
+        private UserInfo UpdateUserInfo(string userId, UserInfo ui, IList<RoleSettings> roleSettings)
         {
-            UserInfo user = BllUserInfo.GetUserInfo(_userId, out _);
-            if (uiTextBoxUserName.Text != user.UserName)
+            UserInfo user = BllUserInfo.GetUserInfo(userId, out _);
+            if (ui.UserName != user.UserName)
             {
-                if (BllUserInfo.GetUserInfoByUserName(uiTextBoxUserName.Text, out _) != null)
+                if (BllUserInfo.GetUserInfoByUserName(ui.UserName, out _) != null)
                 {
                     UIMessageBox.ShowError($"该工号已被使用");
                     return null;
                 }
             }
-            user.UserName = uiTextBoxUserName.Text;
-            user.FullName = uiTextBoxFullName.Text;
-            if (!string.IsNullOrEmpty(uiTextBoxPassword.Text)) user.Password = Md5Encode.Encode(uiTextBoxPassword.Text, false);
-            user.Updatetime = DateTime.Now;
-            user.UpdateUser = AppRt.CurUser.FullName;
-            IList<RoleSettings> roleSettings = new List<RoleSettings>();
-            foreach (TreeNode tn in uiComboTreeViewRole.Nodes)
+            user.UserName = ui.UserName;
+            user.FullName = ui.FullName;
+            if (!string.IsNullOrEmpty(ui.Password)) user.Password = ui.Password;
+            user.Updatetime = ui.Updatetime;
+            user.UpdateUser = ui.UpdateUser;
+            //IList<RoleSettings> roleSettings = new List<RoleSettings>();
+            //foreach (TreeNode tn in uiComboTreeViewRole.Nodes)
+            //{
+            //    if (!tn.Checked) continue;
+            //    RoleSettings rs = new RoleSettings()
+            //    {
+            //        Id = Guid.NewGuid().ToString().ToUpper(),
+            //        RoleId = (tn.Tag as string).Split('|')[0],
+            //        UserId = user.ID,
+            //        AddTime = DateTime.Now
+            //    };
+            //    roleSettings.Add(rs);
+            //}
+            foreach(RoleSettings rs in roleSettings)
             {
-                if (!tn.Checked) continue;
-                RoleSettings rs = new RoleSettings()
-                {
-                    Id = Guid.NewGuid().ToString().ToUpper(),
-                    RoleId = (tn.Tag as string).Split('|')[0],
-                    UserId = user.ID,
-                    AddTime = DateTime.Now
-                };
-                roleSettings.Add(rs);
+                rs.UserId = user.ID;
             }
-            BllRoleSettings.BatchSaveRoleSettings(user.ID, roleSettings, out _);
             int result = BllUserInfo.UpdateUserInfo(user, out Exception ex);
+
+            BllRoleSettings.BatchSaveRoleSettings(user.ID, roleSettings, out _);
+            
             if (result < 0)
             {
                 UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
@@ -413,19 +457,23 @@ namespace CabinetMgr
             cardNum = null;
         }
 
-        private delegate void ClearTextBoxDelegate();
-        private void ClearTextBox()
-        {
-            if (uiTextBoxCardNum.InvokeRequired)
-            {
-                ClearTextBoxDelegate d = ClearTextBox;
-                uiTextBoxCardNum.Invoke(d);
-            }
-            else
-            {
-                uiTextBoxCardNum.Text = "";
-            }
-        }
+        //private delegate void ClearTextBoxDelegate();
+        //private void ClearTextBox()
+        //{
+        //    if (uiTextBoxCardNum.InvokeRequired)
+        //    {
+        //        ClearTextBoxDelegate d = ClearTextBox;
+        //        uiTextBoxCardNum.Invoke(d);
+        //    }
+        //    else
+        //    {
+        //        uiTextBoxCardNum.Text = "";
+        //    }
+        //}
 
+        private void FormUserEdit_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!Visible) ClearInputData();
+        }
     }
 }

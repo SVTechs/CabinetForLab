@@ -106,8 +106,10 @@ namespace CabinetMgr
             this.Controls.Add(this.pictureBoxFingerBmp);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormFingerCap";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormFingerCap";
+            this.TopMost = true;
             this.Shown += new System.EventHandler(this.FormFingerCap_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFingerBmp)).EndInit();
             this.ResumeLayout(false);

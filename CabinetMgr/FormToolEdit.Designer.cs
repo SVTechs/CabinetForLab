@@ -252,7 +252,9 @@ namespace CabinetMgr
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormToolEdit";
             this.Text = "25";
+            this.TopMost = true;
             this.Shown += new System.EventHandler(this.FormToolEdit_Shown);
+            this.VisibleChanged += new System.EventHandler(this.FormToolEdit_VisibleChanged);
             this.ResumeLayout(false);
 
         }

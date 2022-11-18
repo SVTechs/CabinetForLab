@@ -64,6 +64,7 @@ namespace CabinetMgr
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormFingerCap";
+            this.TopMost = true;
             this.VisibleChanged += new System.EventHandler(this.FormFingerShow_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFingerBmp)).EndInit();
             this.ResumeLayout(false);

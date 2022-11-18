@@ -360,8 +360,10 @@ namespace CabinetMgr
             this.ShowTitle = false;
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "FormUserEdit";
+            this.TopMost = true;
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.Shown += new System.EventHandler(this.FormUserEdit_Shown);
+            this.VisibleChanged += new System.EventHandler(this.FormUserEdit_VisibleChanged);
             this.ResumeLayout(false);
 
         }

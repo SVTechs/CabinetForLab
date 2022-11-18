@@ -179,6 +179,7 @@ namespace CabinetMgr
             this.Name = "FormPasswordLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormPasswordLogin";
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormPasswordLogin_FormClosed);
             this.Shown += new System.EventHandler(this.FormPasswordLogin_Shown);
             this.Click += new System.EventHandler(this.FormPasswordLogin_Click);

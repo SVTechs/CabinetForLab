@@ -259,6 +259,7 @@ namespace CabinetMgr
             this.Name = "FormRoleEdit";
             this.ShowInTaskbar = false;
             this.Text = "FormRoleEdit";
+            this.TopMost = true;
             this.Shown += new System.EventHandler(this.FormRoleEdit_Shown);
             this.Click += new System.EventHandler(this.FormRoleEdit_Click);
             this.ResumeLayout(false);

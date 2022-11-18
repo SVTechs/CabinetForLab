@@ -753,6 +753,7 @@ namespace CabinetMgr
             this.Name = "FormToolManage0";
             this.Text = "FormToolManage";
             this.Shown += new System.EventHandler(this.FormToolManage_Shown);
+            this.VisibleChanged += new System.EventHandler(this.FormToolManage0_VisibleChanged);
             this.panelPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonH)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uiImageButtonG)).EndInit();

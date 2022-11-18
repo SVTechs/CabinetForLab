@@ -1,4 +1,5 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.Common;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Hardware.DeviceInterface;
@@ -10,6 +11,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,8 +22,9 @@ namespace CabinetMgr
         private static string currentPage;// = "A";
 
         private IList<DoorInfo> doorList;
-        private static IList<LatticeInfo> latticeList;
         private static IList<ToolInfo> toolInfoList;
+        private static IList<LatticeInfo> latticeList;
+        private static IList<LatticeInfo> currentPageLatticeList;// = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
 
         private readonly float[,,] btnPositions =
 {
@@ -58,6 +61,7 @@ namespace CabinetMgr
         {
             InitializeComponent();
             CabinetServerCallback.DoorStatusChange += DoorStatusChange;
+            FormCallback.FormIndexRefresh += FormRefresh;
 
             InitPageButton();
             InitControlAry();
@@ -122,8 +126,8 @@ namespace CabinetMgr
 
         private void FormIndex_Shown(object sender, EventArgs e)
         {
-            ReloadData();
-            LoadPage(currentPage);
+            //ReloadData();
+            //LoadPage(currentPage);
             
         }
 
@@ -151,49 +155,111 @@ namespace CabinetMgr
             CabinetServer.OpenDoors(int.Parse(lattice.Channel), int.Parse(lattice.BoardId));
             FormOperateTool formOperateTool = FormOperateTool.Instance(panel.Tag as string);
             formOperateTool.ShowDialog();
-            ReloadData();
-            LoadPage(currentPage);
+            //ReloadData();
+            //LoadPage(currentPage);
         }
 
         public void LoadPage(string cabinetNum = "")
         {
             if (string.IsNullOrEmpty(cabinetNum)) cabinetNum = currentPage;
-            IList <LatticeInfo> currentPageLatticeList = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
-            for(int i = 1; i <= 20; i++)
+            currentPageLatticeList = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
+            //Color backColor = Color.FromArgb(187, 222,10);
+            //Color openColor = Color.FromArgb(13, 71, 161);
+
+            Thread load1 = new Thread(new ParameterizedThreadStart(LoadPageControl));
+            Thread load2 = new Thread(new ParameterizedThreadStart(LoadPageControl));
+            Thread load3 = new Thread(new ParameterizedThreadStart(LoadPageControl));
+            Thread load4 = new Thread(new ParameterizedThreadStart(LoadPageControl));
+
+            load1.Start(0);
+            load2.Start(5);
+            load3.Start(10);
+            load4.Start(15);
+
+
+            //for (int i = 1; i <= 20; i++)
+            //{
+            //    LatticeInfo lattice = currentPageLatticeList.FirstOrDefault(x => x.CabinetLatticeNum == i.ToString("D2"));
+            //    DoorInfo door = doorList.FirstOrDefault(x => x.Id.ToString() == lattice?.Channel && x.Nch.ToString() == lattice?.BoardId);
+            //    ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
+
+            //    Label lbl = lblList[i - 1];
+            //    Panel pnl = pnlList[i - 1];
+
+            //    if (lattice == null)
+            //    {
+            //        SetLabel(lbl, false, "", Color.White);
+            //        SetPanel(pnl, false, null, backColor);
+            //        continue;
+            //    }
+
+            //    if (door == null)
+            //    {
+            //        SetLabel(lbl, false, "", Color.White);
+            //        SetPanel(pnl, false, null, backColor);
+            //        continue;
+            //    }
+            //    else
+            //    {
+            //        if (!door.IsClosed) backColor = Color.FromArgb(13, 71, 161);
+            //    }
+            //    SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
+                
+            //    if (tool == null)
+            //    {
+            //        SetPanel(pnl, true, null, backColor);
+            //    }
+            //    else
+            //    {
+            //        SetPanel(pnl, true, currentPage + i.ToString("D2") + "|" + tool.Id + "|" + lattice.Id, backColor);
+            //    }
+            //    PanelRefresh(pnl);
+            //}
+
+        }
+
+        private void LoadPageControl(object startIdx)
+        {
+            int start = (int)startIdx;
+            Color backColor = Color.FromArgb(187, 222, 10);
+            for (int i = start; i < start + 5; i++)
             {
-                LatticeInfo lattice = currentPageLatticeList.FirstOrDefault(x => x.CabinetLatticeNum == i.ToString("D2"));
+                LatticeInfo lattice = currentPageLatticeList.FirstOrDefault(x => x.CabinetLatticeNum == (i+1).ToString("D2"));
                 DoorInfo door = doorList.FirstOrDefault(x => x.Id.ToString() == lattice?.Channel && x.Nch.ToString() == lattice?.BoardId);
                 ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
 
-                Label lbl = lblList[i - 1];
-                Panel pnl = pnlList[i - 1];
+                Label lbl = lblList[i];
+                Panel pnl = pnlList[i];
 
                 if (lattice == null)
                 {
                     SetLabel(lbl, false, "", Color.White);
-                    SetPanel(pnl, false, null);
+                    SetPanel(pnl, false, null, backColor);
                     continue;
                 }
-                
+
                 if (door == null)
                 {
                     SetLabel(lbl, false, "", Color.White);
-                    SetPanel(pnl, false, null);
+                    SetPanel(pnl, false, null, backColor);
                     continue;
-                }
-                SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
-                
-                if (tool == null)
-                {
-                    SetPanel(pnl, true, null);
                 }
                 else
                 {
-                    SetPanel(pnl, true, currentPage + i.ToString("D2") + "|" + tool.Id + "|" + lattice.Id);
+                    if (!door.IsClosed) backColor = Color.FromArgb(13, 71, 161);
                 }
-                pnl.Refresh();
-            }
+                SetLabel(lbl, true, currentPage + (i+1).ToString("D2"), Color.White);
 
+                if (tool == null)
+                {
+                    SetPanel(pnl, true, null, backColor);
+                }
+                else
+                {
+                    SetPanel(pnl, true, currentPage + (i+1).ToString("D2") + "|" + tool.Id + "|" + lattice.Id, backColor);
+                }
+                PanelRefresh(pnl);
+            }
         }
 
         private void PanelOnPaint(object sender, PaintEventArgs e)
@@ -244,18 +310,19 @@ namespace CabinetMgr
             }
         }
 
-        private delegate void SetPanelDelegate(Panel panel, bool visible, string toolId);
-        private void SetPanel(Panel panel, bool visible, string toolId)
+        private delegate void SetPanelDelegate(Panel panel, bool visible, string toolId, Color backColor);
+        private void SetPanel(Panel panel, bool visible, string toolId, Color backColor)
         {
             if (panel.InvokeRequired)
             {
                 SetPanelDelegate d = SetPanel;
-                panel.Invoke(d, panel, visible, toolId);
+                panel.Invoke(d, panel, visible, toolId, backColor);
             }
             else
             {
                 panel.Visible = visible;
                 panel.Tag = toolId;
+                panel.BackColor = backColor;
             }
         }
         private delegate void SetPictureDelegate(PictureBox pictureBox, bool visible);
@@ -272,6 +339,19 @@ namespace CabinetMgr
             }
         }
 
+        private delegate void PanelRefreshDelegate(Panel pnl);
+        private void PanelRefresh(Panel pnl)
+        {
+            if (pnl.InvokeRequired)
+            {
+                PanelRefreshDelegate d = PanelRefresh;
+                pnl.Invoke(d, pnl);
+            }
+            else
+            {
+                pnl.Refresh();
+            }
+        }
 
         #endregion
 
@@ -289,12 +369,21 @@ namespace CabinetMgr
             LoadPage(currentPage);
         }
 
-        private void FormIndex_VisibleChanged(object sender, EventArgs e)
+        private void FormRefresh()
         {
             ReloadData();
             LoadPage(currentPage);
-            AppRt.FormMain.SetPicTitle(false);
-            AppRt.FormMain.SetUiLabelUserName(AppRt.CurUser?.FullName + "  |  单击退出", true);
+        }
+
+        private void FormIndex_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible)
+            {
+                FormRefresh();
+                AppRt.FormMain.SetPicTitle(false);
+                AppRt.FormMain.SetUiLabelUserName(AppRt.CurUser?.FullName + "  |  单击退出", true);
+            }
+            
         }
     }
 }

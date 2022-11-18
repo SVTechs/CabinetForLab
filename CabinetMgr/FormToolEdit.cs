@@ -87,7 +87,7 @@ namespace CabinetMgr
 
         private void uiButtonCancel_Click(object sender, EventArgs e)
         {
-            ClearInputData();
+            //ClearInputData();
             Hide();
         }
 
@@ -109,7 +109,6 @@ namespace CabinetMgr
 
         private void uiButtonSave_Click(object sender, EventArgs e)
         {
-            int result = -1;
             if (string.IsNullOrEmpty(uiTextBoxToolName.Text))
             {
                 UIMessageBox.ShowError("请填写工具规格");
@@ -120,21 +119,12 @@ namespace CabinetMgr
                 UIMessageBox.ShowError("请选择告警阈值");
                 return;
             }
-            if (string.IsNullOrEmpty(_toolId)) result = InsertToolInfo();
-            else result = UpdateToolInfo();
-            if (result < 0) return;
-            ClearInputData();
-            Hide();
-        }
-
-        private int InsertToolInfo()
-        {
-            LatticeInfo lattice = BllLatticeInfo.GetLatticeInfo(_latticeId, out _);
+            //if (string.IsNullOrEmpty(_toolId)) result = InsertToolInfo();
+            //else result = UpdateToolInfo();
+            //if (result < 0) return;
             ToolInfo ti = new ToolInfo()
             {
                 Id = Guid.NewGuid().ToString(),
-                LatticeId = lattice.Id,
-                LatticePosition = lattice.LatticePosition,
                 ToolName = uiTextBoxToolName.Text.Trim(),
                 ToolCount = int.Parse(uiTextBoxToolCount.Text),
                 CurrentCount = int.Parse(uiTextBoxToolCount.Text),
@@ -144,7 +134,7 @@ namespace CabinetMgr
                 Operator = AppRt.CurUser.ID,
                 OperatorName = AppRt.CurUser.FullName,
             };
-            int result = BllToolInfo.SaveToolInfo(ti, out Exception ex);
+
             IList<ToolSettings> toolSettings = new List<ToolSettings>();
             foreach (TreeNode tn in uiComboTreeViewRole.Nodes)
             {
@@ -159,44 +149,47 @@ namespace CabinetMgr
                 };
                 toolSettings.Add(ts);
             }
-            result = BllToolSettings.BatchSaveToolSettings(ti.Id, toolSettings, out _);
-            if (result < 0)
-            {
-                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
-                return -1;
-            }
-            return result;
+
+            AppRt.Tasks.Add(DbExecute(_toolId, _latticeId, ti, toolSettings));
+            Hide();
         }
 
-        private int UpdateToolInfo()
+        private Task DbExecute(string toolId, long latticeId, ToolInfo ti, IList<ToolSettings> toolSettings)
         {
-            LatticeInfo lattice = BllLatticeInfo.GetLatticeInfo(_latticeId, out _);
-            ToolInfo ti = BllToolInfo.GetToolInfo(_toolId, out _);
-            ti.LatticeId = lattice.Id;
-            ti.LatticePosition = lattice.LatticePosition;
-            ti.ToolName = uiTextBoxToolName.Text.Trim();
-            ti.ToolCount = int.Parse(uiTextBoxToolCount.Text);
-            ti.CurrentCount = int.Parse(uiTextBoxToolCount.Text);
-            ti.WarnType = (int)uiComboBoxWarnType.SelectedValue;
-            ti.WarnValue = int.Parse(uiTextBoxWarnValue.Text);
-            ti.OperateTime = DateTime.Now;
-            ti.Operator = AppRt.CurUser.ID;
-            ti.OperatorName = AppRt.CurUser.FullName;
-            int result = BllToolInfo.UpdateToolInfo(ti, out Exception ex);
-            IList<ToolSettings> toolSettings = new List<ToolSettings>();
-            foreach (TreeNode tn in uiComboTreeViewRole.Nodes)
-            {
-                if (!tn.Checked) continue;
-                ToolSettings ts = new ToolSettings()
+            var task = Task.Factory.StartNew(() => {
+
+                LatticeInfo lattice = BllLatticeInfo.GetLatticeInfo(latticeId, out _);
+                ti.LatticeId = lattice.Id;
+                ti.LatticePosition = lattice.LatticePosition;
+
+                int result = -1;
+                if (string.IsNullOrEmpty(toolId)) result = InsertToolInfo(ti, toolSettings);
+                else result = UpdateToolInfo(toolId, ti, toolSettings);
+                if (result < 0)
                 {
-                    Id = Guid.NewGuid().ToString().ToUpper(),
-                    OwnerId = tn.Tag as string,
-                    OwnerType = "Role",
-                    ToolId = ti.Id,
-                    AddTime = DateTime.Now
-                };
-                toolSettings.Add(ts);
-            }
+                    //UIMessageBox.ShowError($"保存失败");
+                }
+                //result = BllToolSettings.BatchSaveToolSettings(ti.Id, toolSettings, out _);
+                //if (result < 0)
+                //{
+                //    UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
+                //    return -1;
+                //}
+                //return result;
+
+                FormCallback.FormToolManageRefresh.Invoke();
+
+            }, TaskCreationOptions.LongRunning);
+            return task;
+        }
+
+        private int InsertToolInfo(ToolInfo ti, IList<ToolSettings> toolSettings)
+        {
+            //LatticeInfo lattice = BllLatticeInfo.GetLatticeInfo(latticeId, out _);
+            //ti.LatticeId = lattice.Id;
+            //ti.LatticePosition = lattice.LatticePosition;
+            int result = BllToolInfo.SaveToolInfo(ti, out Exception ex);
+
             result = BllToolSettings.BatchSaveToolSettings(ti.Id, toolSettings, out _);
             if (result < 0)
             {
@@ -206,6 +199,38 @@ namespace CabinetMgr
             return result;
         }
 
+        private int UpdateToolInfo(string toolId, ToolInfo ti, IList<ToolSettings> toolSettings)
+        {
+            ToolInfo toolinfo = BllToolInfo.GetToolInfo(toolId, out _);
+            toolinfo.LatticeId = ti.LatticeId;
+            toolinfo.LatticePosition = ti.LatticePosition;
+            toolinfo.ToolName = ti.ToolName;
+            toolinfo.ToolCount = ti.ToolCount;
+            toolinfo.CurrentCount = ti.CurrentCount;
+            toolinfo.WarnType = ti.WarnType;
+            toolinfo.WarnValue = ti.WarnValue;
+            toolinfo.OperateTime = ti.OperateTime;
+            toolinfo.Operator = ti.Operator;
+            toolinfo.OperatorName = ti.OperatorName;
+            int result = BllToolInfo.UpdateToolInfo(toolinfo, out Exception ex);
+            //IList<ToolSettings> toolSettings = new List<ToolSettings>();
+            foreach (ToolSettings ts in toolSettings)
+            {
+                ts.ToolId = toolId;
+            }
+            result = BllToolSettings.BatchSaveToolSettings(toolId, toolSettings, out _);
+            if (result < 0)
+            {
+                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
+                return -1;
+            }
+            return result;
+        }
+
+        private void FormToolEdit_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!Visible) ClearInputData();
+        }
     }
 
     public class ListItem

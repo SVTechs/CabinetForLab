@@ -1,4 +1,5 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.Common;
 using CabinetMgr.Config;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
@@ -21,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using testface;
+//using WavPlayer = CabinetMgr.Common.WavPlayer;
 
 namespace CabinetMgr
 {
@@ -50,6 +52,7 @@ namespace CabinetMgr
             CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
             CabinetServerCallback.NewSessionConnected += NewSessionConnected;
             CabinetServerCallback.SessionClosed += SessionClosed;
+            loginSuccess.Load();
         }
 
         protected override CreateParams CreateParams
@@ -82,6 +85,9 @@ namespace CabinetMgr
 
             Thread t = new Thread(AlertOutDate) { IsBackground = true };
             t.Start();
+
+            Thread t2 = new Thread(ExecuteTask) { IsBackground = true };
+            t2.Start();
         }
 
         private void AlertOutDate()
@@ -108,6 +114,31 @@ namespace CabinetMgr
 
         }
 
+        private void ExecuteTask()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (AppRt.Tasks.Count == 0) continue;
+                    Task task = AppRt.Tasks[0];
+                    if (task == null)
+                    {
+                        AppRt.Tasks.RemoveAt(0);
+                        continue;
+                    }
+                    task.Wait();
+                    AppRt.Tasks.RemoveAt(0);
+                    Thread.Sleep(1000);
+                }
+                catch(Exception ex)
+                {
+                    Logger.Error(ex);
+                }
+                
+            }
+        }
+
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Face.sdk_destroy();
@@ -124,23 +155,22 @@ namespace CabinetMgr
                 OnUserRecognised(2, 2);
                 return;
             }
-            if (e.Shift && e.Alt && e.KeyCode == Keys.R)
-            {
-                BllBorrowRecord.DeleteAll(out Exception ex);
-                BllReturnRecord.DeleteAll(out ex);
-                BllRoleInfo.DeleteAll(out ex);
-                BllLatticeInfo.DeleteAll(out ex);
-                BllLatticePermissionSettings.DeleteAll(out ex);
-                BllToolInfo.DeleteAll(out ex);
-                BllToolType.DeleteAll(out ex);
-                BllUserInfo.DeleteAll(out ex);
-                //清除登录状态
-                PerformManualLogin();
+            //if (e.Shift && e.Alt && e.KeyCode == Keys.R)
+            //{
+            //    BllBorrowRecord.DeleteAll(out Exception ex);
+            //    BllReturnRecord.DeleteAll(out ex);
+            //    BllRoleInfo.DeleteAll(out ex);
+            //    BllLatticePermissionSettings.DeleteAll(out ex);
+            //    BllToolInfo.DeleteAll(out ex);
+            //    BllToolType.DeleteAll(out ex);
+            //    BllUserInfo.DeleteAll(out ex);
+            //    //清除登录状态
+            //    PerformManualLogin();
 
-                //窗口刷新
-                MessageBox.Show("重置完成");
-                return;
-            }
+            //    //窗口刷新
+            //    MessageBox.Show("重置完成");
+            //    return;
+            //}
             if (e.Shift && e.Alt && e.KeyCode == Keys.L)
             {
                 FormLog formLog = AppRt.FormLog;
@@ -195,37 +225,42 @@ namespace CabinetMgr
         {
             try
             {
+                Logger.Info($"{templateId} Login");
                 UserInfo loginUser = BllUserInfo.GetUserInfoByTemplate(templateId, out var e);
                 if (loginUser != null)
                 {
+                    //WavPlayer.Play("LoginSuccess.wav");
+                    loginSuccess.Play();
+
                     IList<RoleSettings> roleSettings = BllRoleSettings.GetUserRoleSettings(loginUser.ID, out e);
                     string[] roleAry = roleSettings.Select(x => x.RoleId).ToArray();
-                    IList<RoleInfo> RoleList = new List<RoleInfo>();
-                    foreach (RoleSettings rs in roleSettings)
-                    {
-                        RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out e);
-                        RoleList.Add(ri);
-                    }
-                    long[] latticePermissionList = BllLatticePermissionSettings.GetLatticePermissionList(loginUser.ID, roleAry, out e);
-                    IList<LatticeInfo> LatticeList = BllLatticeInfo.GetLatticeInfoList(latticePermissionList, out e);
+                    //IList<RoleInfo> RoleList = new List<RoleInfo>();
+                    //foreach (RoleSettings rs in roleSettings)
+                    //{
+                    //    RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out e);
+                    //    RoleList.Add(ri);
+                    //}
+                    //long[] latticePermissionList = BllLatticePermissionSettings.GetLatticePermissionList(loginUser.ID, roleAry, out e);
+                    //IList<LatticeInfo> LatticeList = BllLatticeInfo.GetLatticeInfoList(latticePermissionList, out e);
 
                     IList<ToolSettings> toolSettings = BllToolSettings.GetToolSettings(roleAry, out _);
-                    IList<ToolInfo> ToolList = new List<ToolInfo>();
-                    foreach (ToolSettings ts in toolSettings)
-                    {
-                        ToolInfo ti = BllToolInfo.GetToolInfo(ts.ToolId, out e);
-                        ToolList.Add(ti);
-                    }
+                    //IList<ToolInfo> ToolList = new List<ToolInfo>();
+                    IList<string> ToolList = toolSettings.Select(x => x.ToolId).ToList();
+                    //foreach (ToolSettings ts in toolSettings)
+                    //{
+                    //    ToolInfo ti = BllToolInfo.GetToolInfo(ts.ToolId, out e);
+                    //    ToolList.Add(ti);
+                    //}
                     AppRt.CurUser = loginUser;
-                    AppRt.RoleList = RoleList;
+                    //AppRt.RoleList = RoleList;
                     AppRt.RoleSettings = roleSettings;
-                    AppRt.LatticeList = LatticeList;
+                    //AppRt.LatticeList = LatticeList;
                     AppRt.ToolList = ToolList;
                     //SetLabelText(uiLabelUserName, AppRt.CurUser.FullName ?? "" + " | 退出账号", true);
                     //SetPictureBoxStatus(pictureBoxTitleE, false, null);
                     //SetPictureBoxStatus(pictureBoxTitleC, false, null);
-                    loginSuccess.Play();
                     ShowWindow(_indexForm);
+                    Logger.Info($"{templateId} Login Done");
                 }
             }
             catch (Exception ex)
@@ -316,7 +351,7 @@ namespace CabinetMgr
                 _loginForm = new FormLogin();
                 AddToPanel(_loginForm);
 
-                _indexForm = new FormIndex0();
+                _indexForm = new FormIndex1();
                 AddToPanel(_indexForm);
 
                 _manageForm = new FormManage();
@@ -328,7 +363,7 @@ namespace CabinetMgr
                 _systemManage = new FormSystemManage();
                 AddToPanel(_systemManage);
 
-                _toolManage = new FormToolManage0();
+                _toolManage = new FormToolManage1();
                 _userManage = new FormUserManage();
                 (_systemManage as FormSystemManage)._toolManageForm = _toolManage;
                 (_systemManage as FormSystemManage).AddToPanel(_toolManage);
@@ -407,8 +442,9 @@ namespace CabinetMgr
                 if (result <= 0) success = false;
             }
             //session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
-            (_indexForm as FormIndex0).ReloadData();
-            (_indexForm as FormIndex0).LoadPage();
+            //(_indexForm as FormIndex0).ReloadData();
+            //(_indexForm as FormIndex0).LoadPage();
+            FormCallback.FormIndexRefresh.Invoke();
         }
 
         private int ExecuteCmd(string toolLocation, string cmdType)

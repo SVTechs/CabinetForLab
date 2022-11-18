@@ -20,11 +20,13 @@ namespace CabinetMgr.RtVars
         public static DateTime gUserLoginTime;
         public static DateTime gDoorOpenTime;
 
-        public static IList<LatticeInfo> LatticeList = null;
+        //public static IList<LatticeInfo> LatticeList = null;
 
-        public static IList<ToolInfo> ToolList = null;
+        //public static IList<ToolInfo> ToolList = null;
 
-        public static IList<RoleInfo> RoleList = null;
+        public static IList<string> ToolList = null;
+
+        //public static IList<RoleInfo> RoleList = null;
 
         public static IList<RoleSettings> RoleSettings = null;
 
@@ -68,10 +70,12 @@ namespace CabinetMgr.RtVars
         public static void ResetUserInfo()
         {
             CurUser = null;
-            LatticeList = null;
+            //LatticeList = null;
             ToolList = null;
-            RoleList = null;
+            //RoleList = null;
             RoleSettings = null;
         }
+
+        public static List<Task> Tasks = new List<Task>();
     }
 }

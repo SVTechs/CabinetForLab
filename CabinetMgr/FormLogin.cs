@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using testface;
+//using WavPlayer = CabinetMgr.Common.WavPlayer;
 
 namespace CabinetMgr
 {
@@ -30,7 +31,6 @@ namespace CabinetMgr
         private static IList<Info> infoList;
         private List<UserInfo> imagesFeatureList = new List<UserInfo>();
         private float threshold = 80f;
-        private string lastCardNum = "";
 
         public static ManualResetEvent FaceDataManualEvent = new ManualResetEvent(false);
         public static ManualResetEvent FingerDataManualEvent = new ManualResetEvent(false);
@@ -43,6 +43,10 @@ namespace CabinetMgr
         public FormLogin()
         {
             InitializeComponent();
+            showFace.Load();
+            pressFinger.Load();
+            swipeCard.Load();
+            enterPassword.Load();
         }
 
         private void FormLogin_Load(object sender, EventArgs e)
@@ -65,7 +69,7 @@ namespace CabinetMgr
 
         private void FormLogin_Shown(object sender, EventArgs e)
         {
-            LoadInfo();
+            //LoadInfo();
         }
 
         public void LoadInfo()
@@ -76,7 +80,7 @@ namespace CabinetMgr
             {
                 AddInfo(info.InfoContent, info.InfoType, info.Id);
             }
-            flowLayoutPanel1.Refresh();
+            InfoRefresh();
         }
 
         private void uiImageButtonFace_Click(object sender, EventArgs e)
@@ -90,6 +94,7 @@ namespace CabinetMgr
             AppRt.FaceEnable = true;
             AppRt.FormFaceShow.FormVisible(true);
             showFace.Play();
+            //WavPlayer.Play("FaceCric.wav");
             timerStopCrit.Start();
         }
 
@@ -103,6 +108,7 @@ namespace CabinetMgr
             AppRt.FpEnable = true;
             AppRt.FormFingerShow.FormVisible(true);
             pressFinger.Play();
+            //WavPlayer.Play("PressFinger.wav");
             timerStopCrit.Start();
         }
 
@@ -112,6 +118,7 @@ namespace CabinetMgr
             //lastCardNum = "";
             AppRt.CardEnable = true;
             swipeCard.Play();
+            //WavPlayer.Play("SwipeCard.wav");
             //textBoxCardNum.Focus();
             timerStopCrit.Start();
         }
@@ -119,6 +126,7 @@ namespace CabinetMgr
         private void uiImageButtonPassword_Click(object sender, EventArgs e)
         {
             enterPassword.Play();
+            //WavPlayer.Play("EnterPassword.wav");
             FormPasswordLogin formPasswordLogin = FormPasswordLogin.Instance();
             formPasswordLogin.ShowDialog();
 
@@ -239,9 +247,9 @@ namespace CabinetMgr
                             UserInfo ui = compareFeature(ff[0], out float similarity);
                             if (ui != null)
                             {
-                                FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 1);
                                 AppRt.FaceEnable = false;
                                 AppRt.FormFaceShow.FormVisible(false);
+                                FpCallBack.OnUserRecognised?.Invoke(ui.TemplateId, 1);
                             }
                         }
 
@@ -288,7 +296,8 @@ namespace CabinetMgr
             }
             if (!isAllSucceed)
             {
-                UIMessageBox.ShowError("指纹下发出错，部分指纹将不能使用");
+                Logger.Error("指纹下发出错，部分指纹将不能使用");
+                //UIMessageBox.ShowError("指纹下发出错，部分指纹将不能使用");
                 //AddInfo("指纹下发出错，部分指纹将不能使用", 2, "");
             }
 
@@ -307,8 +316,8 @@ namespace CabinetMgr
             ushort templateLength = 0;
             while (true)
             {
-                Thread.Sleep(300);
                 if (!AppRt.FpEnable) continue;
+                Thread.Sleep(700);
                 int ret = FpDevice.GetImage();
                 if (ret != DriveOpration.PS_OK) continue;
                 ret = FpDevice.UpImage(out imageData, ref templateLength);
@@ -335,10 +344,8 @@ namespace CabinetMgr
                 }
                 else
                 {
-                    AppRt.FormFingerShow.SetResultLabelValue("特征比对失败");
-                    continue; 
+                    AppRt.FormFingerShow.SetResultLabelValue("特征比对失败"); 
                 }
-
             }
         }
 
@@ -361,6 +368,7 @@ namespace CabinetMgr
                 try
                 {
                     Thread.Sleep(700);
+                    if (!AppRt.HaveCardDevice) continue;
                     if (!AppRt.CardEnable) continue;
                     //if (string.IsNullOrEmpty(textBoxCardNum.Text)) continue;
                     //string cardNum = textBoxCardNum.Text;
@@ -461,6 +469,21 @@ namespace CabinetMgr
             
         }
 
+        private delegate void InfoRefreshDelegate();
+        private void InfoRefresh()
+        {
+            if (flowLayoutPanel1.InvokeRequired)
+            {
+                InfoRefreshDelegate d = InfoRefresh;
+                flowLayoutPanel1.Invoke(d);
+            }
+            else
+            {
+                flowLayoutPanel1.Refresh();
+            }
+
+        }
+
         private delegate void ClearTextBoxDelegate();
         private void ClearTextBox()
         {
@@ -483,14 +506,17 @@ namespace CabinetMgr
             AppRt.FpEnable = false;
             AppRt.CardEnable = false;
             ClearTextBox();
-            flowLayoutPanel1.Focus();
         }
 
         private void FormLogin_VisibleChanged(object sender, EventArgs e)
         {
-            LoadInfo();
-            AppRt.FormMain.SetPicTitle(true);
-            AppRt.FormMain.SetUiLabelUserName("", false);
+            if (Visible)
+            {
+                LoadInfo();
+                AppRt.FormMain.SetPicTitle(true);
+                AppRt.FormMain.SetUiLabelUserName("", false);
+            }
+            
         }
     }
 }
