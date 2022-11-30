@@ -16,11 +16,14 @@ namespace CabinetMgr
 {
     public partial class FormUserManage : UIForm
     {
+        private static bool firstShown = true;
+
         public FormUserManage()
         {
             InitializeComponent();
             FormCallback.FormUserManageRefresh += FormRefresh;
             uiDataGridView.DataError += UiDataGridView_DataError;
+            FormRefresh();
         }
 
         private void UiDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -183,11 +186,11 @@ namespace CabinetMgr
             if (uiDataGridView.SelectedRows.Count == 0) UIMessageBox.ShowError("请选择要编辑的人员", true, true);
             var selectRow = uiDataGridView.SelectedRows[0];
             UserInfo ui = selectRow.DataBoundItem as UserInfo;
-            if (!UIMessageBox.ShowAsk("将删除该人员，该操作无法撤销")) return;
+            if (!UIMessageBox.ShowAsk("将删除该人员，该操作无法撤销", true, true)) return;
             int result = BllUserInfo.DeleteUserInfo(ui.ID, out Exception ex);
             if (result <= 0)
             {
-                UIMessageBox.ShowError($"删除失败,原因：\n{ex.Message}");
+                UIMessageBox.ShowError($"删除失败,原因：\n{ex.Message}", true, true);
                 return;
             }
             LoadData();
@@ -205,6 +208,7 @@ namespace CabinetMgr
 
         private void FormUserManage_VisibleChanged(object sender, EventArgs e)
         {
+            if (Visible && firstShown) { firstShown = false; return; }
             if (Visible) LoadData();
         }
     }

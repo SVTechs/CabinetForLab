@@ -58,7 +58,7 @@ namespace CabinetMgr
         {
             if (string.IsNullOrEmpty(uiTextBoxAmount.Text))
             {
-                UIMessageBox.ShowWarning("请输入数量");
+                UIMessageBox.ShowWarning("请输入数量", true, true);
                 return;
             }
             int toolCount = int.Parse(uiTextBoxAmount.Text);
@@ -120,7 +120,7 @@ namespace CabinetMgr
 
                 if (result <= 0)
                 {
-                    UIMessageBox.ShowError($"提交失败，原因为:\n{ex.Message}");
+                    UIMessageBox.ShowError($"提交失败，原因为:\n{ex.Message}", true, true);
                     return;
                 }
                 FormCallback.FormIndexRefresh.Invoke();

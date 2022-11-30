@@ -111,12 +111,12 @@ namespace CabinetMgr
         {
             if (string.IsNullOrEmpty(uiTextBoxToolName.Text))
             {
-                UIMessageBox.ShowError("请填写工具规格");
+                UIMessageBox.ShowError("请填写工具规格", true, true);
                 return;
             }
             if (uiComboBoxWarnType.SelectedItem == null)
             {
-                UIMessageBox.ShowError("请选择告警阈值");
+                UIMessageBox.ShowError("请选择告警阈值", true, true);
                 return;
             }
             //if (string.IsNullOrEmpty(_toolId)) result = InsertToolInfo();
@@ -193,7 +193,7 @@ namespace CabinetMgr
             result = BllToolSettings.BatchSaveToolSettings(ti.Id, toolSettings, out _);
             if (result < 0)
             {
-                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
+                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}", true, true);
                 return -1;
             }
             return result;
@@ -221,7 +221,7 @@ namespace CabinetMgr
             result = BllToolSettings.BatchSaveToolSettings(toolId, toolSettings, out _);
             if (result < 0)
             {
-                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
+                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}", true, true);
                 return -1;
             }
             return result;

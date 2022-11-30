@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -106,6 +107,7 @@
     <Compile Include="Common\PresetRole.cs" />
     <Compile Include="Common\StrUtil.cs" />
     <Compile Include="Common\TreeManager.cs" />
+    <Compile Include="Common\WavPlayer.cs" />
     <Compile Include="Common\WindowHelper.cs" />
     <Compile Include="FormDeviceLoader.cs">
       <SubType>Form</SubType>
@@ -235,6 +237,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RtVars\AppRt.cs" />
+    <None Include="Res\img\arrow-left.png" />
+    <None Include="Res\img\share.png" />
     <Content Include="ToDo.txt" />
     <None Include="Res\Sound\FpCatched.wav" />
     <None Include="Res\Sound\FaceCatched.wav" />

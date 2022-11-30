@@ -32,11 +32,13 @@ namespace CabinetMgr
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.panelWindow = new System.Windows.Forms.Panel();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.pictureBoxReturn = new System.Windows.Forms.PictureBox();
             this.uiLabelUserName = new System.Windows.Forms.Label();
             this.pictureBoxTitleE = new System.Windows.Forms.PictureBox();
             this.pictureBoxTitleC = new System.Windows.Forms.PictureBox();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.panelTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReturn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
@@ -57,6 +59,7 @@ namespace CabinetMgr
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
             this.panelTop.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleBg;
             this.panelTop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelTop.Controls.Add(this.pictureBoxReturn);
             this.panelTop.Controls.Add(this.uiLabelUserName);
             this.panelTop.Controls.Add(this.pictureBoxTitleE);
             this.panelTop.Controls.Add(this.pictureBoxTitleC);
@@ -66,6 +69,18 @@ namespace CabinetMgr
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1080, 135);
             this.panelTop.TabIndex = 9;
+            // 
+            // pictureBoxReturn
+            // 
+            this.pictureBoxReturn.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxReturn.BackgroundImage = global::CabinetMgr.Properties.Resources.arrow_left;
+            this.pictureBoxReturn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxReturn.Location = new System.Drawing.Point(669, 30);
+            this.pictureBoxReturn.Name = "pictureBoxReturn";
+            this.pictureBoxReturn.Size = new System.Drawing.Size(72, 72);
+            this.pictureBoxReturn.TabIndex = 4;
+            this.pictureBoxReturn.TabStop = false;
+            this.pictureBoxReturn.Click += new System.EventHandler(this.pictureBoxIcon_Click);
             // 
             // uiLabelUserName
             // 
@@ -108,12 +123,11 @@ namespace CabinetMgr
             this.pictureBoxIcon.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxIcon.BackgroundImage = global::CabinetMgr.Properties.Resources.NewLogo;
             this.pictureBoxIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(30, 30);
+            this.pictureBoxIcon.Location = new System.Drawing.Point(12, 29);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(693, 72);
+            this.pictureBoxIcon.Size = new System.Drawing.Size(625, 72);
             this.pictureBoxIcon.TabIndex = 0;
             this.pictureBoxIcon.TabStop = false;
-            this.pictureBoxIcon.Click += new System.EventHandler(this.pictureBoxIcon_Click);
             // 
             // FormMain
             // 
@@ -134,12 +148,12 @@ namespace CabinetMgr
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "智能储物柜";
-            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.panelTop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxReturn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
@@ -154,5 +168,6 @@ namespace CabinetMgr
         private System.Windows.Forms.PictureBox pictureBoxTitleE;
         private System.Windows.Forms.PictureBox pictureBoxTitleC;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
+        private System.Windows.Forms.PictureBox pictureBoxReturn;
     }
 }

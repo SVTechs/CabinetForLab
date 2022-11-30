@@ -40,9 +40,9 @@ namespace CabinetMgr
         private bool enableVideo = false;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        SoundPlayer cardCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("CardCatched"));
-        SoundPlayer faceCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FaceCatched"));
-        SoundPlayer fpCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FpCatched"));
+        //SoundPlayer cardCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("CardCatched"));
+        //SoundPlayer faceCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FaceCatched"));
+        //SoundPlayer fpCatched = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FpCatched"));
 
 
         public static FormUserEdit Instance(string userId)
@@ -55,9 +55,9 @@ namespace CabinetMgr
         {
             InitializeComponent();
             LoadRoleData();
-            cardCatched.Load();
-            faceCatched.Load();
-            fpCatched.Load();
+            //cardCatched.Load();
+            //faceCatched.Load();
+            //fpCatched.Load();
         }
 
         private void LoadRoleData()
@@ -85,7 +85,7 @@ namespace CabinetMgr
             {
                 cardNum = tmpValue;
                 AppRt.FormLog.AddLine(cardNum);
-                cardCatched.Play();
+                //cardCatched.Play();
                 //WavPlayer.Play("CardCatched.wav");
             }
 
@@ -201,7 +201,7 @@ namespace CabinetMgr
                     faceSize = FaceDetect.detect(ptT, image.CvPtr, type);
                     if (faceSize < 1)
                     {
-                        UIMessageBox.Show("未识别到人脸");
+                        UIMessageBox.Show("未识别到人脸", true, true);
                         windowVideo.Dispose();
                         windowVideo = new Window("windowVideo");
                         windowVideo.Move(1, 1);
@@ -239,7 +239,7 @@ namespace CabinetMgr
                     }
                     faceTemplate = faceByte;
                     uiButtonFaceCap.Visible = false;
-                    faceCatched.Play();
+                    //faceCatched.Play();
                     //WavPlayer.Play("FaceCatched.wav");
                     AppRt.FormMain.TopMost = true;
                     TopMost = true;
@@ -259,7 +259,7 @@ namespace CabinetMgr
             formFingerCap.ShowDialog();
             fingerTemplate = formFingerCap.fingerTemplate;
             formFingerCap.FormReset();
-            fpCatched.Play();
+            //fpCatched.Play();
             //WavPlayer.Play("FpCatched.wav");
         }
 
@@ -275,17 +275,17 @@ namespace CabinetMgr
 
             if (string.IsNullOrEmpty(uiTextBoxUserName.Text))
             {
-                UIMessageBox.ShowError("请填写工号");
+                UIMessageBox.ShowError("请填写工号",  true, true);
                 return;
             }
             if (string.IsNullOrEmpty(uiTextBoxFullName.Text))
             {
-                UIMessageBox.ShowError("请填写姓名");
+                UIMessageBox.ShowError("请填写姓名", true, true);
                 return;
             }
             if (string.IsNullOrEmpty(uiTextBoxPassword.Text) && string.IsNullOrEmpty(_userId))
             {
-                UIMessageBox.ShowError("请填写密码");
+                UIMessageBox.ShowError("请填写密码", true, true);
                 return;
             }
 
@@ -327,7 +327,7 @@ namespace CabinetMgr
                 else result = UpdateUserInfo(userId, ui, roleSettings);
                 if (result == null)
                 {
-                    UIMessageBox.ShowError("保存失败");
+                    UIMessageBox.ShowError("保存失败", true, true);
                     return;
                 }
                 if (faceTemplate != null) result.FaceFeature = faceTemplate;
@@ -348,7 +348,7 @@ namespace CabinetMgr
             UserInfo userinfo = BllUserInfo.GetUserInfoByUserName(ui.UserName, out _);
             if(userinfo != null)
             {
-                UIMessageBox.ShowError($"该工号已被使用");
+                UIMessageBox.ShowError($"该工号已被使用", true, true);
                 return null;
             }
             //UserInfo ui = new UserInfo()
@@ -367,7 +367,7 @@ namespace CabinetMgr
 
             if (result < 0)
             {
-                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
+                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}", true, true);
                 return null;
             }
             return BllUserInfo.GetUserInfoByUserName(ui.UserName, out _);
@@ -380,7 +380,7 @@ namespace CabinetMgr
             {
                 if (BllUserInfo.GetUserInfoByUserName(ui.UserName, out _) != null)
                 {
-                    UIMessageBox.ShowError($"该工号已被使用");
+                    UIMessageBox.ShowError($"该工号已被使用", true, true);
                     return null;
                 }
             }
@@ -412,7 +412,7 @@ namespace CabinetMgr
             
             if (result < 0)
             {
-                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}");
+                UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}", true, true);
                 return null;
             }
             return user;

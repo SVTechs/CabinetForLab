@@ -35,18 +35,18 @@ namespace CabinetMgr
         public static ManualResetEvent FaceDataManualEvent = new ManualResetEvent(false);
         public static ManualResetEvent FingerDataManualEvent = new ManualResetEvent(false);
 
-        SoundPlayer showFace = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FaceCric"));
-        SoundPlayer pressFinger = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("PressFinger"));
-        SoundPlayer swipeCard = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("SwipeCard"));
-        SoundPlayer enterPassword = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("EnterPassword"));
+        //SoundPlayer showFace = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FaceCric"));
+        //SoundPlayer pressFinger = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("PressFinger"));
+        //SoundPlayer swipeCard = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("SwipeCard"));
+        //SoundPlayer enterPassword = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("EnterPassword"));
 
         public FormLogin()
         {
             InitializeComponent();
-            showFace.Load();
-            pressFinger.Load();
-            swipeCard.Load();
-            enterPassword.Load();
+            //showFace.Load();
+            //pressFinger.Load();
+            //swipeCard.Load();
+            //enterPassword.Load();
         }
 
         private void FormLogin_Load(object sender, EventArgs e)
@@ -76,6 +76,7 @@ namespace CabinetMgr
         {
             InfoClear();
             infoList = BllInfo.SearchInfo(0, 3, null, out _);
+            if (infoList == null) return;
             foreach (Info info in infoList)
             {
                 AddInfo(info.InfoContent, info.InfoType, info.Id);
@@ -87,14 +88,16 @@ namespace CabinetMgr
         {
             if (!AppRt.HaveFaceDevice)
             {
-                UIMessageBox.Show("未检测到人脸识别设备");
+                UIMessageBox.Show("未检测到人脸识别设备", true, true);
                 return;
             }
 
             AppRt.FaceEnable = true;
             AppRt.FormFaceShow.FormVisible(true);
-            showFace.Play();
+            //showFace.Play();
             //WavPlayer.Play("FaceCric.wav");
+            //Thread t = new Thread(new ParameterizedThreadStart(WavPlayer.SoundPlay));
+            //t.Start("FaceCric.wav");
             timerStopCrit.Start();
         }
 
@@ -102,13 +105,15 @@ namespace CabinetMgr
         {
             if (!AppRt.HaveFpDevice)
             {
-                UIMessageBox.Show("未检测到指纹设备");
+                UIMessageBox.Show("未检测到指纹设备", true, true);
                 return;
             }
             AppRt.FpEnable = true;
             AppRt.FormFingerShow.FormVisible(true);
-            pressFinger.Play();
+            //pressFinger.Play();
             //WavPlayer.Play("PressFinger.wav");
+            //Thread t = new Thread(new ParameterizedThreadStart(WavPlayer.SoundPlay));
+            //t.Start("PressFinger.wav");
             timerStopCrit.Start();
         }
 
@@ -117,16 +122,20 @@ namespace CabinetMgr
             //textBoxCardNum.Text = "";
             //lastCardNum = "";
             AppRt.CardEnable = true;
-            swipeCard.Play();
+            //swipeCard.Play();
             //WavPlayer.Play("SwipeCard.wav");
             //textBoxCardNum.Focus();
+            //Thread t = new Thread(new ParameterizedThreadStart(WavPlayer.SoundPlay));
+            //t.Start("SwipeCard.wav");
             timerStopCrit.Start();
         }
 
         private void uiImageButtonPassword_Click(object sender, EventArgs e)
         {
-            enterPassword.Play();
+            //enterPassword.Play();
             //WavPlayer.Play("EnterPassword.wav");
+            //Thread t = new Thread(new ParameterizedThreadStart(WavPlayer.SoundPlay));
+            //t.Start("EnterPassword.wav");
             FormPasswordLogin formPasswordLogin = FormPasswordLogin.Instance();
             formPasswordLogin.ShowDialog();
 
@@ -446,7 +455,7 @@ namespace CabinetMgr
         {
             if(AppRt.CurUser == null)
             {
-                UIMessageBox.ShowError("请登录后再进行操作");
+                UIMessageBox.ShowError("请登录后再进行操作", true, true);
                 return;
             }
             UIButton btn = sender as UIButton;

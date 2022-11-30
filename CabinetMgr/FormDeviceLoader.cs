@@ -223,6 +223,7 @@ namespace CabinetMgr
                     {
                         UpdateStatus("初始化人脸识别", $"初始化失败{n}", 2);
                         _isPassed = false;
+                        AppRt.HaveFaceDevice = false;
                     }
                     else
                     {
@@ -235,9 +236,16 @@ namespace CabinetMgr
                 catch (Exception ex)
                 {
                     MessageBox.Show($"人脸识别引擎初始化失败，原因{ex.Message}");
+                    UpdateStatus("初始化人脸识别", $"初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveFaceDevice = false;
+                    Logger.Error(ex);
                 }
-                _faceEnginePassed = true;
-                InitManualEvent.Set();
+                finally
+                {
+                    _faceEnginePassed = true;
+                    InitManualEvent.Set();
+                }
             }, TaskCreationOptions.LongRunning);
 
             return task;

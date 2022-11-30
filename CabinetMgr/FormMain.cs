@@ -22,7 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using testface;
-//using WavPlayer = CabinetMgr.Common.WavPlayer;
+using WavPlayer = CabinetMgr.Common.WavPlayer;
 
 namespace CabinetMgr
 {
@@ -39,7 +39,7 @@ namespace CabinetMgr
         public Form _toolManage;
         public Form _userManage;
 
-        SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
+        //SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
 
         private int manageCount = 7;
         private int currentCount = 1;
@@ -52,7 +52,7 @@ namespace CabinetMgr
             CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
             CabinetServerCallback.NewSessionConnected += NewSessionConnected;
             CabinetServerCallback.SessionClosed += SessionClosed;
-            loginSuccess.Load();
+            //loginSuccess.Load();
         }
 
         protected override CreateParams CreateParams
@@ -230,7 +230,9 @@ namespace CabinetMgr
                 if (loginUser != null)
                 {
                     //WavPlayer.Play("LoginSuccess.wav");
-                    loginSuccess.Play();
+                    //loginSuccess.Play();
+                    //Thread t = new Thread(new ParameterizedThreadStart(WavPlayer.SoundPlay));
+                    //t.Start("LoginSuccess.wav");
 
                     IList<RoleSettings> roleSettings = BllRoleSettings.GetUserRoleSettings(loginUser.ID, out e);
                     string[] roleAry = roleSettings.Select(x => x.RoleId).ToArray();
@@ -427,7 +429,7 @@ namespace CabinetMgr
         {
             if (AppRt.CurUser == null)
             {
-                UIMessageBox.Show("请先登录再申请借还");
+                UIMessageBox.Show("请先登录再申请借还", true, true);
                 return;
             }
             var value = cmd.Replace($"\\", "").Replace("{", "").Replace("}", "").Replace($"\"", "");

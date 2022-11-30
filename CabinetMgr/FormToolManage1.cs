@@ -25,6 +25,7 @@ namespace CabinetMgr
         private static IList<ToolInfo> toolInfoList;
         private static IList<LatticeInfo> currentPageLatticeList;// = latticeList.Where(x => x.CabinetNum == cabinetNum)?.ToList();
         private static Color backColor = Color.FromArgb(187, 222, 10);
+        private static bool firstShown = true;
 
 
         private readonly float[,,] btnPositions =
@@ -345,6 +346,7 @@ namespace CabinetMgr
 
         private void FormToolManage0_VisibleChanged(object sender, EventArgs e)
         {
+            if (Visible && firstShown) { firstShown = false; return; }
             if (Visible) FormRefresh();
         }
     }

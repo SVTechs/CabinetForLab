@@ -183,7 +183,7 @@ namespace CabinetMgr
             string ti = AppRt.ToolList.FirstOrDefault(x => x == toolId);
             if(string.IsNullOrEmpty(ti))
             {
-                UIMessageBox.Show("您没有借取该工具的权限");
+                UIMessageBox.Show("您没有借取该工具的权限", true, true);
                 return;
             }
             long latticeId = long.Parse((panel.Tag as string).Split('|')[2]);

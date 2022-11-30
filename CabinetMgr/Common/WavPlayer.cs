@@ -62,5 +62,10 @@ namespace CabinetMgr.Common
         {
             sndPlaySound(strFileName, (long)SoundFlags.SND_SYNC);
         }
+
+        public static void SoundPlay(object soundName)
+        {
+            Play(soundName as string);
+        }
     }
 }
