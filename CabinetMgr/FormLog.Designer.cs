@@ -50,6 +50,7 @@ namespace CabinetMgr
             this.Name = "FormLog";
             this.ShowInTaskbar = false;
             this.Text = "FormLog";
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLog_FormClosed);
             this.ResumeLayout(false);
 

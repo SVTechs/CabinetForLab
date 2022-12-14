@@ -1,5 +1,6 @@
 ﻿using CabinetMgr.BLL;
 using CabinetMgr.Common;
+using CabinetMgr.Config;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
 using Hardware.DeviceInterface;
@@ -29,11 +30,13 @@ namespace CabinetMgr
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static IList<Info> infoList;
-        private List<UserInfo> imagesFeatureList = new List<UserInfo>();
+        private List<FullUserInfo> imagesFeatureList = new List<FullUserInfo>();
         private float threshold = 80f;
 
         public static ManualResetEvent FaceDataManualEvent = new ManualResetEvent(false);
         public static ManualResetEvent FingerDataManualEvent = new ManualResetEvent(false);
+
+        private static IList<FullUserInfo> listUserInfo;
 
         //SoundPlayer showFace = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("FaceCric"));
         //SoundPlayer pressFinger = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("PressFinger"));
@@ -51,6 +54,7 @@ namespace CabinetMgr
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
+            listUserInfo = BllFullUserInfo.SearchFullUserInfo(0, -1, null, out _);
             if (AppRt.HaveFaceDevice)
             {
                 InitFaceData();
@@ -156,12 +160,11 @@ namespace CabinetMgr
 
         private void InitFaceData()
         {
-            IList<UserInfo> listUserInfo = BllUserInfo.SearchUserInfo(0, -1, null, out _);
             if (listUserInfo == null || listUserInfo.Count == 0) return;
             imagesFeatureList.Clear();
             for (int i = 0; i < listUserInfo.Count; i++)
             {
-                UserInfo userInfo = listUserInfo[i];
+                FullUserInfo userInfo = listUserInfo[i];
                 //userInfo.FaceFeature特征值转换为float数组
                 if (userInfo.FaceFeature != null)
                 {
@@ -194,9 +197,9 @@ namespace CabinetMgr
             return fat;
         }
 
-        private UserInfo compareFeature(BDFaceFeature feature, out float similarity)
+        private FullUserInfo compareFeature(BDFaceFeature feature, out float similarity)
         {
-            UserInfo result = null;
+            FullUserInfo result = null;
             similarity = 0f;
             FaceCompare faceCompare = new FaceCompare();
             //如果人脸库不为空，则进行人脸匹配
@@ -237,6 +240,7 @@ namespace CabinetMgr
                 {
                     if (!AppRt.FaceEnable) continue;
                     if (cap == null) continue;
+                    Thread.Sleep(900);
                     cap.Read(image);
                     if (!image.Empty())
                     {
@@ -253,7 +257,7 @@ namespace CabinetMgr
                         if (faceSize > 0)
                         {
                             BDFaceFeature[] ff = faceFeature.test_get_face_feature_by_path(image);
-                            UserInfo ui = compareFeature(ff[0], out float similarity);
+                            FullUserInfo ui = compareFeature(ff[0], out float similarity);
                             if (ui != null)
                             {
                                 AppRt.FaceEnable = false;
@@ -290,12 +294,12 @@ namespace CabinetMgr
 
         private void InitFpData()
         {
-            IList<UserInfo> listUserInfo = BllUserInfo.SearchUserInfo(0, -1, null, out _);
+
             if (listUserInfo == null || listUserInfo.Count == 0) return;
             bool isAllSucceed = true;
             int delRet = FpDevice.DelFeature(199);
             Logger.Info("DelTmpChar" + delRet);
-            foreach (UserInfo ui in listUserInfo)
+            foreach (FullUserInfo ui in listUserInfo)
             {
                 if (!ui.HasFingerFeature) continue;
                 int ret = FpDevice.DownChar(ui.FingerFeature);
@@ -327,34 +331,51 @@ namespace CabinetMgr
             {
                 if (!AppRt.FpEnable) continue;
                 Thread.Sleep(700);
-                int ret = FpDevice.GetImage();
-                if (ret != DriveOpration.PS_OK) continue;
-                ret = FpDevice.UpImage(out imageData, ref templateLength);
-                if (ret != DriveOpration.PS_OK) 
-                { 
-                    AppRt.FormFingerShow.SetResultLabelValue("获取指纹图像失败"); 
-                    continue; 
-                };
-                AppRt.FormFingerShow.ShowFingerPrint(imageData);
-                ret = FpDevice.GenChar(1);
-                if (ret != DriveOpration.PS_OK) 
-                { 
-                    AppRt.FormFingerShow.SetResultLabelValue("生成特征失败");
-                    continue; 
-                };
-                ret = FpDevice.SearchFeature(ref address, ref score);
-                if (ret == DriveOpration.PS_OK)
+                try
                 {
-                    AppRt.FormFingerShow.SetResultLabelValue("登录成功");
-                    AppRt.FormFingerShow.FormVisible(false);
-                    FpCallBack.OnUserRecognised?.Invoke(address, 2);
-                    AppRt.FpEnable = false;
+                    AppRt.FormFingerShow.SetResultLabelValue("请按压指纹");
+                    int ret = FpDevice.GetImage();
+                    if (AppConfig.DebugMode == 1) Logger.Info("PrepareGetImage" + ret);
+                    if (ret != DriveOpration.PS_OK)
+                    {
+                        if (AppConfig.DebugMode == 1) Logger.Info("GetImageError" + ret);
+                        if(ret ==  DriveOpration.PS_NO_FINGER) AppRt.FormFingerShow.SetResultLabelValue("未识别指纹");
+                        else AppRt.FormFingerShow.SetResultLabelValue("识别指纹失败");
+                        continue;
+                    }
+                    ret = FpDevice.UpImage(out imageData, ref templateLength);
+                    if (ret != DriveOpration.PS_OK)
+                    {
+                        AppRt.FormFingerShow.SetResultLabelValue("获取指纹图像失败");
+                        continue;
+                    };
+                    AppRt.FormFingerShow.ShowFingerPrint(imageData);
+                    ret = FpDevice.GenChar(1);
+                    if (ret != DriveOpration.PS_OK)
+                    {
+                        AppRt.FormFingerShow.SetResultLabelValue("生成特征失败");
+                        continue;
+                    };
+                    ret = FpDevice.SearchFeature(ref address, ref score);
+                    if (ret == DriveOpration.PS_OK)
+                    {
+                        AppRt.FormFingerShow.SetResultLabelValue("登录成功");
+                        AppRt.FormFingerShow.FormVisible(false);
+                        if (AppConfig.DebugMode == 1) Logger.Info("SearchFeature" + address);
+                        FpCallBack.OnUserRecognised?.Invoke(address, 2);
+                        AppRt.FpEnable = false;
 
+                    }
+                    else
+                    {
+                        AppRt.FormFingerShow.SetResultLabelValue("特征比对失败");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    AppRt.FormFingerShow.SetResultLabelValue("特征比对失败"); 
+                    Logger.Error(ex);
                 }
+
             }
         }
 

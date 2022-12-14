@@ -50,17 +50,17 @@ namespace CabinetMgr
             }
         }
 
-        private delegate void SetLableTextDelegate(Label lbl, string text);
-        private void SetLableText(Label lbl, string text)
+        private delegate void SetLableTextDelegate(string text);
+        private void SetLableText(string text)
         {
-            if (lbl.InvokeRequired)
+            if (uiLabelPressResult.InvokeRequired)
             {
                 SetLableTextDelegate d = SetLableText;
-                lbl.Invoke(d, lbl, text);
+                uiLabelPressResult.Invoke(d, text);
             }
             else
             {
-                lbl.Text = text;
+                uiLabelPressResult.Text = text;
             }
         }
 
@@ -100,17 +100,14 @@ namespace CabinetMgr
 
         public void SetResultLabelValue(string text)
         {
-            SetLableText(uiLabelPressResult, text);
+            SetLableText(text);
         }
 
         private void FormFingerShow_VisibleChanged(object sender, EventArgs e)
         {
-            if (Visible) Location = new System.Drawing.Point(1, 1);
-            else
-            {
-                SetPicBg(pictureBoxFingerBmp, new Bitmap(192, 192));
-                SetLableText(uiLabelPressResult, "请按压指纹");
-            }
+            SetLableText("请按压指纹");
+            SetPicBg(pictureBoxFingerBmp, new Bitmap(192, 192));
+            Location = new System.Drawing.Point(1, 1);
         }
     }
 }

@@ -62,6 +62,12 @@ namespace CabinetMgr
                 return;
             }
             int toolCount = int.Parse(uiTextBoxAmount.Text);
+            ToolInfo ti = BllToolInfo.GetToolInfo(toolId, out _);
+            if(toolCount > ti.ToolCount && operateType == "Borrow")
+            {
+                UIMessageBox.ShowWarning("借取数量不能大于当前数量", true, true);
+                return;
+            }
             AppRt.Tasks.Add(DbExecute(toolCount, toolId, operateType));
             Dispose();
 

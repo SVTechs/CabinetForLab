@@ -59,7 +59,7 @@ namespace CabinetMgr
             InitializeComponent();
             CabinetServerCallback.DoorStatusChange += DoorStatusChange;
             FormCallback.FormIndexRefresh += FormRefresh;
-
+            latticeList = BllLatticeInfo.SearchLatticeInfo(0, -1, null, out _);
             ReloadData();
             InitPageButton();
             InitControlAry();
@@ -139,7 +139,7 @@ namespace CabinetMgr
                         continue;
                     }
 
-                    SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
+                    SetLabel(lbl, true, page + i.ToString("D2"), Color.White);
 
                     if (tool == null)
                     {
@@ -219,6 +219,7 @@ namespace CabinetMgr
                     break;
                 }
             }
+            TabPageSelect(page);
             for (int i = 1; i <= 20; i++)
             {
                 Color c = Color.White;
@@ -244,7 +245,7 @@ namespace CabinetMgr
                 }
                 PanelRefresh(pnl);
             }
-            TabPageSelect(page);
+
         }
 
         private void PanelOnPaint(object sender, PaintEventArgs e)
@@ -357,7 +358,6 @@ namespace CabinetMgr
         public void ReloadData()
         {
             doorList = CabinetServer.GetDoorList();
-            latticeList = BllLatticeInfo.SearchLatticeInfo(0, -1, null, out _);
             toolInfoList = BllToolInfo.SearchToolInfo("", 0, -1, null, out _);
         }
         private void DoorStatusChange(int id, int nch)

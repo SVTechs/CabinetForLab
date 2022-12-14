@@ -248,7 +248,7 @@ namespace CabinetMgr
 
             catch(Exception ex)
             {
-
+                UIMessageBox.ShowError(ex.Message);
             }
 
         }
@@ -289,7 +289,7 @@ namespace CabinetMgr
                 return;
             }
 
-            UserInfo ui = new UserInfo()
+            FullUserInfo ui = new FullUserInfo()
             {
                 ID = Guid.NewGuid().ToString(),
                 UserName = uiTextBoxUserName.Text.Trim(),
@@ -318,11 +318,11 @@ namespace CabinetMgr
             Hide();
         }
 
-        private Task DbExecute(string userId, byte[] faceTemplate, byte[] fingerTemplate, string cardNum, UserInfo ui, IList<RoleSettings> roleSettings)
+        private Task DbExecute(string userId, byte[] faceTemplate, byte[] fingerTemplate, string cardNum, FullUserInfo ui, IList<RoleSettings> roleSettings)
         {
             var task = Task.Factory.StartNew(() => {
 
-                UserInfo result = null;
+                FullUserInfo result = null;
                 if (string.IsNullOrEmpty(userId)) result = InsertUserInfo(ui, roleSettings);
                 else result = UpdateUserInfo(userId, ui, roleSettings);
                 if (result == null)
@@ -333,7 +333,7 @@ namespace CabinetMgr
                 if (faceTemplate != null) result.FaceFeature = faceTemplate;
                 if (fingerTemplate != null) result.FingerFeature = fingerTemplate;
                 if (!string.IsNullOrEmpty(cardNum)) result.CardNum = cardNum;
-                int i = BllUserInfo.UpdateUserInfo(result, out Exception ex);
+                int i = BllFullUserInfo.UpdateFullUserInfo(result, out Exception ex);
                 if (i < 0) return;
 
                 FormCallback.FormUserManageRefresh.Invoke();
@@ -343,9 +343,9 @@ namespace CabinetMgr
         }
 
 
-        private UserInfo InsertUserInfo(UserInfo ui, IList<RoleSettings> roleSettings)
+        private FullUserInfo InsertUserInfo(FullUserInfo ui, IList<RoleSettings> roleSettings)
         {
-            UserInfo userinfo = BllUserInfo.GetUserInfoByUserName(ui.UserName, out _);
+            FullUserInfo userinfo = BllFullUserInfo.GetFullUserInfoByUserName(ui.UserName, out _);
             if(userinfo != null)
             {
                 UIMessageBox.ShowError($"该工号已被使用", true, true);
@@ -361,7 +361,7 @@ namespace CabinetMgr
             //    CreateUser = AppRt.CurUser.FullName,
             //    Updatetime = Env.MinTime,
             //};
-            int result = BllUserInfo.SaveUserInfo(ui, out Exception ex);
+            int result = BllFullUserInfo.SaveFullUserInfo(ui, out Exception ex);
          
             BllRoleSettings.BatchSaveRoleSettings(ui.ID, roleSettings, out _);
 
@@ -370,15 +370,15 @@ namespace CabinetMgr
                 UIMessageBox.ShowError($"保存失败，原因：\n{ex.Message}", true, true);
                 return null;
             }
-            return BllUserInfo.GetUserInfoByUserName(ui.UserName, out _);
+            return BllFullUserInfo.GetFullUserInfoByUserName(ui.UserName, out _);
         }
 
-        private UserInfo UpdateUserInfo(string userId, UserInfo ui, IList<RoleSettings> roleSettings)
+        private FullUserInfo UpdateUserInfo(string userId, FullUserInfo ui, IList<RoleSettings> roleSettings)
         {
-            UserInfo user = BllUserInfo.GetUserInfo(userId, out _);
+            FullUserInfo user = BllFullUserInfo.GetFullUserInfo(userId, out _);
             if (ui.UserName != user.UserName)
             {
-                if (BllUserInfo.GetUserInfoByUserName(ui.UserName, out _) != null)
+                if (BllFullUserInfo.GetFullUserInfoByUserName(ui.UserName, out _) != null)
                 {
                     UIMessageBox.ShowError($"该工号已被使用", true, true);
                     return null;
@@ -406,7 +406,7 @@ namespace CabinetMgr
             {
                 rs.UserId = user.ID;
             }
-            int result = BllUserInfo.UpdateUserInfo(user, out Exception ex);
+            int result = BllFullUserInfo.UpdateFullUserInfo(user, out Exception ex);
 
             BllRoleSettings.BatchSaveRoleSettings(user.ID, roleSettings, out _);
             
@@ -425,7 +425,7 @@ namespace CabinetMgr
                 _templateId = -1;
                 return; 
             }
-            UserInfo userInfo = BllUserInfo.GetUserInfo(_userId, out _);
+            FullUserInfo userInfo = BllFullUserInfo.GetFullUserInfo(_userId, out _);
             _templateId = userInfo.TemplateId;
             IList<RoleSettings> roleSettings = BllRoleSettings.SearchRoleSettings(_userId, 0, -1, null, out _);
             uiTextBoxUserName.Text = userInfo.UserName;

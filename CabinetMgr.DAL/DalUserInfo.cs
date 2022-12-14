@@ -42,30 +42,30 @@ namespace CabinetMgr.DAL
             return GetItemInfo(entityName, entityValue, out exception);
         }
 
-        public static int SaveUserInfo(UserInfo userInfo, out Exception exception)
-        {
-            return SaveItem(userInfo, out exception);
-        }
+        //public static int SaveUserInfo(UserInfo userInfo, out Exception exception)
+        //{
+        //    return SaveItem(userInfo, out exception);
+        //}
 
-        public static int UpdateUserInfo(UserInfo userInfo, out Exception exception)
-        {
-            return UpdateItem(userInfo, out exception);
-        }
+        //public static int UpdateUserInfo(UserInfo userInfo, out Exception exception)
+        //{
+        //    return UpdateItem(userInfo, out exception);
+        //}
 
-        public static int DeleteUserInfo(string iD, out Exception exception)
-        {
-            return DeleteItem("ID", iD, out exception);
-        }
+        //public static int DeleteUserInfo(string iD, out Exception exception)
+        //{
+        //    return DeleteItem("ID", iD, out exception);
+        //}
 
         public static DataSet ExecSqlQuery(string queryCmd, DbParameter[] paraList, out Exception exception)
         {
             return ExecQuery(queryCmd, paraList, out exception);
         }
 
-        public static UserInfo GetUserInfoByUserName(string userName, out Exception exception)
-        {
-            return GetItemInfo("UserName", userName, out exception);
-        }
+        //public static UserInfo GetUserInfoByUserName(string userName, out Exception exception)
+        //{
+        //    return GetItemInfo("UserName", userName, out exception);
+        //}
 
         public static UserInfo GetUserInfoByTemplate(long templateId, out Exception exception)
         {

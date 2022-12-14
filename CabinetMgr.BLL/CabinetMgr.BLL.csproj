@@ -52,6 +52,7 @@
     <Compile Include="BllToolInfo.cs" />
     <Compile Include="BllToolSettings.cs" />
     <Compile Include="BllToolType.cs" />
+    <Compile Include="BllFullUserInfo.cs" />
     <Compile Include="BllUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

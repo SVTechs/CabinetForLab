@@ -188,7 +188,7 @@ namespace CabinetMgr
             this.uiButtonCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonCancel.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonCancel.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonCancel.Location = new System.Drawing.Point(73, 584);
+            this.uiButtonCancel.Location = new System.Drawing.Point(240, 425);
             this.uiButtonCancel.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonCancel.Name = "uiButtonCancel";
             this.uiButtonCancel.Size = new System.Drawing.Size(403, 91);
@@ -196,6 +196,7 @@ namespace CabinetMgr
             this.uiButtonCancel.TabIndex = 19;
             this.uiButtonCancel.Text = "取消";
             this.uiButtonCancel.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonCancel.Visible = false;
             this.uiButtonCancel.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButtonCancel.Click += new System.EventHandler(this.uiButtonCancel_Click);
             // 
@@ -205,7 +206,7 @@ namespace CabinetMgr
             this.uiButtonConfirm.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonConfirm.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonConfirm.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonConfirm.Location = new System.Drawing.Point(556, 584);
+            this.uiButtonConfirm.Location = new System.Drawing.Point(305, 595);
             this.uiButtonConfirm.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonConfirm.Name = "uiButtonConfirm";
             this.uiButtonConfirm.Size = new System.Drawing.Size(403, 91);

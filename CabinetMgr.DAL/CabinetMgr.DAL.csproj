@@ -77,6 +77,7 @@
     <Compile Include="DalToolInfo.cs" />
     <Compile Include="DalToolSettings.cs" />
     <Compile Include="DalToolType.cs" />
+    <Compile Include="DalFullUserInfo.cs" />
     <Compile Include="DalUserInfo.cs" />
     <Compile Include="NhUtils\FlexNhBase.cs" />
     <Compile Include="NhUtils\NhControl.cs" />

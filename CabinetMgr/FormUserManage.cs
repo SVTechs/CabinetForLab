@@ -48,7 +48,7 @@ namespace CabinetMgr
 
         private void LoadData()
         {
-            IList<UserInfo> list = BllUserInfo.SearchUserInfo(0, -1, null, out Exception ex);
+            IList<FullUserInfo> list = BllFullUserInfo.SearchFullUserInfo(0, -1, null, out Exception ex);
             ClearColumnsAndSetDataSource(list);
             SetColumns();
             //uiDataGridView.Columns.Clear();
@@ -94,8 +94,8 @@ namespace CabinetMgr
             //uiDataGridView.Columns.Add(column);
         }
 
-        private delegate void ClearColumnsAndSetDataSourceDelegate(IList<UserInfo> list);
-        private void ClearColumnsAndSetDataSource(IList<UserInfo> list)
+        private delegate void ClearColumnsAndSetDataSourceDelegate(IList<FullUserInfo> list);
+        private void ClearColumnsAndSetDataSource(IList<FullUserInfo> list)
         {
             if (uiDataGridView.InvokeRequired)
             {
@@ -185,9 +185,9 @@ namespace CabinetMgr
         {
             if (uiDataGridView.SelectedRows.Count == 0) UIMessageBox.ShowError("请选择要编辑的人员", true, true);
             var selectRow = uiDataGridView.SelectedRows[0];
-            UserInfo ui = selectRow.DataBoundItem as UserInfo;
+            FullUserInfo ui = selectRow.DataBoundItem as FullUserInfo;
             if (!UIMessageBox.ShowAsk("将删除该人员，该操作无法撤销", true, true)) return;
-            int result = BllUserInfo.DeleteUserInfo(ui.ID, out Exception ex);
+            int result = BllFullUserInfo.DeleteFullUserInfo(ui.ID, out Exception ex);
             if (result <= 0)
             {
                 UIMessageBox.ShowError($"删除失败,原因：\n{ex.Message}", true, true);
@@ -200,7 +200,7 @@ namespace CabinetMgr
         {
             if (uiDataGridView.Columns[e.ColumnIndex].Name != "Edit") return;
             int i = e.RowIndex;
-            UserInfo user = (uiDataGridView.DataSource as IList<UserInfo>)[i];
+            FullUserInfo user = (uiDataGridView.DataSource as IList<FullUserInfo>)[i];
             FormUserEdit formUserEdit = FormUserEdit.Instance(user.ID);
             formUserEdit.ShowDialog();
             //LoadData();
