@@ -1,6 +1,9 @@
 */bin
 */obj/Debug
+*/obj/Release
 packages
 .vs
 *.csproj.user
 RuntimeLog.txt
+/FaceOfflineSample/obj/x64
+/FaceOfflineSample/obj/x86

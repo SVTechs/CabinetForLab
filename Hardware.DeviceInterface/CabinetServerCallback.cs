@@ -1,6 +1,7 @@
 ﻿using SuperSocket.SocketBase;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace Hardware.DeviceInterface
         public static DoorStatusChangeDelegate DoorStatusChange = null;
 
         public delegate void BorrowReturnCmdDelegate(AppSession session, string cmd);
+        //public delegate void BorrowReturnCmdDelegate(string cmd);
         public static BorrowReturnCmdDelegate BorrowReturnCmd = null;
 
         public delegate void MsgReceivedDelegate(string str);

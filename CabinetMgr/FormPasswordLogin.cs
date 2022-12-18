@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormPasswordLogin : UIForm
+    public partial class FormPasswordLogin : Form
     {
         public static FormPasswordLogin formPasswordLogin;
 
@@ -40,18 +40,18 @@ namespace CabinetMgr
         {
             if(string.IsNullOrEmpty(uiTextBoxUserName.Text.Trim()))
             {
-                UIMessageBox.Show("请输入工号");
+                UIMessageBox.Show("请输入工号", true, true);
                 return;
             }
             if (string.IsNullOrEmpty(uiTextBoxPassword.Text.Trim()))
             {
-                UIMessageBox.Show("请输入密码");
+                UIMessageBox.Show("请输入密码", true, true);
                 return;
             }
             UserInfo ui = BllUserInfo.Login(uiTextBoxUserName.Text.Trim(), uiTextBoxPassword.Text.Trim(), out _);
             if (ui == null)
             {
-                UIMessageBox.Show("工号或密码错误", "", UIStyle.Orange);
+                UIMessageBox.ShowError("工号或密码错误", true, true);
                 return;
             }
             FpCallBack.OnUserRecognised.Invoke(ui.TemplateId, 4);

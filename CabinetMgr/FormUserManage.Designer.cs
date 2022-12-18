@@ -49,6 +49,7 @@ namespace CabinetMgr
             this.uiButtonAddUser.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonAddUser.Name = "uiButtonAddUser";
             this.uiButtonAddUser.Size = new System.Drawing.Size(403, 91);
+            this.uiButtonAddUser.Style = Sunny.UI.UIStyle.Custom;
             this.uiButtonAddUser.TabIndex = 0;
             this.uiButtonAddUser.Text = "人员添加";
             this.uiButtonAddUser.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -63,6 +64,7 @@ namespace CabinetMgr
             this.uiButtonRoleAdd.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonRoleAdd.Name = "uiButtonRoleAdd";
             this.uiButtonRoleAdd.Size = new System.Drawing.Size(403, 91);
+            this.uiButtonRoleAdd.Style = Sunny.UI.UIStyle.Custom;
             this.uiButtonRoleAdd.TabIndex = 1;
             this.uiButtonRoleAdd.Text = "权限添加";
             this.uiButtonRoleAdd.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -77,6 +79,7 @@ namespace CabinetMgr
             this.uiButtonDel.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonDel.Name = "uiButtonDel";
             this.uiButtonDel.Size = new System.Drawing.Size(163, 91);
+            this.uiButtonDel.Style = Sunny.UI.UIStyle.Custom;
             this.uiButtonDel.TabIndex = 2;
             this.uiButtonDel.Text = "删除";
             this.uiButtonDel.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -90,7 +93,7 @@ namespace CabinetMgr
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
             this.uiDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.uiDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.uiDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            this.uiDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
             this.uiDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
@@ -135,6 +138,7 @@ namespace CabinetMgr
             this.uiDataGridView.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.uiDataGridView.SelectedIndex = -1;
             this.uiDataGridView.Size = new System.Drawing.Size(978, 1455);
+            this.uiDataGridView.Style = Sunny.UI.UIStyle.Custom;
             this.uiDataGridView.TabIndex = 3;
             this.uiDataGridView.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.uiDataGridView_CellContentClick);
@@ -144,7 +148,7 @@ namespace CabinetMgr
             this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::CabinetMgr.Properties.Resources.MainBg;
-            this.ClientSize = new System.Drawing.Size(1080, 1770);
+            this.ClientSize = new System.Drawing.Size(1080, 1725);
             this.Controls.Add(this.uiDataGridView);
             this.Controls.Add(this.uiButtonDel);
             this.Controls.Add(this.uiButtonRoleAdd);
@@ -157,6 +161,7 @@ namespace CabinetMgr
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.Load += new System.EventHandler(this.FormUserManage_Load);
             this.Shown += new System.EventHandler(this.FormUserManage_Shown);
+            this.VisibleChanged += new System.EventHandler(this.FormUserManage_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView)).EndInit();
             this.ResumeLayout(false);
 

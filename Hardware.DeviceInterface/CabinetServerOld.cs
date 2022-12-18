@@ -208,7 +208,7 @@ namespace Hardware.DeviceInterface
 
         public static void OpenDoors(int id, int nch)
         {
-            string cmd = openStr.Replace("_id", id.ToString()).Replace("_nch", nch.ToString());
+            string cmd = openStr.Replace("_id", id.ToString()).Replace("_msgId", Guid.NewGuid().ToString()).Replace("_nch", nch.ToString());
             Send(cmd, canSession);
 
 
@@ -225,6 +225,52 @@ namespace Hardware.DeviceInterface
 
         }
     }
+
+    public class DoorInfo
+    {
+        public int Id { get; set; }
+
+        public int Nch { get; set; }
+
+        public bool IsClosed { get; set; }
+
+    }
+
+
+    #region JsonParseClass
+
+    public class CheckJObject
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("node")]
+        public IList<CheckChild> ChildList { get; set; }
+    }
+
+    public class CheckChild
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("nch")]
+        public int Nch { get; set; }
+    }
+
+    public class StatusJObject
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("nch")]
+        public JObject ChildList { get; set; }
+    }
+
+    #endregion
+
 
 
 

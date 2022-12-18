@@ -218,6 +218,10 @@ namespace Hardware.DeviceInterface
         [DllImport("SynoAPIEx.dll", EntryPoint = "PSErr2Str", CallingConvention = CallingConvention.StdCall)]
         public extern static IntPtr PSErr2Str(int nErrCode);
 
+        //删除Gen 
+        [DllImport("SynoAPIEx.dll", EntryPoint = "PSDelChar", CallingConvention = CallingConvention.StdCall)]
+        public extern static int PSDelChar(IntPtr pHandle, int nAddr, int iStartPage, int nDelPageNum);
+
         #endregion 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CabinetMgr.BLL;
+using CabinetMgr.Common;
 using CabinetMgr.Config;
 using CabinetMgr.RtVars;
 using Domain.Main.Domain;
@@ -21,10 +22,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using testface;
+using WavPlayer = CabinetMgr.Common.WavPlayer;
 
 namespace CabinetMgr
 {
-    public partial class FormMain : UIForm
+    public partial class FormMain : Form
     {
         private Form _curForm;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -34,8 +36,13 @@ namespace CabinetMgr
         public Form _manageForm;
         public Form _recordForm;
         public Form _systemManage;
+        public Form _toolManage;
+        public Form _userManage;
 
-        SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
+        //SoundPlayer loginSuccess = new SoundPlayer(Properties.Resources.ResourceManager.GetStream("LoginSuccess"));
+
+        private int manageCount = 7;
+        private int currentCount = 1;
 
         public FormMain()
         {
@@ -45,6 +52,7 @@ namespace CabinetMgr
             CabinetServerCallback.BorrowReturnCmd += BorrowReturnCmd;
             CabinetServerCallback.NewSessionConnected += NewSessionConnected;
             CabinetServerCallback.SessionClosed += SessionClosed;
+            //loginSuccess.Load();
         }
 
         protected override CreateParams CreateParams
@@ -74,15 +82,70 @@ namespace CabinetMgr
             InitForm();
 
             ShowWindow(_loginForm);
+
+            Thread t = new Thread(AlertOutDate) { IsBackground = true };
+            t.Start();
+
+            Thread t2 = new Thread(ExecuteTask) { IsBackground = true };
+            t2.Start();
+        }
+
+        private void AlertOutDate()
+        {
+
+            while (true)
+            {
+                IList<BorrowRecord> outDateList = BllBorrowRecord.NotReturnRecord(out _);
+                foreach(BorrowRecord br in outDateList)
+                {
+                    ToolInfo ti = BllToolInfo.GetToolInfo(br?.ToolId, out _);
+                    if (ti == null) continue;
+                    if (ti.WarnType == 1) continue;
+                    TimeSpan ts = DateTime.Now - br.EventTime;
+                    if(ts.TotalHours > ti.WarnValue)
+                    {
+                        br.Status = -30;
+                        BllBorrowRecord.UpdateBorrowRecord(br, out _);
+                    }
+                }
+                Thread.Sleep(60000 * 5);
+            }
+            
+
+        }
+
+        private void ExecuteTask()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (AppRt.Tasks.Count == 0) continue;
+                    Task task = AppRt.Tasks[0];
+                    if (task == null)
+                    {
+                        AppRt.Tasks.RemoveAt(0);
+                        continue;
+                    }
+                    task.Wait();
+                    AppRt.Tasks.RemoveAt(0);
+                    Thread.Sleep(1000);
+                }
+                catch(Exception ex)
+                {
+                    Logger.Error(ex);
+                }
+                
+            }
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Face.sdk_destroy();
             CabinetServer.Stop();
-            AppRt.VideoCaptureDevice.Dispose();
             FpDevice.CloseDeviceEx();
             Application.Exit();
+            //AppRt.VideoCaptureDevice?.Dispose();
         }
 
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
@@ -92,27 +155,49 @@ namespace CabinetMgr
                 OnUserRecognised(2, 2);
                 return;
             }
-            if (e.Shift && e.Alt && e.KeyCode == Keys.R)
-            {
-                BllBorrowRecord.DeleteAll(out Exception ex);
-                BllReturnRecord.DeleteAll(out ex);
-                BllRoleInfo.DeleteAll(out ex);
-                BllLatticeInfo.DeleteAll(out ex);
-                BllLatticePermissionSettings.DeleteAll(out ex);
-                BllToolInfo.DeleteAll(out ex);
-                BllToolType.DeleteAll(out ex);
-                BllUserInfo.DeleteAll(out ex);
-                //清除登录状态
-                AppRt.ResetUserInfo();
+            //if (e.Shift && e.Alt && e.KeyCode == Keys.R)
+            //{
+            //    BllBorrowRecord.DeleteAll(out Exception ex);
+            //    BllReturnRecord.DeleteAll(out ex);
+            //    BllRoleInfo.DeleteAll(out ex);
+            //    BllLatticePermissionSettings.DeleteAll(out ex);
+            //    BllToolInfo.DeleteAll(out ex);
+            //    BllToolType.DeleteAll(out ex);
+            //    BllUserInfo.DeleteAll(out ex);
+            //    //清除登录状态
+            //    PerformManualLogin();
 
-                //窗口刷新
-                MessageBox.Show("重置完成");
-                return;
-            }
+            //    //窗口刷新
+            //    MessageBox.Show("重置完成");
+            //    return;
+            //}
             if (e.Shift && e.Alt && e.KeyCode == Keys.L)
             {
                 FormLog formLog = AppRt.FormLog;
                 formLog.Show();
+                return;
+            }
+            if (e.Shift && e.Alt && e.KeyCode == Keys.O)
+            {
+                IList<DoorInfo> doorList = CabinetServer.GetDoorList();
+
+                foreach(DoorInfo di in doorList)
+                {
+                    CabinetServer.OpenDoors(di.Id, di.Nch);
+                    AppRt.FormLog.AddLine($"OpenDoor{di.Id}:{di.Nch}");
+                    Thread.Sleep(100);
+                }
+                return;
+            }
+            if (e.Shift && e.Alt && e.KeyCode == Keys.D)
+            {
+                IList<DoorInfo> doorList = CabinetServer.GetDoorList();
+                StringBuilder sb = new StringBuilder();
+                foreach (DoorInfo di in doorList)
+                {
+                    sb.Append($"{di.Id}:{di.Nch}_{di.IsClosed};");
+                }
+                AppRt.FormLog.AddLine(sb.ToString());
                 return;
             }
         }
@@ -140,41 +225,49 @@ namespace CabinetMgr
         {
             try
             {
+                Logger.Info($"{templateId} Login");
                 UserInfo loginUser = BllUserInfo.GetUserInfoByTemplate(templateId, out var e);
                 if (loginUser != null)
                 {
+                    //WavPlayer.Play("LoginSuccess.wav");
+                    //loginSuccess.Play();
+                    //Thread t = new Thread(new ParameterizedThreadStart(WavPlayer.SoundPlay));
+                    //t.Start("LoginSuccess.wav");
+
                     IList<RoleSettings> roleSettings = BllRoleSettings.GetUserRoleSettings(loginUser.ID, out e);
                     string[] roleAry = roleSettings.Select(x => x.RoleId).ToArray();
-                    IList<RoleInfo> RoleList = new List<RoleInfo>();
-                    foreach (RoleSettings rs in roleSettings)
-                    {
-                        RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out e);
-                        RoleList.Add(ri);
-                    }
-                    long[] latticePermissionList = BllLatticePermissionSettings.GetLatticePermissionList(loginUser.ID, roleAry, out e);
-                    IList<LatticeInfo> LatticeList = BllLatticeInfo.GetLatticeInfoList(latticePermissionList, out e);
+                    //IList<RoleInfo> RoleList = new List<RoleInfo>();
+                    //foreach (RoleSettings rs in roleSettings)
+                    //{
+                    //    RoleInfo ri = BllRoleInfo.GetRoleInfo(rs.RoleId, out e);
+                    //    RoleList.Add(ri);
+                    //}
+                    //long[] latticePermissionList = BllLatticePermissionSettings.GetLatticePermissionList(loginUser.ID, roleAry, out e);
+                    //IList<LatticeInfo> LatticeList = BllLatticeInfo.GetLatticeInfoList(latticePermissionList, out e);
 
                     IList<ToolSettings> toolSettings = BllToolSettings.GetToolSettings(roleAry, out _);
-                    IList<ToolInfo> ToolList = new List<ToolInfo>();
-                    foreach (ToolSettings ts in toolSettings)
-                    {
-                        ToolInfo ti = BllToolInfo.GetToolInfo(ts.ToolId, out e);
-                        ToolList.Add(ti);
-                    }
+                    //IList<ToolInfo> ToolList = new List<ToolInfo>();
+                    IList<string> ToolList = toolSettings.Select(x => x.ToolId).ToList();
+                    //foreach (ToolSettings ts in toolSettings)
+                    //{
+                    //    ToolInfo ti = BllToolInfo.GetToolInfo(ts.ToolId, out e);
+                    //    ToolList.Add(ti);
+                    //}
                     AppRt.CurUser = loginUser;
-                    AppRt.RoleList = RoleList;
+                    //AppRt.RoleList = RoleList;
                     AppRt.RoleSettings = roleSettings;
-                    AppRt.LatticeList = LatticeList;
+                    //AppRt.LatticeList = LatticeList;
                     AppRt.ToolList = ToolList;
-
-                    (_indexForm as FormIndex).DisplayUser((AppRt.CurUser.FullName ?? "") + " | 退出账号");
-                    loginSuccess.Play();
+                    //SetLabelText(uiLabelUserName, AppRt.CurUser.FullName ?? "" + " | 退出账号", true);
+                    //SetPictureBoxStatus(pictureBoxTitleE, false, null);
+                    //SetPictureBoxStatus(pictureBoxTitleC, false, null);
                     ShowWindow(_indexForm);
+                    Logger.Info($"{templateId} Login Done");
                 }
             }
             catch (Exception ex)
             {
-
+                Logger.Error(ex);
             }
 
         }
@@ -209,18 +302,18 @@ namespace CabinetMgr
             }
         }
 
-        public delegate void SetLabelTextDelegate(Label label, string text);
-        public void SetLabelText(Label label, string text)
+        public delegate void SetLabelTextDelegate(Label label, string text, bool visible);
+        public void SetLabelText(Label label, string text, bool visible)
         {
             if (label.InvokeRequired)
             {
                 SetLabelTextDelegate d = SetLabelText;
-                label.Invoke(d, label, text);
+                label.Invoke(d, label, text, visible);
             }
             else
             {
                 label.Text = text;
-                label.Visible = true;
+                label.Visible = visible;
             }
         }
 
@@ -260,7 +353,7 @@ namespace CabinetMgr
                 _loginForm = new FormLogin();
                 AddToPanel(_loginForm);
 
-                _indexForm = new FormIndex();
+                _indexForm = new FormIndex1();
                 AddToPanel(_indexForm);
 
                 _manageForm = new FormManage();
@@ -271,6 +364,16 @@ namespace CabinetMgr
 
                 _systemManage = new FormSystemManage();
                 AddToPanel(_systemManage);
+
+                _toolManage = new FormToolManage1();
+                _userManage = new FormUserManage();
+                (_systemManage as FormSystemManage)._toolManageForm = _toolManage;
+                (_systemManage as FormSystemManage).AddToPanel(_toolManage);
+                (_systemManage as FormSystemManage)._userManageForm = _userManage;
+                (_systemManage as FormSystemManage).AddToPanel(_userManage);
+
+                AppRt.FormFaceShow = FormFaceShow.Instance();
+                AppRt.FormFingerShow = FormFingerShow.Instance();
 
             }
             catch (Exception ex)
@@ -310,7 +413,6 @@ namespace CabinetMgr
             AppRt.FormLog.AddLine(parseStr);
         }
 
-
         private void NewSessionConnected(AppSession session)
         {
             AppRt.FormLog.AddLine($"{session.RemoteEndPoint.Address}:{session.RemoteEndPoint.Port} Connected");
@@ -323,10 +425,11 @@ namespace CabinetMgr
         }
 
         private void BorrowReturnCmd(AppSession session, string cmd)
+        //private void BorrowReturnCmd(string cmd)
         {
             if (AppRt.CurUser == null)
             {
-                UIMessageBox.Show("请先登录再申请借还");
+                UIMessageBox.Show("请先登录再申请借还", true, true);
                 return;
             }
             var value = cmd.Replace($"\\", "").Replace("{", "").Replace("}", "").Replace($"\"", "");
@@ -340,9 +443,10 @@ namespace CabinetMgr
                 int result = ExecuteCmd(toolLocation, cmdType);
                 if (result <= 0) success = false;
             }
-            session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
-            (_indexForm as FormIndex).ReloadData();
-            (_indexForm as FormIndex).LoadPage();
+            //session.Send(JsonConvert.SerializeObject($"{{\"success\":{success}}}"));
+            //(_indexForm as FormIndex0).ReloadData();
+            //(_indexForm as FormIndex0).LoadPage();
+            FormCallback.FormIndexRefresh.Invoke();
         }
 
         private int ExecuteCmd(string toolLocation, string cmdType)
@@ -368,6 +472,49 @@ namespace CabinetMgr
                     return -1;
             }
 
+        }
+
+        private void pictureBoxIcon_Click(object sender, EventArgs e)
+        {
+            if (_curForm != _indexForm) PerformManualLogin();
+            ShowWindow(_loginForm);
+        }
+
+        private void pictureBoxTitleC_Click(object sender, EventArgs e)
+        {
+            currentCount += 1;
+            if (currentCount == manageCount)
+            {
+                currentCount = 1;
+                ShowWindow(_manageForm);
+            }
+        }
+
+        private void uiLabelUserName_Click(object sender, EventArgs e)
+        {
+            PerformManualLogin();
+        }
+
+        public void SetUiLabelUserName(string text, bool visible)
+        {
+            SetLabelText(uiLabelUserName, text, visible);
+        }
+
+        public void SetPicTitle(bool visible)
+        {
+            SetPictureBoxStatus(pictureBoxTitleE, visible, null);
+            SetPictureBoxStatus(pictureBoxTitleC, visible, null);
+        }
+
+        private void PerformManualLogin()
+        {
+            AppRt.ResetUserInfo();
+            (_loginForm as FormLogin).LoadInfo();
+            ShowWindow(_loginForm);
+
+            //SetLabelText(uiLabelUserName, "", false);
+            //SetPictureBoxStatus(pictureBoxTitleE, true, null);
+            //SetPictureBoxStatus(pictureBoxTitleC, true, null);
         }
 
     }

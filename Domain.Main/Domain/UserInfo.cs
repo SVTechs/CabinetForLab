@@ -38,20 +38,20 @@ namespace Domain.Main.Domain
 
         public virtual string CardNum { get; set; }
 
-        public virtual string Image { get; set; }
+        //public virtual string Image { get; set; }
 
-        public virtual byte[] FaceFeature { get; set; }
+        //public virtual byte[] FaceFeature { get; set; }
 
-        public virtual byte[] FingerFeature { get; set; }
+        //public virtual byte[] FingerFeature { get; set; }
 
         public virtual int IsProtected { get; set; }
 
-        public virtual object BDFaceFeature { get; set; }
+        //public virtual object BDFaceFeature { get; set; }
 
-        public virtual string UserStateResult { get => UserState == 1 ? "启用" : "禁用"; }
+        //public virtual string UserStateResult { get => UserState == 1 ? "启用" : "禁用"; }
 
-        public virtual bool HasImage { get => FaceFeature != null; }
+        //public virtual bool HasImage { get => FaceFeature != null; }
 
-        public virtual bool HasFingerFeature { get => FingerFeature != null; }
+        //public virtual bool HasFingerFeature { get => FingerFeature != null; }
     }
 }

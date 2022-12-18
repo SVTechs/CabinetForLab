@@ -152,21 +152,32 @@ namespace CabinetMgr.Config
             }
         }
 
+        public static int CameraPort
+        {
+            get => _cameraPort;
+            set
+            {
+                _cameraPort = value;
+                IniHelper.Write("AppConfig", "CameraPort", value.ToString(), Env.ConfigPath);
+            }
+        }
+
 
         private static string _appName = "智能储物柜";
         private static string _appUnit = "";
 
         private static int _disableWatcher;
-        private static int _debugMode;
+        private static int _debugMode = 1;
         private static int _recvLog = 1;
         private static int _initDB = 0;
 
         private static string _labName = "";
         private static int _location = 0;
-        private static int _fpPort = 3;
-        private static string _serverIP = "192.168.1.10";
-        private static int _serverPort = 1502;
-        private static string _canIP = "192.168.1.100";
+        private static int _fpPort = 1;
+        private static string _serverIP = "6.6.6.6";
+        private static int _serverPort = 8502;
+        private static string _canIP = "6.6.6.100";
+        private static int _cameraPort = 0;
 
 
     }

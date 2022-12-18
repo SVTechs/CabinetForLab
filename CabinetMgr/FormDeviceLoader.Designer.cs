@@ -98,8 +98,11 @@ namespace CabinetMgr
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(600, 600);
+            this.ControlBox = false;
             this.Controls.Add(this.cStatusGrid);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormDeviceLoader";
             this.Text = "设备初始化";
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);

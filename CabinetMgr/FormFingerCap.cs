@@ -1,4 +1,6 @@
-﻿using Hardware.DeviceInterface;
+﻿using CabinetMgr.Config;
+using Hardware.DeviceInterface;
+using NLog;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -13,8 +15,9 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormFingerCap : UIForm
+    public partial class FormFingerCap : Form
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static FormFingerCap formFingerCap;
         private static int capTimes = 3;
         private static long _templateId = -1;
@@ -124,8 +127,11 @@ namespace CabinetMgr
                     SetLableText(uiLabelPressRemind, "请按压手指");
                     SetLableText(uiLabelCapTimesCount, $"当前第{iFingerNum}次");
                     ret = FpDevice.GetImage();
-                    if (ret != DriveOpration.PS_OK) continue;
-
+                    if (ret != DriveOpration.PS_OK)
+                    {
+                        if(AppConfig.DebugMode == 1) Logger.Info("GetImageError"+ret);
+                        continue;
+                    }
                     SetLableText(uiLabelPressRemind, "请抬起手指");
                     byte[] imageData = new byte[192 * 192];
                     ushort templateLength = 0;
@@ -143,6 +149,7 @@ namespace CabinetMgr
                     ret = FpDevice.GenChar(iFingerNum);//生成特征信息
                     if (ret != DriveOpration.PS_OK)
                     {
+                        if (AppConfig.DebugMode == 1) Logger.Info("GenCharError"+ret);
                         SetLableText(uiLabelCapTimesCount, $"第{iFingerNum}次特征生成失败");
                         continue;
                     }
@@ -198,7 +205,7 @@ namespace CabinetMgr
 
             catch (Exception ex)
             {
-
+                Logger.Error(ex);
             }
             finally
             {
@@ -211,6 +218,13 @@ namespace CabinetMgr
             FormReset();
             CollectionThread = new Thread(new ThreadStart(FigerCollection));
             CollectionThread.Start();
+        }
+
+        private void uiButtonCancel_Click(object sender, EventArgs e)
+        {
+            FormReset();
+            Hide();
+
         }
     }
 }

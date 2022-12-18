@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormSystemManage : UIForm
+    public partial class FormSystemManage : Form
     {
         private Form _curForm;
         public Form _toolManageForm;
@@ -38,16 +38,16 @@ namespace CabinetMgr
 
         private void FormSystemManage_Load(object sender, EventArgs e)
         {
-            _toolManageForm = new FormToolManage();
-            AddToPanel(_toolManageForm);
+            //_toolManageForm = new FormToolManage();
+            //AddToPanel(_toolManageForm);
 
-            _userManageForm = new FormUserManage();
-            AddToPanel(_userManageForm);
+            //_userManageForm = new FormUserManage();
+            //AddToPanel(_userManageForm);
 
             ShowWindow(_toolManageForm);
         }
 
-        private void AddToPanel(Form targetForm)
+        public void AddToPanel(Form targetForm)
         {
             targetForm.TopLevel = false;
             targetForm.Width = panel.Width;
@@ -105,11 +105,8 @@ namespace CabinetMgr
         {
             AppRt.FaceEnable = false;
             AppRt.FpEnable = false;
+            AppRt.CardEnable = false;
         }
 
-        private void uiSymbolButtonBack_Click(object sender, EventArgs e)
-        {
-            AppRt.BackToLoginForm(true);
-        }
     }
 }

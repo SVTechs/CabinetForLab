@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormManage : UIForm
+    public partial class FormManage : Form
     {
         public FormManage()
         {
@@ -29,20 +29,16 @@ namespace CabinetMgr
         {
             if(AppRt.CurUser == null)
             {
-                UIMessageBox.ShowError("请登录后进行维护");
+                UIMessageBox.ShowError("请登录后进行维护", true, true);
                 return;
             }
             if (AppRt.RoleSettings.FirstOrDefault(x => x.RoleId == PresetRole.Admin) == null)
             {
-                UIMessageBox.ShowError("只有管理员可以维护");
+                UIMessageBox.ShowError("只有管理员可以维护", true, true);
                 return;
             }
             AppRt.FormMain.ShowWindow(AppRt.FormMain._systemManage);
         }
 
-        private void pictureBoxIcon_Click(object sender, EventArgs e)
-        {
-            AppRt.BackToLoginForm(false);
-        }
     }
 }

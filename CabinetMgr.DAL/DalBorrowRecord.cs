@@ -38,10 +38,13 @@ namespace CabinetMgr.DAL
             return SearchItem(criterionList, requestedOrder, dataStart, dataCount, out exception);
         }
 
-        public static int GetBorrowRecordCount(out Exception exception)
+        public static int GetBorrowRecordCount(DateTime startDate, DateTime endDate, string toolName, out Exception exception)
         {
             List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
             //Criterion Processing
+            criterionList.Add(Restrictions.Ge("EventTime", startDate));
+            criterionList.Add(Restrictions.Le("EventTime", endDate));
+            if (!string.IsNullOrEmpty(toolName)) criterionList.Add(Restrictions.Like("ToolName", toolName, MatchMode.Anywhere));
             return GetItemCount(criterionList, out exception);
         }
 
@@ -145,6 +148,16 @@ namespace CabinetMgr.DAL
             IList<BorrowRecord> result = SearchItem(criterionList, requestedOrder, 0, 1, out exception);
             if (result == null || result.Count == 0) return null;
             return result[0];
+        }
+
+        public static IList<BorrowRecord> NotReturnRecord(out Exception exception)
+        {
+            List<AbstractCriterion> criterionList = new List<AbstractCriterion>();
+            criterionList.Add(Restrictions.Eq("Status", 0));
+            //Criterion Processing
+            List<Order> requestedOrder = new List<Order>() { new Order("EventTime", false) };
+
+            return SearchItem(criterionList, requestedOrder, 0, 100, out exception);
         }
 
 

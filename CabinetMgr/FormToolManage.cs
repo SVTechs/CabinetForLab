@@ -15,23 +15,14 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormToolManage : UIForm
+    public partial class FormToolManage : Form
     {
         private static string currentPage;// = "A";
 
         private static IList<LatticeInfo> latticeList;
         private static IList<ToolInfo> toolInfoList;
 
-        public FormToolManage()
-        {
-            InitializeComponent();
-            for (int i = 1; i <= 20; i++)
-            {
-                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
-                panel.Click += Panel_Click;
-            }
-            InitPageButton();
-        }
+
 
         private readonly float[,,] btnPositions =
     {
@@ -60,6 +51,25 @@ namespace CabinetMgr
                 { { 0.11f, 0.5f }, { 0.22f, 0.5f }, { 0.33f, 0.5f }, { 0.44f, 0.5f },
                 { 0.55f, 0.5f }, { 0.66f, 0.5f }, { 0.77f, 0.5f }, { 0.88f, 0.5f } },
         };
+
+        private readonly Label[] lblList = new Label[20];
+        private readonly Panel[] pnlList = new Panel[20];
+        private readonly Label[] tbList = new Label[20];
+        private readonly Label[] currentAmountlList = new Label[20];
+        private readonly PictureBox[] pblList = new PictureBox[20];
+        private readonly Label[] setAmountlList = new Label[20];
+
+        public FormToolManage()
+        {
+            InitializeComponent();
+            for (int i = 1; i <= 20; i++)
+            {
+                Panel panel = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                panel.Click += Panel_Click;
+            }
+            InitPageButton();
+            InitControlAry();
+        }
 
         private int[,] GetButtonPosition(int itemCount, int panelWidth, int panelHeight,
     int iconWidth, int iconHeight)
@@ -99,6 +109,26 @@ namespace CabinetMgr
             }
         }
 
+        private void InitControlAry()
+        {
+            for (int i = 1; i <= 20; i++)
+            {
+                Label lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as Label;
+                Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                Label toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as Label;
+                Label currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as Label;
+                Label setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as Label;
+                PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
+
+                lblList[i - 1] = lbl;
+                pnlList[i - 1] = pnl;
+                tbList[i - 1] = toolName;
+                currentAmountlList[i - 1] = currentAmount;
+                setAmountlList[i - 1] = setAmount;
+                pblList[i - 1] = pictureBox;
+
+            }
+        }
 
         private void FormToolManage_Shown(object sender, EventArgs e)
         {
@@ -134,8 +164,8 @@ namespace CabinetMgr
                 ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
 
 
-                UILabel lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as UILabel;
-                Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
+                Label lbl = lblList[i - 1];
+                Panel pnl = pnlList[i - 1];
 
                 if (lattice == null)
                 {
@@ -146,10 +176,10 @@ namespace CabinetMgr
 
                 SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
 
-                UILabel toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as UILabel;
-                UILabel currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as UILabel;
-                UILabel setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as UILabel;
-                PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
+                Label toolName = tbList[i - 1];
+                Label currentAmount = currentAmountlList[i - 1];
+                Label setAmount = setAmountlList[i - 1];
+                PictureBox pictureBox = pblList[i - 1];
 
                 if (tool == null)
                 {
@@ -170,8 +200,8 @@ namespace CabinetMgr
 
         #region ControlDelegate
 
-        private delegate void SetLableDelegate(UILabel label, bool visible, string labelText, Color foreColor);
-        private void SetLabel(UILabel label, bool visible, string labelText, Color foreColor)
+        private delegate void SetLableDelegate(Label label, bool visible, string labelText, Color foreColor);
+        private void SetLabel(Label label, bool visible, string labelText, Color foreColor)
         {
             if (label.InvokeRequired)
             {

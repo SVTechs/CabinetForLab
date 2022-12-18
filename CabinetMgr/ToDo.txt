@@ -1,0 +1,6 @@
+﻿2022.11.10
+1.新增pagination  √
+2.指纹登录互动界面  √
+3.Face录入使用FaceShow
+4.数据库FpTemplate超长  3620
+5.处理Server  √

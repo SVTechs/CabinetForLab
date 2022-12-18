@@ -73,6 +73,7 @@
     <Compile Include="Domain\ToolInfo.cs" />
     <Compile Include="Domain\ToolSettings.cs" />
     <Compile Include="Domain\ToolType.cs" />
+    <Compile Include="Domain\FullUserInfo.cs" />
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Interface\ITreeDef.cs" />
     <Compile Include="Mapping\MapBorrowRecord.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Mapping\MapToolInfo.cs" />
     <Compile Include="Mapping\MapToolSettings.cs" />
     <Compile Include="Mapping\MapToolType.cs" />
+    <Compile Include="Mapping\MapFullUserInfo.cs" />
     <Compile Include="Mapping\MapUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\DbOrder.cs" />

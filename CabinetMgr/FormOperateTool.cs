@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormOperateTool : UIForm
+    public partial class FormOperateTool : Form
     {
         private static FormOperateTool formOperateTool;
         private static string cabinetName;
@@ -58,55 +58,83 @@ namespace CabinetMgr
         {
             if (string.IsNullOrEmpty(uiTextBoxAmount.Text))
             {
-                UIMessageBox.ShowWarning("请输入数量");
+                UIMessageBox.ShowWarning("请输入数量", true, true);
                 return;
             }
             int toolCount = int.Parse(uiTextBoxAmount.Text);
-            ToolInfo toolInfo = BllToolInfo.GetToolInfo(toolId, out Exception ex);
-            Info info;
-            int result = -1;
-            switch (operateType)
+            ToolInfo ti = BllToolInfo.GetToolInfo(toolId, out _);
+            if(toolCount > ti.ToolCount && operateType == "Borrow")
             {
-                case "Borrow":
-                    result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, 0, toolCount);
-                    break;
-                case "Return":
-                    result = BllReturnRecord.AddReturnRecord(toolInfo, AppRt.CurUser, out ex, toolCount);
-                    break;
-                case "Repair":
-                    result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, -10, toolCount);
-                    info = new Info()
-                    {
-                        Id = Guid.NewGuid().ToString().ToUpper(),
-                        InfoContent = $"{toolInfo.LatticePosition}的{toolInfo.ToolName}需要维修",
-                        InfoType = 1,
-                        CreateTime = DateTime.Now
-                    };
-                    result += BllInfo.SaveInfo(info, out ex);
-                    break;
-                case "Lack":
-                    result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, -20, toolCount);
-                    info = new Info()
-                    {
-                        Id = Guid.NewGuid().ToString().ToUpper(),
-                        InfoContent = $"{toolInfo.LatticePosition}缺少{toolInfo.ToolName}",
-                        InfoType = 2,
-                        CreateTime = DateTime.Now
-                    };
-                    result += BllInfo.SaveInfo(info, out ex);
-                    break;
-            }
-
-            if(result <= 0)
-            {
-                UIMessageBox.ShowError($"提交失败，原因为:\n{ex.Message}");
+                UIMessageBox.ShowWarning("借取数量不能大于当前数量", true, true);
                 return;
             }
-            (AppRt.FormMain._loginForm as FormLogin).LoadInfo();
-            (AppRt.FormMain._indexForm as FormIndex).ReloadData();
+            AppRt.Tasks.Add(DbExecute(toolCount, toolId, operateType));
             Dispose();
 
         }
+
+        private Task DbExecute(int toolCount ,string toolId, string operateType)
+        {
+            var task = Task.Factory.StartNew(() => {
+
+                //int toolCount = int.Parse(uiTextBoxAmount.Text);
+                ToolInfo toolInfo = BllToolInfo.GetToolInfo(toolId, out Exception ex);
+                Info info;
+                int result = -1;
+                switch (operateType)
+                {
+                    case "Borrow":
+                        result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, 0, toolCount);
+                        if (toolInfo.WarnType == 1 && toolCount > toolInfo.WarnValue)
+                        {
+                            info = new Info()
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                InfoContent = $"{toolInfo.ToolName}借用超量",
+                                InfoType = 1,
+                                CreateTime = DateTime.Now
+                            };
+                            BllInfo.SaveInfo(info, out _);
+                        }
+                        break;
+                    case "Return":
+                        result = BllReturnRecord.AddReturnRecord(toolInfo, AppRt.CurUser, out ex, toolCount);
+                        break;
+                    case "Repair":
+                        result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, -10, toolCount);
+                        info = new Info()
+                        {
+                            Id = Guid.NewGuid().ToString().ToUpper(),
+                            InfoContent = $"{toolInfo.LatticePosition}的{toolInfo.ToolName}需要维修",
+                            InfoType = 1,
+                            CreateTime = DateTime.Now
+                        };
+                        result += BllInfo.SaveInfo(info, out ex);
+                        break;
+                    case "Lack":
+                        result = BllBorrowRecord.AddBorrowRecord(toolInfo, AppRt.CurUser, out ex, -20, toolCount);
+                        info = new Info()
+                        {
+                            Id = Guid.NewGuid().ToString().ToUpper(),
+                            InfoContent = $"{toolInfo.LatticePosition}缺少{toolInfo.ToolName}",
+                            InfoType = 2,
+                            CreateTime = DateTime.Now
+                        };
+                        result += BllInfo.SaveInfo(info, out ex);
+                        break;
+                }
+
+                if (result <= 0)
+                {
+                    UIMessageBox.ShowError($"提交失败，原因为:\n{ex.Message}", true, true);
+                    return;
+                }
+                FormCallback.FormIndexRefresh.Invoke();
+
+            }, TaskCreationOptions.LongRunning);
+            return task;
+        }
+
 
         private void uiTextBoxAmount_Enter(object sender, EventArgs e)
         {

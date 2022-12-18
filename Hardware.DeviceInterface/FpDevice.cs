@@ -99,9 +99,14 @@ namespace Hardware.DeviceInterface
             return DriveOpration.PSSearch(DeviceHandle, (int)N_ADDR, 1, 0, 200, ref address, ref score);
         }
 
+        public static int DelFeature(int pageId)
+        {
+            return DriveOpration.PSDelChar(DeviceHandle, (int)N_ADDR, pageId, 1);
+        }
+
         public static int CloseDeviceEx()
         {
-            return DriveOpration.PSCloseDeviceEx(DeviceHandle); ;
+            return DriveOpration.PSCloseDeviceEx(DeviceHandle);
         }
 
         public static void Close()

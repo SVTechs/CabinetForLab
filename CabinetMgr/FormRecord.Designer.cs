@@ -34,79 +34,26 @@ namespace CabinetMgr
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.pictureBoxTitleE = new System.Windows.Forms.PictureBox();
-            this.pictureBoxTitleC = new System.Windows.Forms.PictureBox();
-            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanelSearch = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBoxSearch = new System.Windows.Forms.PictureBox();
             this.uiTextBoxSeachToolName = new Sunny.UI.UITextBox();
             this.panelDataGridView = new System.Windows.Forms.Panel();
+            this.uiPagination = new Sunny.UI.UIPagination();
             this.uiDataGridView = new Sunny.UI.UIDataGridView();
-            this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.flowLayoutPanelSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).BeginInit();
             this.panelDataGridView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // panelTop
-            // 
-            this.panelTop.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleBg;
-            this.panelTop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panelTop.Controls.Add(this.pictureBoxTitleE);
-            this.panelTop.Controls.Add(this.pictureBoxTitleC);
-            this.panelTop.Controls.Add(this.pictureBoxIcon);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1080, 135);
-            this.panelTop.TabIndex = 7;
-            // 
-            // pictureBoxTitleE
-            // 
-            this.pictureBoxTitleE.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxTitleE.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleE;
-            this.pictureBoxTitleE.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBoxTitleE.Location = new System.Drawing.Point(653, 79);
-            this.pictureBoxTitleE.Name = "pictureBoxTitleE";
-            this.pictureBoxTitleE.Size = new System.Drawing.Size(260, 23);
-            this.pictureBoxTitleE.TabIndex = 2;
-            this.pictureBoxTitleE.TabStop = false;
-            // 
-            // pictureBoxTitleC
-            // 
-            this.pictureBoxTitleC.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxTitleC.BackgroundImage = global::CabinetMgr.Properties.Resources.TitleC;
-            this.pictureBoxTitleC.Location = new System.Drawing.Point(653, 31);
-            this.pictureBoxTitleC.Name = "pictureBoxTitleC";
-            this.pictureBoxTitleC.Size = new System.Drawing.Size(290, 42);
-            this.pictureBoxTitleC.TabIndex = 1;
-            this.pictureBoxTitleC.TabStop = false;
-            // 
-            // pictureBoxIcon
-            // 
-            this.pictureBoxIcon.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxIcon.BackgroundImage = global::CabinetMgr.Properties.Resources.LOGO;
-            this.pictureBoxIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(52, 31);
-            this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(300, 75);
-            this.pictureBoxIcon.TabIndex = 0;
-            this.pictureBoxIcon.TabStop = false;
-            this.pictureBoxIcon.Click += new System.EventHandler(this.pictureBoxIcon_Click);
-            // 
             // flowLayoutPanelSearch
             // 
+            this.flowLayoutPanelSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
             this.flowLayoutPanelSearch.Controls.Add(this.pictureBoxSearch);
             this.flowLayoutPanelSearch.Controls.Add(this.uiTextBoxSeachToolName);
-            this.flowLayoutPanelSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flowLayoutPanelSearch.Location = new System.Drawing.Point(0, 135);
+            this.flowLayoutPanelSearch.Location = new System.Drawing.Point(3, 77);
             this.flowLayoutPanelSearch.Name = "flowLayoutPanelSearch";
-            this.flowLayoutPanelSearch.Size = new System.Drawing.Size(1080, 68);
+            this.flowLayoutPanelSearch.Size = new System.Drawing.Size(1080, 80);
             this.flowLayoutPanelSearch.TabIndex = 8;
             // 
             // pictureBoxSearch
@@ -143,12 +90,34 @@ namespace CabinetMgr
             // 
             // panelDataGridView
             // 
+            this.panelDataGridView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            this.panelDataGridView.Controls.Add(this.uiPagination);
             this.panelDataGridView.Controls.Add(this.uiDataGridView);
+            this.panelDataGridView.Controls.Add(this.flowLayoutPanelSearch);
             this.panelDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDataGridView.Location = new System.Drawing.Point(0, 203);
+            this.panelDataGridView.Location = new System.Drawing.Point(0, 0);
             this.panelDataGridView.Name = "panelDataGridView";
-            this.panelDataGridView.Size = new System.Drawing.Size(1080, 1542);
+            this.panelDataGridView.Size = new System.Drawing.Size(1080, 1785);
             this.panelDataGridView.TabIndex = 9;
+            // 
+            // uiPagination
+            // 
+            this.uiPagination.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
+            this.uiPagination.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiPagination.Location = new System.Drawing.Point(182, 1653);
+            this.uiPagination.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiPagination.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiPagination.Name = "uiPagination";
+            this.uiPagination.PageSize = 25;
+            this.uiPagination.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+            this.uiPagination.ShowText = false;
+            this.uiPagination.Size = new System.Drawing.Size(713, 35);
+            this.uiPagination.Style = Sunny.UI.UIStyle.Custom;
+            this.uiPagination.TabIndex = 9;
+            this.uiPagination.Text = "uiPagination1";
+            this.uiPagination.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiPagination.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiPagination.PageChanged += new Sunny.UI.UIPagination.OnPageChangeEventHandler(this.uiPagination_PageChanged);
             // 
             // uiDataGridView
             // 
@@ -156,7 +125,6 @@ namespace CabinetMgr
             this.uiDataGridView.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
             this.uiDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.uiDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.uiDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
             this.uiDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -179,7 +147,7 @@ namespace CabinetMgr
             this.uiDataGridView.EnableHeadersVisualStyles = false;
             this.uiDataGridView.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiDataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
-            this.uiDataGridView.Location = new System.Drawing.Point(50, 75);
+            this.uiDataGridView.Location = new System.Drawing.Point(53, 174);
             this.uiDataGridView.MultiSelect = false;
             this.uiDataGridView.Name = "uiDataGridView";
             this.uiDataGridView.ReadOnly = true;
@@ -211,25 +179,16 @@ namespace CabinetMgr
             // 
             // FormRecord
             // 
-            this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::CabinetMgr.Properties.Resources.MainBg;
-            this.ClientSize = new System.Drawing.Size(1080, 1745);
+            this.ClientSize = new System.Drawing.Size(1080, 1785);
             this.Controls.Add(this.panelDataGridView);
-            this.Controls.Add(this.flowLayoutPanelSearch);
-            this.Controls.Add(this.panelTop);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormRecord";
-            this.Padding = new System.Windows.Forms.Padding(0);
-            this.ShowTitle = false;
-            this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "FormRecord";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.Shown += new System.EventHandler(this.FormRecord_Shown);
-            this.panelTop.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleE)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTitleC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
+            this.VisibleChanged += new System.EventHandler(this.FormRecord_VisibleChanged);
             this.flowLayoutPanelSearch.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSearch)).EndInit();
             this.panelDataGridView.ResumeLayout(false);
@@ -239,15 +198,11 @@ namespace CabinetMgr
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.PictureBox pictureBoxTitleE;
-        private System.Windows.Forms.PictureBox pictureBoxTitleC;
-        private System.Windows.Forms.PictureBox pictureBoxIcon;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelSearch;
         private System.Windows.Forms.PictureBox pictureBoxSearch;
         private Sunny.UI.UITextBox uiTextBoxSeachToolName;
         private System.Windows.Forms.Panel panelDataGridView;
         private Sunny.UI.UIDataGridView uiDataGridView;
+        private Sunny.UI.UIPagination uiPagination;
     }
 }

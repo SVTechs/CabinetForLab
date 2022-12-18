@@ -28,9 +28,9 @@ namespace Domain.Main.Mapping
             Map(x => x.Updatetime).Column("Updatetime");
             Map(x => x.UpdateUser).Column("UpdateUser");
             Map(x => x.CardNum).Column("CardNum");
-            Map(x => x.Image).Column("Image");
-            Map(x => x.FaceFeature).Column("FaceFeature");
-            Map(x => x.FingerFeature).Column("FingerFeature");
+            //Map(x => x.Image).Column("Image");
+            //Map(x => x.FaceFeature).Column("FaceFeature");
+            //Map(x => x.FingerFeature).Column("FingerFeature");
             Map(x => x.IsProtected).Column("IsProtected");
         }
     }

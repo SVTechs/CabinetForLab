@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormRoleEdit : UIForm
+    public partial class FormRoleEdit : Form
     {
         public static FormRoleEdit formRoleEdit;
         public static FormRoleEdit Instance()
@@ -91,20 +91,20 @@ namespace CabinetMgr
             TreeNode tn = uiTreeViewRole.SelectedNode;
             if (tn == null) 
             {
-                UIMessageBox.Show("请选择需要删除的权限");
+                UIMessageBox.Show("请选择需要删除的权限", true, true);
                 return;
             }
             if((tn.Tag as string).Split('|')[1] == "1")
             {
-                UIMessageBox.Show("初始节点不可以删除");
+                UIMessageBox.Show("初始节点不可以删除", true, true);
                 return;
             }
-            if (!UIMessageBox.ShowAsk("该操作不可撤销,是否继续")) return;
+            if (!UIMessageBox.ShowAsk("该操作不可撤销,是否继续", true, true)) return;
             string roleId = (tn.Tag as string).Split('|')[0];
             int result = BllRoleInfo.DeleteRoleInfo(roleId, out Exception ex);
             if(result <= 0)
             {
-                UIMessageBox.ShowError($"删除失败，原因为：\n{ex.Message}");
+                UIMessageBox.ShowError($"删除失败，原因为：\n{ex.Message}", true, true);
                 return;
             }
             LoadRoleData();
@@ -116,7 +116,7 @@ namespace CabinetMgr
             TreeNode tn = uiTreeViewRole.SelectedNode;
             if (tn == null)
             {
-                UIMessageBox.Show("请选择需要保存的权限");
+                UIMessageBox.Show("请选择需要保存的权限", true, true);
                 return;
             }
             string roleId = (tn.Tag as string).Split('|')[0];
@@ -138,7 +138,7 @@ namespace CabinetMgr
             }
             if (list.Count == 0)
             {
-                UIMessageBox.Show("请选择需要保存的储物格权限"); return;
+                UIMessageBox.Show("请选择需要保存的储物格权限", true, true); return;
             }
             int result = BllLatticePermissionSettings.BatchSaveLatticePermissionSettings(roleId, "Role", list, out Exception exception);
             if (result <= 0)
@@ -171,7 +171,7 @@ namespace CabinetMgr
             int result = BllRoleInfo.SaveRoleInfo(ri, out Exception exception);
             if (result <= 0)
             {
-                UIMessageBox.ShowError($"保存失败，原因:{exception.Message}");
+                UIMessageBox.ShowError($"保存失败，原因:{exception.Message}", true, true);
             }
             SetInputControlVisible(false);
             ClearInputControl();

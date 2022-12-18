@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,7 +26,7 @@ namespace CabinetMgr
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private DataGridViewCellStyle _ctRed, _ctGreen;
         private bool _isPassed = true;
-        private bool _cameraPassed = false, _fpDevicePassed = false, _faceEnginePassed = false;
+        private bool _cameraPassed = false, _cardDevicePassed = false, _fpDevicePassed = false, _faceEnginePassed = false;
         public static ManualResetEvent InitManualEvent = new ManualResetEvent(false);
 
         private void FormDeviceLoad_Load(object sender, EventArgs e)
@@ -49,7 +51,6 @@ namespace CabinetMgr
             Init();
             //InitCamera();
             //InitFpDevice();
-            //InitFaceEngine();
             //InitCardDevice();
             InitSocketServer();
         }
@@ -57,13 +58,14 @@ namespace CabinetMgr
         private async Task Init()
         {
             InitCamera();
+            InitCardDevice();
             InitFpDevice();
             InitFaceEngine();
             while (true)
             {
                 Application.DoEvents();
                 Thread.Sleep(100);
-                if (_cameraPassed && _fpDevicePassed && _faceEnginePassed) break;
+                if (_cameraPassed && _fpDevicePassed && _cardDevicePassed && _faceEnginePassed) break;
             }
         }
 
@@ -88,22 +90,78 @@ namespace CabinetMgr
 
             var task = Task.Factory.StartNew(() => {
 
-                VideoCapture cap = VideoCapture.FromCamera(0);
-                if (!cap.IsOpened())
+                try
+                {
+                    //VideoCapture cap = VideoCapture.FromCamera(0);
+                    VideoCapture cap = VideoCapture.FromCamera(AppConfig.CameraPort);
+                    if (!cap.IsOpened())
+                    {
+                        UpdateStatus("初始化摄像头", "初始化失败", 2);
+                        _isPassed = false;
+                        AppRt.HaveFaceDevice = false;
+                    }
+                    else
+                    {
+                        AppRt.VideoCaptureDevice = cap;
+                        AppRt.HaveFaceDevice = true;
+                        UpdateStatus("初始化摄像头", "初始化成功", 1);
+                    }
+                }
+                catch(Exception ex)
                 {
                     UpdateStatus("初始化摄像头", "初始化失败", 2);
                     _isPassed = false;
                     AppRt.HaveFaceDevice = false;
+                    Logger.Error(ex);
                 }
-                else
+                finally
                 {
-                    AppRt.VideoCaptureDevice = cap;
-                    AppRt.HaveFaceDevice = true;
-                    UpdateStatus("初始化摄像头", "初始化成功", 1);
+                    _cameraPassed = true;
                 }
-                _cameraPassed = true;
+
             }, TaskCreationOptions.LongRunning);
             return task;
+        }
+
+        private Task InitCardDevice()
+        {
+            int index = cStatusGrid.Rows.Add();
+            cStatusGrid.Rows[index].Cells[0].Value = "初始化读卡器";
+            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+
+            var task = Task.Factory.StartNew(() => {
+
+                try
+                {
+                    byte result = CardDevice.PcdDeep(50);
+                    AppRt.FormLog.AddLine("PcdBeepValue:" + result);
+                    if (result != 0)
+                    {
+                        UpdateStatus("初始化读卡器", "初始化失败", 2);
+                        _isPassed = false;
+                        AppRt.HaveCardDevice = false;
+                    }
+                    else
+                    {
+                        AppRt.HaveCardDevice = true;
+                        UpdateStatus("初始化读卡器", "初始化成功", 1);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    UpdateStatus("初始化读卡器", "初始化失败", 2);
+                    _isPassed = false;
+                    AppRt.HaveCardDevice = false;
+                    Logger.Error(ex);
+                }
+                finally {
+                    _cardDevicePassed = true;
+                }
+
+            }, TaskCreationOptions.LongRunning);
+
+            return task;
+
         }
 
         private Task InitFpDevice()
@@ -114,19 +172,35 @@ namespace CabinetMgr
 
             var task = Task.Factory.StartNew(() => {
 
-                int result = FpDevice.Init(AppConfig.FpPort);
-                if (result != 0)
+                try
+                {
+
+                    int result = FpDevice.Init(AppConfig.FpPort);
+                    if (result != 0)
+                    {
+                        UpdateStatus("初始化指纹仪", "初始化失败", 2);
+                        _isPassed = false;
+                        AppRt.HaveFpDevice = false;
+                    }
+                    else
+                    {
+                        AppRt.HaveFpDevice = true;
+                        UpdateStatus("初始化指纹仪", "初始化成功", 1);
+                    }
+                }
+                catch(Exception ex)
                 {
                     UpdateStatus("初始化指纹仪", "初始化失败", 2);
                     _isPassed = false;
                     AppRt.HaveFpDevice = false;
+                    Logger.Error(ex);
                 }
-                else
+                finally
                 {
-                    AppRt.HaveFpDevice = true;
-                    UpdateStatus("初始化指纹仪", "初始化成功", 1);
+                    _fpDevicePassed = true;
                 }
-                _fpDevicePassed = true;
+
+
             }, TaskCreationOptions.LongRunning);
 
             return task;
@@ -137,17 +211,19 @@ namespace CabinetMgr
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化人脸识别";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            var task = Task.Factory.StartNew(() =>
-            {
+
+            var task = Task.Factory.StartNew(() => {
+
+
                 try
                 {
                     string model_path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                     int n = Face.sdk_init(null);
                     if (n != 0)
                     {
-                        UpdateStatus("初始化人脸识别", "初始化失败", 2);
+                        UpdateStatus("初始化人脸识别", $"初始化失败{n}", 2);
                         _isPassed = false;
-                        Logger.Error(n);
+                        AppRt.HaveFaceDevice = false;
                     }
                     else
                     {
@@ -155,39 +231,27 @@ namespace CabinetMgr
                         bool authed = Face.is_auth();
                         UpdateStatus("初始化人脸识别", "初始化成功", 1);
                     }
+
                 }
                 catch (Exception ex)
                 {
-                    UpdateStatus("初始化人脸识别", "初始化失败", 2);
+                    MessageBox.Show($"人脸识别引擎初始化失败，原因{ex.Message}");
+                    UpdateStatus("初始化人脸识别", $"初始化失败", 2);
                     _isPassed = false;
+                    AppRt.HaveFaceDevice = false;
                     Logger.Error(ex);
                 }
-                _faceEnginePassed = true;
-                InitManualEvent.Set();
-
-
+                finally
+                {
+                    _faceEnginePassed = true;
+                    InitManualEvent.Set();
+                }
             }, TaskCreationOptions.LongRunning);
+
             return task;
 
 
-        }
 
-
-        private void InitCardDevice()
-        {
-            int index = cStatusGrid.Rows.Add();
-            cStatusGrid.Rows[index].Cells[0].Value = "初始化读卡器";
-            cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
-            int result = FpDevice.Init(AppConfig.FpPort);
-            if (result != 0)
-            {
-                UpdateStatus("初始化读卡器", "初始化失败", 2);
-                _isPassed = false;
-                AppRt.HaveFpDevice = false;
-                return;
-            }
-            AppRt.HaveFpDevice = true;
-            UpdateStatus("初始化读卡器", "初始化成功", 1);
         }
 
         private void InitSocketServer()
@@ -196,6 +260,12 @@ namespace CabinetMgr
             int index = cStatusGrid.Rows.Add();
             cStatusGrid.Rows[index].Cells[0].Value = "初始化Scoket监听";
             cStatusGrid.Rows[index].Cells[1].Value = "正在执行";
+            Thread t = new Thread(InitServer);
+            t.Start();
+        }
+
+        private void InitServer()
+        {
             CabinetServer.Init(AppConfig.ServerIP, AppConfig.ServerPort, AppConfig.CanIP);
         }
 

@@ -45,6 +45,7 @@ namespace CabinetMgr
             this.uiTextBoxUserName = new Sunny.UI.UITextBox();
             this.uiButtonFaceCap = new Sunny.UI.UIButton();
             this.uiComboTreeViewRole = new Sunny.UI.UIComboTreeView();
+            this.uiTextBoxCardNum = new Sunny.UI.UITextBox();
             this.SuspendLayout();
             // 
             // uiLabelTitle
@@ -68,7 +69,7 @@ namespace CabinetMgr
             this.uiLabelFullName.Name = "uiLabelFullName";
             this.uiLabelFullName.Size = new System.Drawing.Size(150, 63);
             this.uiLabelFullName.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelFullName.TabIndex = 1;
+            this.uiLabelFullName.TabIndex = 24;
             this.uiLabelFullName.Text = "人员姓名：";
             this.uiLabelFullName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabelFullName.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -81,7 +82,7 @@ namespace CabinetMgr
             this.uiLabelPassword.Name = "uiLabelPassword";
             this.uiLabelPassword.Size = new System.Drawing.Size(150, 63);
             this.uiLabelPassword.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelPassword.TabIndex = 2;
+            this.uiLabelPassword.TabIndex = 25;
             this.uiLabelPassword.Text = "数字密码：";
             this.uiLabelPassword.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabelPassword.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -100,7 +101,7 @@ namespace CabinetMgr
             this.uiTextBoxFullName.ShowText = false;
             this.uiTextBoxFullName.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxFullName.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxFullName.TabIndex = 3;
+            this.uiTextBoxFullName.TabIndex = 2;
             this.uiTextBoxFullName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxFullName.Watermark = "";
             this.uiTextBoxFullName.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -119,7 +120,7 @@ namespace CabinetMgr
             this.uiTextBoxPassword.ShowText = false;
             this.uiTextBoxPassword.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxPassword.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxPassword.TabIndex = 4;
+            this.uiTextBoxPassword.TabIndex = 3;
             this.uiTextBoxPassword.Text = "0";
             this.uiTextBoxPassword.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxPassword.Type = Sunny.UI.UITextBox.UIEditType.Integer;
@@ -134,7 +135,7 @@ namespace CabinetMgr
             this.uiLabelRole.Name = "uiLabelRole";
             this.uiLabelRole.Size = new System.Drawing.Size(150, 63);
             this.uiLabelRole.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelRole.TabIndex = 5;
+            this.uiLabelRole.TabIndex = 26;
             this.uiLabelRole.Text = "领用权限：";
             this.uiLabelRole.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabelRole.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -147,7 +148,7 @@ namespace CabinetMgr
             this.uiLabelSetFeature.Name = "uiLabelSetFeature";
             this.uiLabelSetFeature.Size = new System.Drawing.Size(150, 63);
             this.uiLabelSetFeature.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelSetFeature.TabIndex = 7;
+            this.uiLabelSetFeature.TabIndex = 27;
             this.uiLabelSetFeature.Text = "录入身份：";
             this.uiLabelSetFeature.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabelSetFeature.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -162,7 +163,7 @@ namespace CabinetMgr
             this.uiButtonCancel.Name = "uiButtonCancel";
             this.uiButtonCancel.Size = new System.Drawing.Size(403, 91);
             this.uiButtonCancel.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonCancel.TabIndex = 8;
+            this.uiButtonCancel.TabIndex = 5;
             this.uiButtonCancel.Text = "取消";
             this.uiButtonCancel.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonCancel.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -178,7 +179,7 @@ namespace CabinetMgr
             this.uiButtonSave.Name = "uiButtonSave";
             this.uiButtonSave.Size = new System.Drawing.Size(403, 91);
             this.uiButtonSave.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonSave.TabIndex = 9;
+            this.uiButtonSave.TabIndex = 6;
             this.uiButtonSave.Text = "确认";
             this.uiButtonSave.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonSave.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -196,7 +197,7 @@ namespace CabinetMgr
             this.uiButtonCard.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
             this.uiButtonCard.Size = new System.Drawing.Size(202, 63);
             this.uiButtonCard.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonCard.TabIndex = 10;
+            this.uiButtonCard.TabIndex = 28;
             this.uiButtonCard.Text = "工卡录入";
             this.uiButtonCard.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonCard.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -214,7 +215,7 @@ namespace CabinetMgr
             this.uiButtonFace.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
             this.uiButtonFace.Size = new System.Drawing.Size(202, 63);
             this.uiButtonFace.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonFace.TabIndex = 11;
+            this.uiButtonFace.TabIndex = 29;
             this.uiButtonFace.Text = "人脸录入";
             this.uiButtonFace.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonFace.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -232,7 +233,7 @@ namespace CabinetMgr
             this.uiButtonFinger.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
             this.uiButtonFinger.Size = new System.Drawing.Size(202, 63);
             this.uiButtonFinger.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonFinger.TabIndex = 12;
+            this.uiButtonFinger.TabIndex = 31;
             this.uiButtonFinger.Text = "指纹录入";
             this.uiButtonFinger.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonFinger.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -246,7 +247,7 @@ namespace CabinetMgr
             this.uiLabelUserName.Name = "uiLabelUserName";
             this.uiLabelUserName.Size = new System.Drawing.Size(150, 63);
             this.uiLabelUserName.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelUserName.TabIndex = 13;
+            this.uiLabelUserName.TabIndex = 23;
             this.uiLabelUserName.Text = "工号：";
             this.uiLabelUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabelUserName.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -265,7 +266,7 @@ namespace CabinetMgr
             this.uiTextBoxUserName.ShowText = false;
             this.uiTextBoxUserName.Size = new System.Drawing.Size(648, 60);
             this.uiTextBoxUserName.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxUserName.TabIndex = 4;
+            this.uiTextBoxUserName.TabIndex = 1;
             this.uiTextBoxUserName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiTextBoxUserName.Watermark = "";
             this.uiTextBoxUserName.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -282,7 +283,7 @@ namespace CabinetMgr
             this.uiButtonFaceCap.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(187)))), ((int)(((byte)(222)))), ((int)(((byte)(251)))));
             this.uiButtonFaceCap.Size = new System.Drawing.Size(202, 63);
             this.uiButtonFaceCap.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonFaceCap.TabIndex = 14;
+            this.uiButtonFaceCap.TabIndex = 30;
             this.uiButtonFaceCap.Text = "人脸捕捉";
             this.uiButtonFaceCap.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonFaceCap.Visible = false;
@@ -305,10 +306,30 @@ namespace CabinetMgr
             this.uiComboTreeViewRole.RectSize = 2;
             this.uiComboTreeViewRole.Size = new System.Drawing.Size(648, 60);
             this.uiComboTreeViewRole.Style = Sunny.UI.UIStyle.Custom;
-            this.uiComboTreeViewRole.TabIndex = 15;
+            this.uiComboTreeViewRole.TabIndex = 4;
             this.uiComboTreeViewRole.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiComboTreeViewRole.Watermark = "";
             this.uiComboTreeViewRole.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiTextBoxCardNum
+            // 
+            this.uiTextBoxCardNum.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.uiTextBoxCardNum.Font = new System.Drawing.Font("HarmonyOS Sans SC", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiTextBoxCardNum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.uiTextBoxCardNum.Location = new System.Drawing.Point(83, 637);
+            this.uiTextBoxCardNum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBoxCardNum.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBoxCardNum.Name = "uiTextBoxCardNum";
+            this.uiTextBoxCardNum.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.uiTextBoxCardNum.RectSize = 2;
+            this.uiTextBoxCardNum.ShowText = false;
+            this.uiTextBoxCardNum.Size = new System.Drawing.Size(334, 60);
+            this.uiTextBoxCardNum.Style = Sunny.UI.UIStyle.Custom;
+            this.uiTextBoxCardNum.TabIndex = 32;
+            this.uiTextBoxCardNum.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiTextBoxCardNum.Visible = false;
+            this.uiTextBoxCardNum.Watermark = "";
+            this.uiTextBoxCardNum.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // FormUserEdit
             // 
@@ -316,6 +337,7 @@ namespace CabinetMgr
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1007, 895);
+            this.Controls.Add(this.uiTextBoxCardNum);
             this.Controls.Add(this.uiComboTreeViewRole);
             this.Controls.Add(this.uiButtonFaceCap);
             this.Controls.Add(this.uiTextBoxUserName);
@@ -334,11 +356,14 @@ namespace CabinetMgr
             this.Controls.Add(this.uiLabelTitle);
             this.Name = "FormUserEdit";
             this.Padding = new System.Windows.Forms.Padding(0);
+            this.ShowInTaskbar = false;
             this.ShowTitle = false;
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "FormUserEdit";
+            this.TopMost = true;
             this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
             this.Shown += new System.EventHandler(this.FormUserEdit_Shown);
+            this.VisibleChanged += new System.EventHandler(this.FormUserEdit_VisibleChanged);
             this.ResumeLayout(false);
 
         }
@@ -361,5 +386,6 @@ namespace CabinetMgr
         private Sunny.UI.UITextBox uiTextBoxUserName;
         private Sunny.UI.UIButton uiButtonFaceCap;
         private Sunny.UI.UIComboTreeView uiComboTreeViewRole;
+        private Sunny.UI.UITextBox uiTextBoxCardNum;
     }
 }

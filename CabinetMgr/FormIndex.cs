@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace CabinetMgr
 {
-    public partial class FormIndex : UIForm
+    public partial class FormIndex : Form
     {
         private static string currentPage;// = "A";
         private static readonly Color notFullColor = Color.FromArgb(0, 188, 212);
@@ -52,12 +52,12 @@ namespace CabinetMgr
                 { 0.55f, 0.5f }, { 0.66f, 0.5f }, { 0.77f, 0.5f }, { 0.88f, 0.5f } },
         };
 
-        private readonly UILabel[] lblList = new UILabel[20];
+        private readonly Label[] lblList = new Label[20];
         private readonly Panel[] pnlList = new Panel[20];
-        private readonly UILabel[] tbList = new UILabel[20];
-        private readonly UILabel[] currentAmountlList = new UILabel[20];
+        private readonly Label[] tbList = new Label[20];
+        private readonly Label[] currentAmountlList = new Label[20];
         private readonly PictureBox[] pblList = new PictureBox[20];
-        private readonly UILabel[] setAmountlList = new UILabel[20];
+        private readonly Label[] setAmountlList = new Label[20];
 
         public FormIndex()
         {
@@ -116,11 +116,11 @@ namespace CabinetMgr
         {
             for (int i = 1; i <= 20; i++)
             {
-                UILabel lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as UILabel;
+                Label lbl = Controls.Find("uiLabel" + i.ToString("D2"), false)[0] as Label;
                 Panel pnl = Controls.Find("panel" + i.ToString("D2"), false)[0] as Panel;
-                UILabel toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as UILabel;
-                UILabel currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as UILabel;
-                UILabel setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as UILabel;
+                Label toolName = pnl.Controls.Find("uiTextBox" + i.ToString("D2"), false)[0] as Label;
+                Label currentAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}CurrentAmount", false)[0] as Label;
+                Label setAmount = pnl.Controls.Find($"uiTextBox{i.ToString("D2")}SetAmount", false)[0] as Label;
                 PictureBox pictureBox = pnl.Controls.Find($"pictureBox{i.ToString("D2")}", false)[0] as PictureBox;
 
                 lblList[i - 1] = lbl;
@@ -183,7 +183,7 @@ namespace CabinetMgr
                 DoorInfo door = doorList.FirstOrDefault(x => x.Id.ToString() == lattice?.Channel && x.Nch.ToString() == lattice?.BoardId);
                 ToolInfo tool = toolInfoList.FirstOrDefault(x => x.LatticeId == lattice?.Id);
 
-                UILabel lbl = lblList[i - 1];
+                Label lbl = lblList[i - 1];
                 Panel pnl = pnlList[i - 1];
 
                 if (lattice == null)
@@ -201,9 +201,9 @@ namespace CabinetMgr
                 }
                 SetLabel(lbl, true, currentPage + i.ToString("D2"), Color.White);
 
-                UILabel toolName = tbList[i - 1];
-                UILabel currentAmount = currentAmountlList[i - 1];
-                UILabel setAmount = setAmountlList[i - 1];
+                Label toolName = tbList[i - 1];
+                Label currentAmount = currentAmountlList[i - 1];
+                Label setAmount = setAmountlList[i - 1];
                 PictureBox pictureBox = pblList[i - 1];
                 
                 if(tool == null)
@@ -227,8 +227,8 @@ namespace CabinetMgr
 
         #region ControlDelegate
 
-        private delegate void SetLableDelegate(UILabel label, bool visible, string labelText, Color foreColor);
-        private void SetLabel(UILabel label, bool visible, string labelText, Color foreColor)
+        private delegate void SetLableDelegate(Label label, bool visible, string labelText, Color foreColor);
+        private void SetLabel(Label label, bool visible, string labelText, Color foreColor)
         {
             if (label.InvokeRequired)
             {
@@ -272,17 +272,6 @@ namespace CabinetMgr
         }
 
 
-        private delegate void DisplayUserDelegate(string userText);
-        public void DisplayUser(string userText)
-        {
-            if (uiLabelUserName.InvokeRequired)
-            {
-                DisplayUserDelegate d = DisplayUser;
-                uiLabelUserName.Invoke(d, userText);
-            }
-            uiLabelUserName.Text = userText;
-        }
-
         #endregion
 
         public void ReloadData()
@@ -299,14 +288,12 @@ namespace CabinetMgr
             LoadPage(currentPage);
         }
 
-        private void uiLabelUserName_Click(object sender, EventArgs e)
+        private void FormIndex_VisibleChanged(object sender, EventArgs e)
         {
-            AppRt.BackToLoginForm(true);
-        }
-
-        private void pictureBoxIcon_Click(object sender, EventArgs e)
-        {
-            AppRt.BackToLoginForm(false);
+            ReloadData();
+            LoadPage(currentPage);
+            AppRt.FormMain.SetPicTitle(false);
+            AppRt.FormMain.SetUiLabelUserName(AppRt.CurUser.FullName + "  |  单击推出", true);
         }
     }
 }

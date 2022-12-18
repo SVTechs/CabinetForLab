@@ -63,7 +63,7 @@ namespace CabinetMgr
             this.uiLabelAmount.Name = "uiLabelAmount";
             this.uiLabelAmount.Size = new System.Drawing.Size(225, 64);
             this.uiLabelAmount.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelAmount.TabIndex = 1;
+            this.uiLabelAmount.TabIndex = 18;
             this.uiLabelAmount.Text = "数量：";
             this.uiLabelAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.uiLabelAmount.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -84,7 +84,7 @@ namespace CabinetMgr
             this.uiTextBoxAmount.ShowText = false;
             this.uiTextBoxAmount.Size = new System.Drawing.Size(338, 60);
             this.uiTextBoxAmount.Style = Sunny.UI.UIStyle.Custom;
-            this.uiTextBoxAmount.TabIndex = 6;
+            this.uiTextBoxAmount.TabIndex = 5;
             this.uiTextBoxAmount.Text = "1";
             this.uiTextBoxAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiTextBoxAmount.Type = Sunny.UI.UITextBox.UIEditType.Integer;
@@ -100,7 +100,7 @@ namespace CabinetMgr
             this.uiLabelOperateType.Name = "uiLabelOperateType";
             this.uiLabelOperateType.Size = new System.Drawing.Size(225, 64);
             this.uiLabelOperateType.Style = Sunny.UI.UIStyle.Custom;
-            this.uiLabelOperateType.TabIndex = 7;
+            this.uiLabelOperateType.TabIndex = 17;
             this.uiLabelOperateType.Text = "操作类型：";
             this.uiLabelOperateType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.uiLabelOperateType.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -119,7 +119,7 @@ namespace CabinetMgr
             this.uiRadioButtonBorrrow.RadioButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(188)))), ((int)(((byte)(212)))));
             this.uiRadioButtonBorrrow.Size = new System.Drawing.Size(155, 46);
             this.uiRadioButtonBorrrow.Style = Sunny.UI.UIStyle.Custom;
-            this.uiRadioButtonBorrrow.TabIndex = 8;
+            this.uiRadioButtonBorrrow.TabIndex = 1;
             this.uiRadioButtonBorrrow.Tag = "Borrow";
             this.uiRadioButtonBorrrow.Text = "领用";
             this.uiRadioButtonBorrrow.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -139,7 +139,7 @@ namespace CabinetMgr
             this.uiRadioButtonReturn.RadioButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(188)))), ((int)(((byte)(212)))));
             this.uiRadioButtonReturn.Size = new System.Drawing.Size(155, 46);
             this.uiRadioButtonReturn.Style = Sunny.UI.UIStyle.Custom;
-            this.uiRadioButtonReturn.TabIndex = 9;
+            this.uiRadioButtonReturn.TabIndex = 2;
             this.uiRadioButtonReturn.Tag = "Return";
             this.uiRadioButtonReturn.Text = "归还";
             this.uiRadioButtonReturn.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -158,7 +158,7 @@ namespace CabinetMgr
             this.uiRadioButtonRepair.RadioButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(188)))), ((int)(((byte)(212)))));
             this.uiRadioButtonRepair.Size = new System.Drawing.Size(155, 46);
             this.uiRadioButtonRepair.Style = Sunny.UI.UIStyle.Custom;
-            this.uiRadioButtonRepair.TabIndex = 10;
+            this.uiRadioButtonRepair.TabIndex = 3;
             this.uiRadioButtonRepair.Tag = "Repair";
             this.uiRadioButtonRepair.Text = "报修";
             this.uiRadioButtonRepair.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -177,7 +177,7 @@ namespace CabinetMgr
             this.uiRadioButtonLack.RadioButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(188)))), ((int)(((byte)(212)))));
             this.uiRadioButtonLack.Size = new System.Drawing.Size(155, 46);
             this.uiRadioButtonLack.Style = Sunny.UI.UIStyle.Custom;
-            this.uiRadioButtonLack.TabIndex = 11;
+            this.uiRadioButtonLack.TabIndex = 4;
             this.uiRadioButtonLack.Tag = "Lack";
             this.uiRadioButtonLack.Text = "缺料";
             this.uiRadioButtonLack.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -188,14 +188,15 @@ namespace CabinetMgr
             this.uiButtonCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonCancel.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonCancel.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonCancel.Location = new System.Drawing.Point(73, 584);
+            this.uiButtonCancel.Location = new System.Drawing.Point(240, 425);
             this.uiButtonCancel.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonCancel.Name = "uiButtonCancel";
             this.uiButtonCancel.Size = new System.Drawing.Size(403, 91);
             this.uiButtonCancel.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonCancel.TabIndex = 12;
+            this.uiButtonCancel.TabIndex = 19;
             this.uiButtonCancel.Text = "取消";
             this.uiButtonCancel.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiButtonCancel.Visible = false;
             this.uiButtonCancel.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButtonCancel.Click += new System.EventHandler(this.uiButtonCancel_Click);
             // 
@@ -205,12 +206,12 @@ namespace CabinetMgr
             this.uiButtonConfirm.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonConfirm.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.uiButtonConfirm.Font = new System.Drawing.Font("HarmonyOS Sans SC", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiButtonConfirm.Location = new System.Drawing.Point(556, 584);
+            this.uiButtonConfirm.Location = new System.Drawing.Point(305, 595);
             this.uiButtonConfirm.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButtonConfirm.Name = "uiButtonConfirm";
             this.uiButtonConfirm.Size = new System.Drawing.Size(403, 91);
             this.uiButtonConfirm.Style = Sunny.UI.UIStyle.Custom;
-            this.uiButtonConfirm.TabIndex = 13;
+            this.uiButtonConfirm.TabIndex = 20;
             this.uiButtonConfirm.Text = "确认";
             this.uiButtonConfirm.TipsFont = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiButtonConfirm.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -218,7 +219,6 @@ namespace CabinetMgr
             // 
             // FormOperateTool
             // 
-            this.AllowShowTitle = false;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1007, 800);
@@ -232,12 +232,12 @@ namespace CabinetMgr
             this.Controls.Add(this.uiTextBoxAmount);
             this.Controls.Add(this.uiLabelAmount);
             this.Controls.Add(this.uiLabelCurrentSelect);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormOperateTool";
-            this.Padding = new System.Windows.Forms.Padding(0);
-            this.ShowTitle = false;
-            this.Style = Sunny.UI.UIStyle.Custom;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormOperateTool";
-            this.ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 800, 450);
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOperateTool_FormClosed);
             this.Shown += new System.EventHandler(this.FormOperateTool_Shown);
             this.ResumeLayout(false);
